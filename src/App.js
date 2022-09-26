@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/">
-          <Route index element={<Index />} />
+          <Route index element={<Index />} /> {/* adding a singular comment */}
           <Route path="login" element={<Login />} />
           <Route path="*" element={<Error />} />
         </Route>
