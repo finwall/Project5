@@ -1,5 +1,22 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+// screens
+import Index from './components/screens/index.js';
+import Login from './components/screens/login.js';
+import Error from './components/screens/error.js';
+
 function App() {
-  return null;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/">
+          <Route index element={<Index />} /> {/* The route at '/' */}
+          <Route path="login" element={<Login />} />
+          <Route path="*" element={<Error />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
