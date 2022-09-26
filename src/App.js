@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/">
-          <Route index element={<Index />} /> {/* The route at '/' */}
+          <Route index element={<Index />} />
           <Route path="login" element={<Login />} />
           <Route path="*" element={<Error />} />
         </Route>
