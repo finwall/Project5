@@ -1,17 +1,54 @@
 .loginButtonWrapper {
-    min-height: 12vh;
     display: block;
-    box-sizing: border-box;
     position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 12vh;
     margin: .5rem .25rem 1rem;
-    padding: 0 25vw 0 25vw;
+    padding: 1.7em;
+    background-color: var(--mainColor1);
 }
 
 .loginButtonWrapper button {
+    display: block;
     width: 100%;
     height: 100%;
-    background-color: violet;
-    border: none;
-    display: block;
-    /* position: absolute; */
+    border: 4px solid var(--mainColor2);
+    padding: 2rem 5rem;
+    cursor: pointer;
+
+    background-color: var(--mainColor4);
+    background-image: linear-gradient(135deg, transparent 47%, var(--mainColor3) 50%);
+    background-size: 250% 250%;
+
+    animation: buttonHover-out .5s;
+}
+
+.loginButtonWrapper button:hover {
+    animation: buttonHover-in .5s both;
+}
+
+@keyframes buttonHover-in {
+    from {
+        background-position: 0%;
+    }
+
+    to {
+        background-position: 100%;
+    }
+}
+
+@keyframes buttonHover-out {
+    0% {
+        background-position: 100%;
+    }
+
+    100% {
+        background-position: 0%;
+    }
+}
+
+.loginButtonWrapper button table {
+    width: 100%;
+    border-collapse: collapse;
 }

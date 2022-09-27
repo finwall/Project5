@@ -1,13 +1,13 @@
 import LoginWith from '../button-loginWith.jsx';
+import './login.css'
 
 export default function Login() {
     return (
-        <>
-            <h1>This is the login page.</h1>
-            <LoginWith />
-            <LoginWith />
-            <LoginWith />
-            <LoginWith>Hey there</LoginWith>
-        </>
+        <div id='loginWrapper'>
+            <h1>Login / Signup</h1>
+            <LoginWith>Google</LoginWith>
+            <LoginWith>Facebook</LoginWith>
+            <LoginWith>Email</LoginWith>
+        </div>
     );
 }
