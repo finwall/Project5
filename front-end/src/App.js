@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // screens
-import Index from './components/screens/index.js';
-import Login from './components/screens/login.js';
-import Error from './components/screens/error.js';
+import Index from './components/screens/index.jsx';
+import Login from './components/screens/login.jsx';
+import Error from './components/screens/error.jsx';
 
 function App() {
   return (

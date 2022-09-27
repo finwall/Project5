@@ -1,0 +1,17 @@
+.loginButtonWrapper {
+    min-height: 12vh;
+    display: block;
+    box-sizing: border-box;
+    position: relative;
+    margin: .5rem .25rem 1rem;
+    padding: 0 25vw 0 25vw;
+}
+
+.loginButtonWrapper button {
+    width: 100%;
+    height: 100%;
+    background-color: violet;
+    border: none;
+    display: block;
+    /* position: absolute; */
+}
