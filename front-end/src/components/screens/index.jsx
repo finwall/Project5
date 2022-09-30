@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Index() {
     useEffect(() => {
@@ -15,6 +16,7 @@ export default function Index() {
 
     return (
         <>
+            <Link to="./login">Click here to login.</Link>
             <h2 id="hodophilia">Hodophilia</h2>
             <h1>Welcome to the index page.</h1>
             <h2>TODO: Make this page look <span id='amazing'>amazing.</span></h2>
