@@ -28,3 +28,7 @@ form label input {
     margin: 0 .3em;
     max-width: 100%;
 }
+
+.errorMsg {
+    color: red;
+}

@@ -8,6 +8,7 @@ export default function LoginSignupForm({ isSignup }) {
     const [lnameInput, setLnameInput] = useState("");
     const [emailInput, setEmailInput] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
+    const [errorMessages, setErrorMessages] = useState([]);
 
     function handleFnameChange(e) {
         setFnameInput(e.target.value);
@@ -24,6 +25,13 @@ export default function LoginSignupForm({ isSignup }) {
     function handlePasswordChange(e) {
         setPasswordInput(e.target.value);
     }
+
+    /*
+    //uncomment this when/if it becomes useful
+    function addErrorMessage(msg) {
+        setErrorMessages([...errorMessages, msg]);
+    }
+    */
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -71,6 +79,16 @@ export default function LoginSignupForm({ isSignup }) {
     return (
         <>
             <form onSubmit={handleSubmit}>
+                {errorMessages.map((msg, index) => {
+                    return (
+                        <p
+                            key={`ErrorNo-${index.toString()}`}
+                            className="errorMsg"
+                        >
+                            {msg}
+                        </p>
+                    )
+                })}
                 {nameFields}
                 <label>
                     Email
