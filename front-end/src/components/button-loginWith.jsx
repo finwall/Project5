@@ -14,6 +14,7 @@ function LoginWith(props) {
     const innerHTML = props.children ? "Continue with " + props.children : "";
 
     // const href = props.href;
+    const onClick = props.onClick;
     // const icon = props.icon || '../assets/icons/notfound.svg';
     const icon = props.icon;
 
@@ -21,7 +22,7 @@ function LoginWith(props) {
 
     return (
         <div className="loginButtonWrapper">
-            <button ref={buttonRef}>
+            <button ref={buttonRef} onClick={onClick}>
                 <table>
                     <tr>
                         <td className='image'> { /* Icon image */}
