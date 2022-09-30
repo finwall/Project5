@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import LoginWith from '../button-loginWith.jsx';
-import LoginWithForm from '../form-loginWith.jsx';
+import InputForm from '../form-loginSignup.jsx';
 import './login.css'
 
 export default function Login() {
@@ -17,7 +17,7 @@ export default function Login() {
         emailLoginForm = (
             <>
                 <hr />
-                <LoginWithForm />
+                <InputForm />
             </>
         )
     }

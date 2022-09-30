@@ -1,13 +1,21 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import './form-loginWith.css';
+import './form-loginSignup.css';
 
-export default function Field({ isSignup }) {
+export default function LoginSignupForm({ isSignup }) {
 
     const [fnameInput, setFnameInput] = useState("");
     const [lnameInput, setLnameInput] = useState("");
     const [emailInput, setEmailInput] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
+
+    function handleFnameChange(e) {
+        setFnameInput(e.target.value);
+    }
+
+    function handleLnameChange(e) {
+        setLnameInput(e.target.value);
+    }
 
     function handleEmailChange(e) {
         setEmailInput(e.target.value);
@@ -28,7 +36,7 @@ export default function Field({ isSignup }) {
         else {
 
         }
-        console.log(e);
+        console.log(`Recieved: \nFirst name: ${fnameInput}\nLast name: ${lnameInput}\nEmail: ${emailInput}\nPassword: ${passwordInput}`);
     }
 
     // these fields are JSX expressions generated based on 
@@ -43,18 +51,21 @@ export default function Field({ isSignup }) {
         )
     }
     else { // if this is the signup page
+        newAccountField = (
+            <p>Already have an account? Click <Link to="../login">Here</Link> to sign in.</p>
+        );
         nameFields = (
             <div className="item">
                 <label>
                     First Name
-                    <input type="text" name="fname" value={fnameInput} onChange={setFnameInput} />
+                    <input type="text" name="fname" value={fnameInput} onChange={handleFnameChange} />
                 </label>
                 <label>
                     Last Name
-                    <input type="text" name="lname" value={lnameInput} onChange={setLnameInput} />
+                    <input type="text" name="lname" value={lnameInput} onChange={handleLnameChange} />
                 </label>
             </div>
-        )
+        );
     }
 
     return (
