@@ -52,3 +52,7 @@
     width: 100%;
     border-collapse: collapse;
 }
+
+.loginButtonWrapper button table tr td.image {
+    height: 100%;
+}

@@ -24,7 +24,7 @@ function LoginWith(props) {
             <button ref={buttonRef}>
                 <table>
                     <tr>
-                        <td> { /* Icon image */}
+                        <td className='image'> { /* Icon image */}
                             {
                                 icon ? <img src={icon} alt='Not found' /> : <QuestionCircleOutlined />
                             }
