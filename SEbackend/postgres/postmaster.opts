@@ -1,0 +1,1 @@
+/Applications/Postgres.app/Contents/Versions/14/bin/postgres "-D" "/Users/indubhanu/Downloads/hodophilia/SEbackend/postgres" "-p" "5432"
