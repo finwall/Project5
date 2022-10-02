@@ -1,0 +1,40 @@
+2022-09-28 14:12:50.792 EDT [53505] LOG:  starting PostgreSQL 14.5 on aarch64-apple-darwin20.6.0, compiled by Apple clang version 12.0.5 (clang-1205.0.22.9), 64-bit
+2022-09-28 14:12:50.793 EDT [53505] LOG:  listening on IPv6 address "::1", port 5432
+2022-09-28 14:12:50.793 EDT [53505] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2022-09-28 14:12:50.794 EDT [53505] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2022-09-28 14:12:50.795 EDT [53506] LOG:  database system was shut down at 2022-09-28 14:12:50 EDT
+2022-09-28 14:12:50.796 EDT [53505] LOG:  database system is ready to accept connections
+2022-09-28 14:14:41.718 EDT [54922] ERROR:  syntax error at or near "show" at character 13
+2022-09-28 14:14:41.718 EDT [54922] STATEMENT:  show tables
+	show tables;
+2022-09-29 01:16:05.281 EDT [59711] ERROR:  database "hodophiliadb" does not exist
+2022-09-29 01:16:05.281 EDT [59711] STATEMENT:  drop database hodophiliadb;
+2022-09-29 01:16:05.284 EDT [59711] ERROR:  role "hodophilia" does not exist
+2022-09-29 01:16:05.284 EDT [59711] STATEMENT:  drop user hodophilia;
+2022-09-30 23:59:56.065 EDT [74716] FATAL:  database "file" does not exist
+2022-10-01 00:07:47.680 EDT [53505] LOG:  received fast shutdown request
+2022-10-01 00:07:47.681 EDT [53505] LOG:  aborting any active transactions
+2022-10-01 00:07:47.683 EDT [53505] LOG:  background worker "logical replication launcher" (PID 53512) exited with exit code 1
+2022-10-01 00:07:47.683 EDT [53507] LOG:  shutting down
+2022-10-01 00:07:47.693 EDT [53505] LOG:  database system is shut down
+2022-10-01 01:00:17.760 EDT [76120] LOG:  starting PostgreSQL 14.5 on aarch64-apple-darwin20.6.0, compiled by Apple clang version 12.0.5 (clang-1205.0.22.9), 64-bit
+2022-10-01 01:00:17.763 EDT [76120] LOG:  listening on IPv6 address "::1", port 5432
+2022-10-01 01:00:17.763 EDT [76120] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2022-10-01 01:00:17.763 EDT [76120] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2022-10-01 01:00:17.767 EDT [76121] LOG:  database system was shut down at 2022-10-01 00:07:47 EDT
+2022-10-01 01:00:17.771 EDT [76120] LOG:  database system is ready to accept connections
+2022-10-01 01:01:11.026 EDT [76120] LOG:  received fast shutdown request
+2022-10-01 01:01:11.026 EDT [76120] LOG:  aborting any active transactions
+2022-10-01 01:01:11.027 EDT [76120] LOG:  background worker "logical replication launcher" (PID 76127) exited with exit code 1
+2022-10-01 01:01:11.027 EDT [76122] LOG:  shutting down
+2022-10-01 01:01:11.033 EDT [76120] LOG:  database system is shut down
+2022-10-01 01:01:50.391 EDT [76166] LOG:  starting PostgreSQL 14.5 on aarch64-apple-darwin20.6.0, compiled by Apple clang version 12.0.5 (clang-1205.0.22.9), 64-bit
+2022-10-01 01:01:50.397 EDT [76166] LOG:  listening on IPv6 address "::1", port 5432
+2022-10-01 01:01:50.397 EDT [76166] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2022-10-01 01:01:50.398 EDT [76166] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2022-10-01 01:01:50.402 EDT [76167] LOG:  database system was shut down at 2022-10-01 01:01:11 EDT
+2022-10-01 01:01:50.405 EDT [76166] LOG:  database system is ready to accept connections
+2022-10-01 01:03:52.414 EDT [76192] FATAL:  database "file" does not exist
+2022-10-01 01:05:07.767 EDT [76203] FATAL:  database "file" does not exist
+2022-10-01 01:08:31.619 EDT [77094] FATAL:  database "file" does not exist
+2022-10-01 01:11:03.042 EDT [77120] FATAL:  database "file" does not exist

@@ -1,6 +1,5 @@
 package com.hodophilia.SEbackend.security.jwt;
 
-import java.security.SignatureException;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -11,7 +10,11 @@ import org.springframework.stereotype.Component;
 
 import com.hodophilia.SEbackend.security.services.UserDetailsImpl;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.UnsupportedJwtException;
 
 @Component
 public class JwtUtils {

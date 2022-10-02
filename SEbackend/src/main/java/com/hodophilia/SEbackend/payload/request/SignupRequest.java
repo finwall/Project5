@@ -19,15 +19,39 @@ public class SignupRequest {
     private Set<String> role;
     
     @NotBlank
+    @Size(max = 50)
+    private String FName;
+    
+    @NotBlank
+    @Size(max = 50)
+    private String LName;
+    
+    public String getFName() {
+		return FName;
+	}
+
+	public void setFName(String fName) {
+		this.FName = fName;
+	}
+
+	public String getLName() {
+		return LName;
+	}
+
+	public void setLName(String lName) {
+		this.LName = lName;
+	}
+    
+    @NotBlank
     @Size(min = 6, max = 40)
     private String password;
   
     public String getUsername() {
-        return username;
+    	return username;
     }
  
     public void setUsername(String username) {
-        this.username = username;
+    	this.username = username;
     }
  
     public String getEmail() {

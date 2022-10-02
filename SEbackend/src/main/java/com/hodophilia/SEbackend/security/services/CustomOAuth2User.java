@@ -2,7 +2,7 @@ package com.hodophilia.SEbackend.security.services;
 
 import java.util.Collection;
 import java.util.Map;
- 
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 

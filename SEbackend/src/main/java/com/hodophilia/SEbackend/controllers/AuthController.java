@@ -36,7 +36,7 @@ import com.hodophilia.SEbackend.security.services.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/users")
 public class AuthController {
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -91,7 +91,7 @@ public class AuthController {
 		// Create new user's account
 		User user = new User(signUpRequest.getUsername(), 
 							 signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()));
+							 encoder.encode(signUpRequest.getPassword()), signUpRequest.getFName(), signUpRequest.getLName());
 
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();

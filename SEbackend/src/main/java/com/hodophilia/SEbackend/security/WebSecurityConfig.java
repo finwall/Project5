@@ -74,8 +74,8 @@ public class WebSecurityConfig {
 	    http.cors().and().csrf().disable()
 	        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 	        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-	        .authorizeRequests().antMatchers("/api/auth/**","/oauth/**").permitAll()
-	        .antMatchers("/api/test/**").permitAll()
+	        .authorizeRequests().antMatchers("/api/users/**","/oauth/**").permitAll()
+	        .antMatchers("/api/users/test/**").permitAll()
 	        .anyRequest().authenticated().and().formLogin().permitAll().and().oauth2Login().loginPage("/login")
 	        .userInfoEndpoint().userService(oAuthUserService).and()
 	        .successHandler(new AuthenticationSuccessHandler() {
