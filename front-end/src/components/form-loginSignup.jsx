@@ -1,14 +1,20 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import './form-loginSignup.css';
+import AuthService from '../services/auth.service';
 
 export default function LoginSignupForm({ isSignup }) {
 
+    const [unameInput, setUnameInput] = useState("");
     const [fnameInput, setFnameInput] = useState("");
     const [lnameInput, setLnameInput] = useState("");
     const [emailInput, setEmailInput] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
     const [errorMessages, setErrorMessages] = useState([]);
+
+    function handleUnameChange(e) {
+        setUnameInput(e.target.value);
+    }
 
     function handleFnameChange(e) {
         setFnameInput(e.target.value);
@@ -36,15 +42,54 @@ export default function LoginSignupForm({ isSignup }) {
     function handleSubmit(e) {
         e.preventDefault();
 
+        let sentJSON = {
+            "username": unameInput,
+            "firstName": fnameInput,
+            "lastName": lnameInput,
+            "email": emailInput,
+            "password": passwordInput
+        }
+
+        let returnedErrors = null;
+
         // TODO: Take the data from emailInput and passwordInput and send it to the backend here, then reroute the user
         if (isSignup) {
             // use fnameInput and lnameInput fields here
-
+            // fetch(location + '/api/users/register')
+            //     .then(res => {
+            //         res.json()
+            //     })
+            //     .catch(err => {
+            //         console.error(`There was a problem with your Fetch request: \n${err}`);
+            //     })
+            AuthService.register(fnameInput, lnameInput, unameInput, emailInput, passwordInput)
+                .then(() => {
+                    console.log(`${fnameInput} has successfully signed up with username: ${unameInput}.`)
+                })
+                .catch(e => {
+                    console.log(`${fnameInput} has failed to sign up. Error:\n${e}`)
+                    returnedErrors = e;
+                })
         }
         else {
-
+            AuthService.login(unameInput, emailInput, passwordInput)
+                .then(
+                    () => {
+                        console.log("Successfully logged in!");
+                        // this.props.router.navigate("/profile");
+                        // window.location.reload();
+                    })
+                .catch(e => {
+                    console.error("Failed to log in. Error: \n" + e);
+                    returnedErrors = e;
+                })
         }
-        console.log(`Recieved: \nFirst name: ${fnameInput}\nLast name: ${lnameInput}\nEmail: ${emailInput}\nPassword: ${passwordInput}`);
+        if (returnedErrors) {
+            console.log(`Errors before: ${errorMessages}`);
+            setErrorMessages([...errorMessages, e])
+            console.log(`Errors after: ${errorMessages}`);
+        };
+        console.log(`Recieved: \nUsername: ${unameInput}\nFirst name: ${fnameInput}\nLast name: ${lnameInput}\nEmail: ${emailInput}\nPassword: ${passwordInput}`);
     }
 
     // these fields are JSX expressions generated based on 
@@ -93,6 +138,10 @@ export default function LoginSignupForm({ isSignup }) {
                 <label>
                     Email
                     <input type="text" name="Email" value={emailInput} onChange={handleEmailChange} />
+                </label>
+                <label>
+                    Username
+                    <input type="text" name="Username" value={unameInput} onChange={handleUnameChange} />
                 </label>
                 <label>
                     Password
