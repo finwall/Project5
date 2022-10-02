@@ -2,6 +2,8 @@ import { useRef } from 'react';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import './button-loginWith.css';
 
+// <a th:href="/@{/oauth2/authorization/google}">Login with Google</a>
+
 /**
  * Props:
  * children: Everything between opening and closing tags
@@ -18,11 +20,11 @@ function LoginWith(props) {
     // const icon = props.icon || '../assets/icons/notfound.svg';
     const icon = props.icon;
 
-    const buttonRef = useRef();
+    // const buttonRef = useRef();
 
     return (
         <div className="loginButtonWrapper">
-            <button ref={buttonRef} onClick={onClick}>
+            <a href={props.href}>
                 <table>
                     <tr>
                         <td className='image'> { /* Icon image */}
@@ -35,7 +37,7 @@ function LoginWith(props) {
                         </td>
                     </tr>
                 </table>
-            </button>
+            </a>
         </div>
     )
 }

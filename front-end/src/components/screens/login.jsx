@@ -25,7 +25,7 @@ export default function Login() {
     return (
         <div id='loginWrapper'>
             <h1>Login</h1>
-            <LoginWith>Google</LoginWith>
+            <LoginWith href="@{/oauth2/authorization/google/}">Google</LoginWith>
             <LoginWith>Facebook</LoginWith>
             <LoginWith onClick={displayEmailLogin}>Email</LoginWith>
             {emailLoginForm}
