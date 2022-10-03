@@ -16,21 +16,26 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.hodophilia.SEbackend.security.jwt.AuthEntryPointJwt;
 import com.hodophilia.SEbackend.security.jwt.AuthTokenFilter;
 import com.hodophilia.SEbackend.security.services.CustomOAuth2User;
 import com.hodophilia.SEbackend.security.services.CustomOAuth2UserService;
+import com.hodophilia.SEbackend.security.services.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.hodophilia.SEbackend.security.services.UserDetailsServiceImpl;
 
 @Configuration
 @EnableGlobalMethodSecurity(
-		prePostEnabled = true)
+		securedEnabled = true,
+        jsr250Enabled = true,
+        prePostEnabled = true)
 public class WebSecurityConfig {
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
@@ -45,6 +50,8 @@ public class WebSecurityConfig {
 	public AuthTokenFilter authenticationJwtTokenFilter() {
 		return new AuthTokenFilter();
 	}
+	
+	
 	
 	@Bean
 	  public DaoAuthenticationProvider authenticationProvider() {
@@ -67,6 +74,11 @@ public class WebSecurityConfig {
 		public PasswordEncoder passwordEncoder() {
 			return new BCryptPasswordEncoder();
 		}
+		
+		@Bean
+	    public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
+	        return new HttpCookieOAuth2AuthorizationRequestRepository();
+	    }
 
 
 		@Bean
@@ -76,7 +88,15 @@ public class WebSecurityConfig {
 	        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 	        .authorizeRequests().antMatchers("/api/users/**","/oauth/**").permitAll()
 	        .antMatchers("/api/users/test/**").permitAll()
-	        .anyRequest().authenticated().and().formLogin().permitAll().and().oauth2Login().loginPage("/login")
+	        .antMatchers("api/users/**","/auth/**", "/oauth2/**","api/users/oauth2").permitAll()
+	        .anyRequest().authenticated().and().formLogin().permitAll().and().oauth2Login()
+	        .authorizationEndpoint()
+	        .baseUri("/oauth2/authorize")
+	        .authorizationRequestRepository(cookieAuthorizationRequestRepository())
+	        .and()
+         	.redirectionEndpoint()
+         	.baseUri("/oauth2/callback/*")
+            .and()
 	        .userInfoEndpoint().userService(oAuthUserService).and()
 	        .successHandler(new AuthenticationSuccessHandler() {
 	            
@@ -85,19 +105,31 @@ public class WebSecurityConfig {
                 public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                         Authentication authentication) throws IOException, ServletException {
                     
+                	System.out.println("here");
                     CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
-                    
+                    System.out.println(oauthUser.getEmail());
                     userDetailsService.processOAuthPostLogin(oauthUser.getEmail());
-         
-                    response.sendRedirect("/list");
+                    System.out.println("here2");
+                    response.sendRedirect("/login");
                     
                 }
-	        });
-	    
+	        })
+	        .failureHandler(new SimpleUrlAuthenticationFailureHandler() {
+        		@Override
+        		public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) 
+        				throws IOException, ServletException {
+        			
+        		System.out.println("here5");	
+        	
+        }
+        });
+    
 	    http.authenticationProvider(authenticationProvider());
 
 	    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	    
 	    return http.build();
 	  }
+
+		
 }
