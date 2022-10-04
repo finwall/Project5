@@ -46,7 +46,6 @@ export default function LoginSignupForm({ isSignup }) {
         setSuccessMsg("");
         setErrorMessages([]);
 
-        // TODO: reroute the user
         if (isSignup) {
 
             let signupPromise = AuthService.register(fnameInput, lnameInput, unameInput, emailInput, passwordInput)
