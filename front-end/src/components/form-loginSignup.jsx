@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import './form-loginSignup.css';
 import AuthService from '../services/auth.service';
@@ -12,6 +12,8 @@ export default function LoginSignupForm({ isSignup }) {
     const [passwordInput, setPasswordInput] = useState("");
     const [errorMessages, setErrorMessages] = useState([]);
     const [successMsg, setSuccessMsg] = useState("");
+
+    let navigate = useNavigate();
 
     function handleUnameChange(e) {
         setUnameInput(e.target.value);
@@ -33,13 +35,6 @@ export default function LoginSignupForm({ isSignup }) {
         setPasswordInput(e.target.value);
     }
 
-    /*
-    //uncomment this when/if it becomes useful
-    function addErrorMessage(msg) {
-        setErrorMessages([...errorMessages, msg]);
-    }
-    */
-
     function handleSubmitError(e) {
         let message = e.response.data?.message || "Unknown error.";
         let messages = message.split('\n');
@@ -54,25 +49,34 @@ export default function LoginSignupForm({ isSignup }) {
         // TODO: reroute the user
         if (isSignup) {
 
-            AuthService.register(fnameInput, lnameInput, unameInput, emailInput, passwordInput)
+            let signupPromise = AuthService.register(fnameInput, lnameInput, unameInput, emailInput, passwordInput)
                 .then(() => {
                     console.log(`${fnameInput} has successfully signed up with username: ${unameInput}.`)
                     setSuccessMsg(`${fnameInput}, you have successfully signed up with username: ${unameInput}!`)
                 })
-                .catch(e => handleSubmitError(e))
-
+            signupPromise.catch(e => handleSubmitError(e))
+            signupPromise.then(() => {
+                setTimeout(() => {
+                    navigate('/');
+                }, 2000)
+            })
         }
         else {
 
-            AuthService.login(unameInput, emailInput, passwordInput)
+            // AuthService.logout();
+
+            let loginPromise = AuthService.login(unameInput, emailInput, passwordInput)
                 .then(
                     () => {
                         console.log("Successfully logged in!");
-                        // this.props.router.navigate("/profile");
-                        // window.location.reload();
                         setSuccessMsg(`You have successfully logged in, ${unameInput}!`);
                     })
-                .catch(e => handleSubmitError(e))
+            loginPromise.catch(e => handleSubmitError(e))
+            loginPromise.then (() => {
+                    setTimeout(() => {
+                        navigate('/');
+                    }, 2000)
+                })
 
         }
 
