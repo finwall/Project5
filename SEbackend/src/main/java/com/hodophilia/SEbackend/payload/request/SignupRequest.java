@@ -1,6 +1,5 @@
 package com.hodophilia.SEbackend.payload.request;
 
-import java.util.Set;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -16,7 +15,7 @@ public class SignupRequest {
     @Email
     private String email;
     
-    private Set<String> role;
+    //private Set<String> role;
     
     @NotBlank
     @Size(max = 50)
@@ -70,11 +69,4 @@ public class SignupRequest {
         this.password = password;
     }
     
-    public Set<String> getRole() {
-      return this.role;
-    }
-    
-    public void setRole(Set<String> role) {
-      this.role = role;
-    }
 }

@@ -15,21 +15,29 @@ spring:
                    non_contextual_creation: true
                dialect: org.hibernate.dialect.PostgreSQLDialect
                
+ 
  security:
     oauth2:
       client:
         registration:
-         google:
-          clientId: 253434983541-pcoqhs7d8l05r176fod88imfljmsrlhk.apps.googleusercontent.com
-          clientSecret: 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
-          scope:
-           - email
-           - profile
+          google:
+            client-id: 253434983541-pcoqhs7d8l05r176fod88imfljmsrlhk.apps.googleusercontent.com
+            client-secret: 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
+            #redirectUri: "http://localhost:3000/login"
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+                - email
+                - profile
   
 hodophilia:
    app:
       jwtSecret: hodophiliaSecretKey
       jwtExpirationMs: 86400000
+   
+   oauth2:
+    authorizedRedirectUris:
+      - http://localhost:3000/login
+ 
 
-server:
-  port: 8080
+ 
+      

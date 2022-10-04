@@ -1,9 +1,10 @@
 package com.hodophilia.SEbackend.security.services;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,6 +31,16 @@ public class UserDetailsImpl implements UserDetails{
 	private String password;
 
 	private Collection<? extends GrantedAuthority> authorities;
+	
+	private Map<String, Object> attributes;
+
+	public Map<String, Object> getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(Map<String, Object> attributes) {
+		this.attributes = attributes;
+	}
 
 	public UserDetailsImpl(Long id, String username, String email, String password,
 			String FName, String LName,Collection<? extends GrantedAuthority> authorities) {
@@ -43,9 +54,8 @@ public class UserDetailsImpl implements UserDetails{
 	}
 
 	public static UserDetailsImpl build(User user) {
-		List<GrantedAuthority> authorities = user.getRoles().stream()
-				.map(role -> new SimpleGrantedAuthority(role.getName().name()))
-				.collect(Collectors.toList());
+		List<GrantedAuthority> authorities = Collections.
+                singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 
 		return new UserDetailsImpl(
 				user.getId(), 
@@ -56,6 +66,12 @@ public class UserDetailsImpl implements UserDetails{
 				user.getLName(),
 				authorities);
 	}
+	
+	public static UserDetailsImpl create(User user, Map<String, Object> attributes) {
+		UserDetailsImpl userDetailsImpl = UserDetailsImpl.build(user);
+		userDetailsImpl.setAttributes(attributes);
+        return userDetailsImpl;
+    }
 
 	public String getFName() {
 		return FName;
