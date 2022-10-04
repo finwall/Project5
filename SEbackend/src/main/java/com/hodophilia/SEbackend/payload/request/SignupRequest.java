@@ -5,6 +5,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.hodophilia.SEbackend.models.Provider;
+
 public class SignupRequest {
 	@NotBlank
     @Size(min = 3, max = 20)
@@ -25,7 +27,8 @@ public class SignupRequest {
     @Size(max = 50)
     private String LName;
     
-    public String getFName() {
+    
+	public String getFName() {
 		return FName;
 	}
 
