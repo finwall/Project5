@@ -39,39 +39,28 @@ export default function LoginSignupForm({ isSignup }) {
     }
     */
 
+    function handleSubmitError(e) {
+        let message = e.response.data?.message || "Unknown error.";
+        let messages = message.split('\n');
+        setErrorMessages([...messages]);
+    }
+
     function handleSubmit(e) {
         e.preventDefault();
-
-        let sentJSON = {
-            "username": unameInput,
-            "firstName": fnameInput,
-            "lastName": lnameInput,
-            "email": emailInput,
-            "password": passwordInput
-        }
-
-        let returnedErrors = null;
+        setErrorMessages([]);
 
         // TODO: Take the data from emailInput and passwordInput and send it to the backend here, then reroute the user
         if (isSignup) {
-            // use fnameInput and lnameInput fields here
-            // fetch(location + '/api/users/register')
-            //     .then(res => {
-            //         res.json()
-            //     })
-            //     .catch(err => {
-            //         console.error(`There was a problem with your Fetch request: \n${err}`);
-            //     })
+
             AuthService.register(fnameInput, lnameInput, unameInput, emailInput, passwordInput)
                 .then(() => {
                     console.log(`${fnameInput} has successfully signed up with username: ${unameInput}.`)
                 })
-                .catch(e => {
-                    console.log(`${fnameInput} has failed to sign up. Error:\n${e}`)
-                    returnedErrors = e;
-                })
+                .catch(e => handleSubmitError(e))
+
         }
         else {
+
             AuthService.login(unameInput, emailInput, passwordInput)
                 .then(
                     () => {
@@ -79,16 +68,10 @@ export default function LoginSignupForm({ isSignup }) {
                         // this.props.router.navigate("/profile");
                         // window.location.reload();
                     })
-                .catch(e => {
-                    console.error("Failed to log in. Error: \n" + e);
-                    returnedErrors = e;
-                })
+                .catch(e => handleSubmitError(e))
+
         }
-        if (returnedErrors) {
-            console.log(`Errors before: ${errorMessages}`);
-            setErrorMessages([...errorMessages, e])
-            console.log(`Errors after: ${errorMessages}`);
-        };
+
         console.log(`Recieved: \nUsername: ${unameInput}\nFirst name: ${fnameInput}\nLast name: ${lnameInput}\nEmail: ${emailInput}\nPassword: ${passwordInput}`);
     }
 
