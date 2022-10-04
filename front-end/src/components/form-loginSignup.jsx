@@ -11,6 +11,7 @@ export default function LoginSignupForm({ isSignup }) {
     const [emailInput, setEmailInput] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
     const [errorMessages, setErrorMessages] = useState([]);
+    const [successMsg, setSuccessMsg] = useState("");
 
     function handleUnameChange(e) {
         setUnameInput(e.target.value);
@@ -47,14 +48,16 @@ export default function LoginSignupForm({ isSignup }) {
 
     function handleSubmit(e) {
         e.preventDefault();
+        setSuccessMsg("");
         setErrorMessages([]);
 
-        // TODO: Take the data from emailInput and passwordInput and send it to the backend here, then reroute the user
+        // TODO: reroute the user
         if (isSignup) {
 
             AuthService.register(fnameInput, lnameInput, unameInput, emailInput, passwordInput)
                 .then(() => {
                     console.log(`${fnameInput} has successfully signed up with username: ${unameInput}.`)
+                    setSuccessMsg(`${fnameInput}, you have successfully signed up with username: ${unameInput}!`)
                 })
                 .catch(e => handleSubmitError(e))
 
@@ -67,6 +70,7 @@ export default function LoginSignupForm({ isSignup }) {
                         console.log("Successfully logged in!");
                         // this.props.router.navigate("/profile");
                         // window.location.reload();
+                        setSuccessMsg(`You have successfully logged in, ${unameInput}!`);
                     })
                 .catch(e => handleSubmitError(e))
 
@@ -107,6 +111,9 @@ export default function LoginSignupForm({ isSignup }) {
     return (
         <>
             <form onSubmit={handleSubmit}>
+                {(successMsg) && (
+                    <p className="successMsg">{successMsg}</p>
+                )}
                 {errorMessages.map((msg, index) => {
                     return (
                         <p
