@@ -111,11 +111,11 @@ export default function LoginSignupForm({ isSignup }) {
             <div className="item">
                 <label>
                     First Name
-                    <input type="text" name="fname" value={fnameInput} onChange={handleFnameChange} />
+                    <input type="text" name="fname" value={fnameInput} onChange={handleFnameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
                 <label>
                     Last Name
-                    <input type="text" name="lname" value={lnameInput} onChange={handleLnameChange} />
+                    <input type="text" name="lname" value={lnameInput} onChange={handleLnameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
             </div>
         );
@@ -137,15 +137,15 @@ export default function LoginSignupForm({ isSignup }) {
                 {nameFields}
                 <label>
                     Email
-                    <input type="text" name="Email" value={emailInput} onChange={handleEmailChange} />
+                    <input type="text" name="Email" value={emailInput} onChange={handleEmailChange} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
                 <label>
                     Username
-                    <input type="text" name="Username" value={unameInput} onChange={handleUnameChange} />
+                    <input type="text" name="Username" value={unameInput} onChange={handleUnameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
                 <label>
                     Password
-                    <input type="password" name="Password" value={passwordInput} onChange={handlePasswordChange} />
+                    <input type="password" name="Password" value={passwordInput} onChange={handlePasswordChange} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
                 <input type="submit" value="Submit" />
             </form>
