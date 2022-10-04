@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import './button-loginWith.css';
 
+// testing a branch
 // <a th:href="/@{/oauth2/authorization/google}">Login with Google</a>
 
 /**
@@ -20,24 +21,26 @@ function LoginWith(props) {
     // const icon = props.icon || '../assets/icons/notfound.svg';
     const icon = props.icon;
 
-    // const buttonRef = useRef();
+    const buttonRef = useRef();
 
     return (
         <div className="loginButtonWrapper">
-            <a href={props.href}>
-                <table>
-                    <tr>
-                        <td className='image'> { /* Icon image */}
-                            {
-                                icon ? <img src={icon} alt='Not found' /> : <QuestionCircleOutlined />
-                            }
-                        </td>
-                        <td> { /* Authentication system name */}
-                            {innerHTML}
-                        </td>
-                    </tr>
-                </table>
-            </a>
+            <button ref={buttonRef} onClick={onClick}>
+                <a href={props.href}>
+                    <table>
+                        <tr>
+                            <td className='image'> { /* Icon image */}
+                                {
+                                    icon ? <img src={icon} alt='Not found' /> : <QuestionCircleOutlined />
+                                }
+                            </td>
+                            <td> { /* Authentication system name */}
+                                {innerHTML}
+                            </td>
+                        </tr>
+                    </table>
+                </a>
+            </button>
         </div>
     )
 }
