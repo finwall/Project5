@@ -50,12 +50,13 @@ public class User {
 	public User() {
 	}
 
-	public User(String username, String email, String password,String FName,String LName) {
+	public User(String username, String email, String password,String FName,String LName, Provider provider) {
 		this.username = username;
 		this.email = email;
 		this.password = password;
 		this.FName = FName;
 		this.LName = LName;
+		this.provider = provider;
 	}
 
 	public String getFName() {

@@ -1,6 +1,8 @@
 package com.hodophilia.SEbackend.security.services;
 
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hodophilia.SEbackend.models.Provider;
-
 import com.hodophilia.SEbackend.models.User;
 import com.hodophilia.SEbackend.repository.UserRepository;
 
@@ -27,26 +28,25 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	    return UserDetailsImpl.build(user);
 	  }
 	  
-	  public void processOAuthPostLogin(String username) {
+	  public void processOAuthPostLogin(String username, String name) {
 		  System.out.print("here3");
-	        User existUser = userRepository.findByUsername(username)
-	                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
-	         
-	        if (existUser == null) {
-	        	System.out.print("here6");
-	            User newUser = new User(username,username,"Dummy","dummy","password@123");
-	            newUser.setUsername(username);
-	            newUser.setEmail(username);
-	            newUser.setFName("Dummy");
-	            newUser.setLName("Dummy");
-	            newUser.setPassword("password@123");
-	            newUser.setProvider(Provider.GOOGLE);
+		  String userName[] = username.split("@");
+		  System.out.println(userName[0]);
+	        
+	                //.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+	        System.out.println("here7");
+	        if (!userRepository.existsByEmail(username)) {
+	        //if (existUser == null) {
+	        	System.out.println("here6");
+	        	System.out.println(username);
+	        	
+	            User newUser = new User(userName[0],username,"password@123",name,name,Provider.GOOGLE);
+
 	            
-	            
-	            
-	             
-	            userRepository.save(newUser);        
-	        }
+	            System.out.println("here7");
+	            userRepository.save(newUser);  
+	        }  
+	       // }
 	         
 	    }
 }

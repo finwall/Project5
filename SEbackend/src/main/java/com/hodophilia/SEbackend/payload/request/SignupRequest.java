@@ -5,6 +5,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.hodophilia.SEbackend.models.Provider;
+
 public class SignupRequest {
 
     private final int USERNAME_MIN = 3;
@@ -32,7 +34,8 @@ public class SignupRequest {
     @Size(max = NAME_MAX, message = "Last name must be at most " + NAME_MAX + " characters.")
     private String LName;
     
-    public String getFName() {
+    
+	public String getFName() {
 		return FName;
 	}
 

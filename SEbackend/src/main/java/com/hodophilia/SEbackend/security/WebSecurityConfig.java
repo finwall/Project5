@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -24,6 +25,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.hodophilia.SEbackend.payload.response.MessageResponse;
 import com.hodophilia.SEbackend.security.jwt.AuthEntryPointJwt;
 import com.hodophilia.SEbackend.security.jwt.AuthTokenFilter;
 import com.hodophilia.SEbackend.security.services.CustomOAuth2User;
@@ -108,9 +110,10 @@ public class WebSecurityConfig {
                 	System.out.println("here");
                     CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
                     System.out.println(oauthUser.getEmail());
-                    userDetailsService.processOAuthPostLogin(oauthUser.getEmail());
+                    userDetailsService.processOAuthPostLogin(oauthUser.getEmail(),oauthUser.getName());
                     System.out.println("here2");
-                    response.sendRedirect("/login");
+                    response.sendRedirect("api/users/login");
+                    
                     
                 }
 	        })
@@ -118,10 +121,7 @@ public class WebSecurityConfig {
         		@Override
         		public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) 
         				throws IOException, ServletException {
-        			
-        		System.out.println("here5");	
-        	
-        }
+        		}
         });
     
 	    http.authenticationProvider(authenticationProvider());

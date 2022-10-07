@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hodophilia.SEbackend.models.Provider;
 import com.hodophilia.SEbackend.models.User;
 import com.hodophilia.SEbackend.payload.request.LoginRequest;
 import com.hodophilia.SEbackend.payload.request.SignupRequest;
@@ -103,10 +104,12 @@ public class AuthController {
 
 
 		// Create new user's account
-		User user = new User(signUpRequest.getUsername(),
-				signUpRequest.getEmail(),
-				encoder.encode(signUpRequest.getPassword()), signUpRequest.getFName(), signUpRequest.getLName());
+		User user = new User(signUpRequest.getUsername(), 
+							 signUpRequest.getEmail(),
+							 encoder.encode(signUpRequest.getPassword()), signUpRequest.getFName(), signUpRequest.getLName(),Provider.LOCAL);
 
+		
+		
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
