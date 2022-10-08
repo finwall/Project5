@@ -112,7 +112,7 @@ public class WebSecurityConfig {
                     System.out.println(oauthUser.getEmail());
                     userDetailsService.processOAuthPostLogin(oauthUser.getEmail(),oauthUser.getName());
                     System.out.println("here2");
-                    response.sendRedirect("api/users/login");
+                    response.sendRedirect("/login");
                     
                     
                 }

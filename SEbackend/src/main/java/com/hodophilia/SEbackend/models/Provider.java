@@ -1,5 +1,5 @@
 package com.hodophilia.SEbackend.models;
 
 public enum Provider {
-    LOCAL, GOOGLE
+    LOCAL, GOOGLE, FACEBOOK
 }
