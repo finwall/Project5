@@ -130,7 +130,7 @@ export default function LoginSignupForm({ isSignup }) {
                 {nameFields}
                 <label>
                     Email
-                    <input type="text" name="Email" value={emailInput} onChange={handleEmailChange} autoComplete={(isSignup) ? "new-password" : "off"} />
+                    <input type="email" pattern=".+@globex\.com" size="50" name="Email" value={emailInput} onChange={handleEmailChange} autoComplete={(isSignup) ? "new-password" : "off"} required />
                 </label>
                 <label>
                     Username
