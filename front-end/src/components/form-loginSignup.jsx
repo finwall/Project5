@@ -55,25 +55,9 @@ export default function LoginSignupForm({ isSignup }) {
                 })
             signupPromise.catch(e => handleSubmitError(e))
             signupPromise.then(() => {
-
-                // logs in the user with the data they submitted
-                AuthService.login(unameInput, emailInput, passwordInput)
-                    .then(
-                        () => {
-                            console.log("Successfully logged in!");
-                            setSuccessMsg(`${unameInput} has successfully logged in!`);
-                        })
-                    .catch(
-                        e => {
-                            console.log(`${unameInput} failed to log in. Error: ${e}`)
-                        })
-                    .then(
-                        () => {
-                            setTimeout(() => {
-                                navigate('/');
-                            }, 2000)
-                        }
-                    )
+                setTimeout(() => {
+                    navigate('/');
+                }, 2000)
             })
         }
         else {
