@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import './form-loginSignup.css';
 import AuthService from '../services/auth.service';
@@ -11,6 +11,9 @@ export default function LoginSignupForm({ isSignup }) {
     const [emailInput, setEmailInput] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
     const [errorMessages, setErrorMessages] = useState([]);
+    const [successMsg, setSuccessMsg] = useState("");
+
+    let navigate = useNavigate();
 
     function handleUnameChange(e) {
         setUnameInput(e.target.value);
@@ -32,63 +35,66 @@ export default function LoginSignupForm({ isSignup }) {
         setPasswordInput(e.target.value);
     }
 
-    /*
-    //uncomment this when/if it becomes useful
-    function addErrorMessage(msg) {
-        setErrorMessages([...errorMessages, msg]);
+    function handleSubmitError(e) {
+        let message = e.response.data?.message || "Unknown error.";
+        let messages = message.split('\n');
+        setErrorMessages([...messages]);
     }
-    */
 
     function handleSubmit(e) {
         e.preventDefault();
+        setSuccessMsg("");
+        setErrorMessages([]);
 
-        let sentJSON = {
-            "username": unameInput,
-            "firstName": fnameInput,
-            "lastName": lnameInput,
-            "email": emailInput,
-            "password": passwordInput
-        }
-
-        let returnedErrors = null;
-
-        // TODO: Take the data from emailInput and passwordInput and send it to the backend here, then reroute the user
         if (isSignup) {
-            // use fnameInput and lnameInput fields here
-            // fetch(location + '/api/users/register')
-            //     .then(res => {
-            //         res.json()
-            //     })
-            //     .catch(err => {
-            //         console.error(`There was a problem with your Fetch request: \n${err}`);
-            //     })
-            AuthService.register(fnameInput, lnameInput, unameInput, emailInput, passwordInput)
+
+            let signupPromise = AuthService.register(fnameInput, lnameInput, unameInput, emailInput, passwordInput)
                 .then(() => {
                     console.log(`${fnameInput} has successfully signed up with username: ${unameInput}.`)
+                    setSuccessMsg(`${fnameInput}, you have successfully signed up with username: ${unameInput}!`)
                 })
-                .catch(e => {
-                    console.log(`${fnameInput} has failed to sign up. Error:\n${e}`)
-                    returnedErrors = e;
-                })
+            signupPromise.catch(e => handleSubmitError(e))
+            signupPromise.then(() => {
+
+                // logs in the user with the data they submitted
+                AuthService.login(unameInput, emailInput, passwordInput)
+                    .then(
+                        () => {
+                            console.log("Successfully logged in!");
+                            setSuccessMsg(`${unameInput} has successfully logged in!`);
+                        })
+                    .catch(
+                        e => {
+                            console.log(`${unameInput} failed to log in. Error: ${e}`)
+                        })
+                    .then(
+                        () => {
+                            setTimeout(() => {
+                                navigate('/');
+                            }, 2000)
+                        }
+                    )
+            })
         }
         else {
-            AuthService.login(unameInput, emailInput, passwordInput)
+
+            // AuthService.logout();
+
+            let loginPromise = AuthService.login(unameInput, emailInput, passwordInput)
                 .then(
                     () => {
                         console.log("Successfully logged in!");
-                        // this.props.router.navigate("/profile");
-                        // window.location.reload();
+                        setSuccessMsg(`You have successfully logged in, ${unameInput}!`);
                     })
-                .catch(e => {
-                    console.error("Failed to log in. Error: \n" + e);
-                    returnedErrors = e;
+            loginPromise.catch(e => handleSubmitError(e))
+            loginPromise.then (() => {
+                    setTimeout(() => {
+                        navigate('/');
+                    }, 2000)
                 })
+
         }
-        if (returnedErrors) {
-            console.log(`Errors before: ${errorMessages}`);
-            setErrorMessages([...errorMessages, e])
-            console.log(`Errors after: ${errorMessages}`);
-        };
+
         console.log(`Recieved: \nUsername: ${unameInput}\nFirst name: ${fnameInput}\nLast name: ${lnameInput}\nEmail: ${emailInput}\nPassword: ${passwordInput}`);
     }
 
@@ -111,11 +117,11 @@ export default function LoginSignupForm({ isSignup }) {
             <div className="item">
                 <label>
                     First Name
-                    <input type="text" name="fname" value={fnameInput} onChange={handleFnameChange} />
+                    <input type="text" name="fname" value={fnameInput} onChange={handleFnameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
                 <label>
                     Last Name
-                    <input type="text" name="lname" value={lnameInput} onChange={handleLnameChange} />
+                    <input type="text" name="lname" value={lnameInput} onChange={handleLnameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
             </div>
         );
@@ -124,6 +130,9 @@ export default function LoginSignupForm({ isSignup }) {
     return (
         <>
             <form onSubmit={handleSubmit}>
+                {(successMsg) && (
+                    <p className="successMsg">{successMsg}</p>
+                )}
                 {errorMessages.map((msg, index) => {
                     return (
                         <p
@@ -137,15 +146,15 @@ export default function LoginSignupForm({ isSignup }) {
                 {nameFields}
                 <label>
                     Email
-                    <input type="text" name="Email" value={emailInput} onChange={handleEmailChange} />
+                    <input type="text" name="Email" value={emailInput} onChange={handleEmailChange} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
                 <label>
                     Username
-                    <input type="text" name="Username" value={unameInput} onChange={handleUnameChange} />
+                    <input type="text" name="Username" value={unameInput} onChange={handleUnameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
                 <label>
                     Password
-                    <input type="password" name="Password" value={passwordInput} onChange={handlePasswordChange} />
+                    <input type="password" name="Password" value={passwordInput} onChange={handlePasswordChange} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
                 <input type="submit" value="Submit" />
             </form>
