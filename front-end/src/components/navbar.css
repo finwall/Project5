@@ -1,0 +1,37 @@
+.nav {
+    background-color: var(--mainColor2);
+    color: var(--mainColor4);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem 2rem;
+    position: sticky;
+    top: 0;
+    height: 100%;
+    z-index: 999;
+}
+
+.nav * {
+    color: var(--mainColor4);
+    margin: 0;
+}
+
+.nav ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: .15rem;
+    list-style: none;
+}
+
+.nav ul li a {
+    text-decoration: none;
+    padding: .75rem 1.1rem;
+}
+
+.nav ul li a:hover {
+    background-color: var(--mainColor5);
+}

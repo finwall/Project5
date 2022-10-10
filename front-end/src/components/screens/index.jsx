@@ -1,26 +1,24 @@
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Index() {
-    useEffect(() => {
-        console.log("loaded");
-        colorCycling();
-    })
+import HodophiliaLogo from '../hodophiliaLogo';
+import HomepageSearch from '../form-homepageSearch.jsx';
+import './index.css';
 
-    function colorCycling() {
-        console.log("hello")
-        let e = document.getElementById('amazing');
-        console.log(e);
-        console.log(e.style.color);
-    }
+export default function Index() {
 
     return (
-        <>
-            <Link to="./login">Click here to login.</Link>
-            <h2 id="hodophilia">Hodophilia</h2>
+        <div className='container'>
+            <HodophiliaLogo />
+            <HomepageSearch />
             <h1>Welcome to the index page.</h1>
             <h2>TODO: Make this page look <span id='amazing'>amazing.</span></h2>
             <p>This is a sample paragraph.</p>
-        </>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, ea doloribus, animi fuga modi error mollitia molestias voluptatibus doloremque neque sint possimus libero totam laboriosam placeat culpa. Molestias neque accusantium cum quas itaque animi eum excepturi obcaecati adipisci, vitae earum repellendus deserunt nemo iure, sed cupiditate, dolorum temporibus consequuntur possimus.</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, ea doloribus, animi fuga modi error mollitia molestias voluptatibus doloremque neque sint possimus libero totam laboriosam placeat culpa. Molestias neque accusantium cum quas itaque animi eum excepturi obcaecati adipisci, vitae earum repellendus deserunt nemo iure, sed cupiditate, dolorum temporibus consequuntur possimus.</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, ea doloribus, animi fuga modi error mollitia molestias voluptatibus doloremque neque sint possimus libero totam laboriosam placeat culpa. Molestias neque accusantium cum quas itaque animi eum excepturi obcaecati adipisci, vitae earum repellendus deserunt nemo iure, sed cupiditate, dolorum temporibus consequuntur possimus.</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, ea doloribus, animi fuga modi error mollitia molestias voluptatibus doloremque neque sint possimus libero totam laboriosam placeat culpa. Molestias neque accusantium cum quas itaque animi eum excepturi obcaecati adipisci, vitae earum repellendus deserunt nemo iure, sed cupiditate, dolorum temporibus consequuntur possimus.</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, ea doloribus, animi fuga modi error mollitia molestias voluptatibus doloremque neque sint possimus libero totam laboriosam placeat culpa. Molestias neque accusantium cum quas itaque animi eum excepturi obcaecati adipisci, vitae earum repellendus deserunt nemo iure, sed cupiditate, dolorum temporibus consequuntur possimus.</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, ea doloribus, animi fuga modi error mollitia molestias voluptatibus doloremque neque sint possimus libero totam laboriosam placeat culpa. Molestias neque accusantium cum quas itaque animi eum excepturi obcaecati adipisci, vitae earum repellendus deserunt nemo iure, sed cupiditate, dolorum temporibus consequuntur possimus.</p>
+        </div>
     )
 }

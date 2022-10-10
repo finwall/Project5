@@ -113,7 +113,7 @@ export default function LoginSignupForm({ isSignup }) {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+            <form className="login-signup" onSubmit={handleSubmit}>
                 {(successMsg) && (
                     <p className="successMsg">{successMsg}</p>
                 )}
