@@ -4,12 +4,12 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 public class LoginRequest {
-	@NotBlank
-	@Email
+
+	@NotBlank(message = "Email field cannot be blank.")
+	@Email(message = "Email field must be a valid email.")
 	private String username;
 	
-
-	@NotBlank
+  @NotBlank(message = "Password field cannot be blank.")
 	private String password;
 
 	public String getUsername() {

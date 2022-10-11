@@ -8,18 +8,20 @@ import javax.validation.constraints.Size;
 import com.hodophilia.SEbackend.models.Provider;
 
 public class SignupRequest {
-	@NotBlank
+
+	@NotBlank(message = "Email field cannot be blank.")
 	@Size(max = 50)
-    @Email
+    @Email(max = NAME_MAX, message="Email must be no more than " + NAME_MAX + " characters.")
     private String username;
  
+
     
-    @NotBlank
-    @Size(max = 50)
+    @NotBlank(message = "First name field cannot be blank.")
+    @Size(max = NAME_MAX, message = "First name must be at most " + NAME_MAX + " characters.")
     private String FName;
     
-    @NotBlank
-    @Size(max = 50)
+    @NotBlank(message = "Last name field cannot be blank.")
+    @Size(max = NAME_MAX, message = "Last name must be at most " + NAME_MAX + " characters.")
     private String LName;
     
     
@@ -39,8 +41,9 @@ public class SignupRequest {
 		this.LName = lName;
 	}
     
-    @NotBlank
-    @Size(min = 6, max = 40)
+    @NotBlank(message = "Password field cannot be blank.")
+    @Size(min = PASS_MIN, max = PASS_MAX, message = "Password must be between " + PASS_MIN + " and " + PASS_MAX
+            + " characters.")
     private String password;
   
     public String getUsername() {
