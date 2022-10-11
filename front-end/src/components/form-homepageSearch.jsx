@@ -95,7 +95,7 @@ export default function SearchForm(props) {
             <form className='homepage-search-bar' onSubmit={handleSubmit}>
                 <div className='homepage-search-bar-flex'>
                     <SearchOutlined style={{fontSize: '24px'}} />
-                    <input type="text" name="search" onInput={handleChange} placeholder={placeholderText}></input>
+                    <input type="text" name="search" onInput={handleChange} placeholder={placeholderText} autoComplete='off'></input>
                     {goButton}
                 </div>
             </form>
