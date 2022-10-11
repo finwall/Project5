@@ -78,7 +78,6 @@ public class AuthController {
 
 		boolean hasError = 
 			userRepository.existsByUsername(signUpRequest.getUsername()) ||
-			userRepository.existsByEmail(signUpRequest.getEmail()) ||
 			errors.hasErrors();
 
 		if (hasError) {
@@ -88,9 +87,6 @@ public class AuthController {
 				returnString += "Username is already taken.\n";
 			}
 	
-			if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-				returnString += "Email is already in use.\n";
-			}
 
 			if (errors.hasErrors()) {
 				for (ObjectError er : errors.getAllErrors()) {
