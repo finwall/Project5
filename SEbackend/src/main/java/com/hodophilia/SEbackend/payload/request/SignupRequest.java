@@ -8,10 +8,16 @@ import javax.validation.constraints.Size;
 import com.hodophilia.SEbackend.models.Provider;
 
 public class SignupRequest {
+	
+	private final int USERNAME_MIN = 3;
+    private final int USERNAME_MAX = 20;
+    private final int NAME_MAX = 50;
+    private final int PASS_MIN = 6;
+    private final int PASS_MAX = 40;
 
 	@NotBlank(message = "Email field cannot be blank.")
-	@Size(max = 50)
-    @Email(max = NAME_MAX, message="Email must be no more than " + NAME_MAX + " characters.")
+	@Size(max = NAME_MAX, message="Email must be no more than " + NAME_MAX + " characters.")
+    @Email(message = "Email must be a valid email")
     private String username;
  
 
