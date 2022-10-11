@@ -7,7 +7,7 @@ import './form-homepageSearch.css'
 
 export default function SearchForm(props) {
     
-    const maxResults = 5;
+    const maxResults = 3;
     const linkPath = '/search';
     const searchParam = 'search';
     const navigate = useNavigate();
@@ -35,11 +35,14 @@ export default function SearchForm(props) {
         setGoElementReady(!!newInput); // if input is truthy, set the element to ready
         
         // TODO: include autofill functionality here
+        !!newInput? // remove after testing
         SearchService.query(currentFormInput, maxResults)
             .then(results => {
                 console.log("Result: " + results[0].getName());
                 setSearchResults(results);
             })
+            : // remove after testing
+            setSearchResults([])
 
     }
 
@@ -62,13 +65,41 @@ export default function SearchForm(props) {
         )
     }
 
+    let resultsJSX = null;
+    if (searchResultsArray.length > 0) {
+        resultsJSX = (
+            <ul className='searchResults'>
+                {
+                    searchResultsArray.map(searchResult => {
+                        return (
+                            <li>
+                                <a href="">
+                                    <div className='imgContainer'>
+                                        <img src={searchResult.getImageURL()} alt={"Image for " + searchResult.getName()} />
+                                    </div>
+                                    <div className='textContainer'>
+                                        <span className='textContainer-name'>{searchResult.getName()}</span>
+                                        <span className='textContainer-location'>{searchResult.getLocation()}</span>
+                                    </div>
+                                </a>
+                            </li>
+                        )
+                    })
+                }
+            </ul>
+        )
+    }
+
     return (
-        <form className='homepage-search' onSubmit={handleSubmit}>
-            <div className='homepage-search-flex'>
+        <div className='homepage-search'>
+            <form className='homepage-search-bar' onSubmit={handleSubmit}>
+                <div className='homepage-search-bar-flex'>
                     <SearchOutlined style={{fontSize: '24px'}} />
                     <input type="text" name="search" onInput={handleChange} placeholder={placeholderText}></input>
                     {goButton}
                 </div>
             </form>
+            {resultsJSX}
+        </div>
     )
 }

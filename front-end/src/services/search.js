@@ -1,7 +1,8 @@
 import axios from "axios";
-import DefaultImage from '../assets/pngs/globe-logo-42DE548AC7-seeklogo.com.png'
+import DefaultImage from '../assets/graphics/rough-horn-2146181_640.jpg'
 
 const API_URL = "http://localhost:8080/api/search";
+const TEST_LOCATION = "Himalayan Mountains, Nepal";
 
 class SearchService {
 
@@ -9,6 +10,8 @@ class SearchService {
 
         let returnArray = [];
 
+        /*
+        // enable code block when endpoint created
         return axios
             .post(API_URL, {
                 string
@@ -25,6 +28,13 @@ class SearchService {
                 returnArray.push(new SearchResult(string, null, DefaultImage))
                 return returnArray;
             })
+            */
+        return new Promise((resolve) => {
+            for (let i = 0; i < maxResults; i++) {
+                returnArray.push(new SearchResult(string, TEST_LOCATION, DefaultImage))
+            }
+            resolve(returnArray);
+        }) 
     }
 
 }
