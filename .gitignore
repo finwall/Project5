@@ -24,7 +24,7 @@ yarn-error.log*
 .vscode/launch.json
 .vscode/settings.json
 
-
+/.metadata/
 SEbackend/.metadata
 SEbackend/bin/
 SEbackend/tmp/
