@@ -1,7 +1,7 @@
 package com.hodophilia.SEbackend.security.services;
 
 
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,24 +29,9 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	  }
 	  
 	  public void processOAuthPostLogin(String username, String name) {
-		  System.out.print("here3");
-		  String userName[] = username.split("@");
-		  System.out.println(userName[0]);
-	        
-	                //.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
-	        System.out.println("here7");
-	        if (!userRepository.existsByEmail(username)) {
-	        //if (existUser == null) {
-	        	System.out.println("here6");
-	        	System.out.println(username);
-	        	
-	            User newUser = new User(userName[0],username,"password@123",name,name,Provider.GOOGLE);
-
-	            
-	            System.out.println("here7");
+	        if (!userRepository.existsByUsername(username)) {
+	        	User newUser = new User(username,"password@123",name,name,Provider.GOOGLE);   
 	            userRepository.save(newUser);  
 	        }  
-	       // }
-	         
-	    }
+	   }
 }

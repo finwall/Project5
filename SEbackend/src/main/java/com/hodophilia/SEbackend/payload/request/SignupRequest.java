@@ -9,22 +9,12 @@ import com.hodophilia.SEbackend.models.Provider;
 
 public class SignupRequest {
 
-    private final int USERNAME_MIN = 3;
-    private final int USERNAME_MAX = 20;
-    private final int NAME_MAX = 50;
-    private final int PASS_MIN = 6;
-    private final int PASS_MAX = 40;
-
-	@NotBlank(message = "Username field cannot be blank.")
-    @Size(min = USERNAME_MIN, max = USERNAME_MAX, message="Username must be between " + USERNAME_MIN + " and " + USERNAME_MAX + " characters.")
+	@NotBlank(message = "Email field cannot be blank.")
+	@Size(max = 50)
+    @Email(max = NAME_MAX, message="Email must be no more than " + NAME_MAX + " characters.")
     private String username;
  
-    @NotBlank(message = "Email field cannot be blank.")
-    @Size(max = NAME_MAX, message="Email must be no more than " + NAME_MAX + " characters.")
-    @Email(message = "Email field must be a valid email.")
-    private String email;
-    
-    //private Set<String> role;
+
     
     @NotBlank(message = "First name field cannot be blank.")
     @Size(max = NAME_MAX, message = "First name must be at most " + NAME_MAX + " characters.")
@@ -64,13 +54,6 @@ public class SignupRequest {
     	this.username = username;
     }
  
-    public String getEmail() {
-        return email;
-    }
- 
-    public void setEmail(String email) {
-        this.email = email;
-    }
  
     public String getPassword() {
         return password;
