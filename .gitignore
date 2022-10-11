@@ -23,3 +23,17 @@ yarn-debug.log*
 yarn-error.log*
 .vscode/launch.json
 .vscode/settings.json
+
+/.metadata/
+SEbackend/.metadata
+SEbackend/bin/
+SEbackend/tmp/
+SEbackend/*.tmp
+SEbackend/*.bak
+SEbackend/*.swp
+SEbackend/*~.nib
+SEbackend/local.properties
+SEbackend/.settings/
+SEbackend/.loadpath
+SEbackend/.recommenders
+

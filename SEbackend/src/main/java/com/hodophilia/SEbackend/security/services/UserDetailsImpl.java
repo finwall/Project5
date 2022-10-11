@@ -20,8 +20,6 @@ public class UserDetailsImpl implements UserDetails{
 	private Long id;
 
 	private String username;
-
-	private String email;
 	
 	private String FName;
 	
@@ -42,11 +40,10 @@ public class UserDetailsImpl implements UserDetails{
 		this.attributes = attributes;
 	}
 
-	public UserDetailsImpl(Long id, String username, String email, String password,
+	public UserDetailsImpl(Long id, String username, /*String email,*/ String password,
 			String FName, String LName,Collection<? extends GrantedAuthority> authorities) {
 		this.id = id;
 		this.username = username;
-		this.email = email;
 		this.password = password;
 		this.FName = FName;
 		this.LName = LName;
@@ -59,8 +56,7 @@ public class UserDetailsImpl implements UserDetails{
 
 		return new UserDetailsImpl(
 				user.getId(), 
-				user.getUsername(), 
-				user.getEmail(),
+				user.getUsername(),
 				user.getPassword(), 
 				user.getFName(),
 				user.getLName(),
@@ -96,10 +92,6 @@ public class UserDetailsImpl implements UserDetails{
 
 	public Long getId() {
 		return id;
-	}
-
-	public String getEmail() {
-		return email;
 	}
 
 	@Override

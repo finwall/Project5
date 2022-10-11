@@ -63,13 +63,14 @@ public class AuthController {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
 
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+    UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+    
+    return ResponseEntity.ok(new JwtResponse(jwt, 
+												 userDetails.getId(), 
+												 userDetails.getUsername()
+												 ));
 
-		return ResponseEntity.ok(new JwtResponse(jwt,
-				userDetails.getId(),
-				userDetails.getUsername(),
-				userDetails.getEmail()));
-
+		
 	}
 
 	@PostMapping("/signup")
@@ -77,7 +78,6 @@ public class AuthController {
 
 		boolean hasError = 
 			userRepository.existsByUsername(signUpRequest.getUsername()) ||
-			userRepository.existsByEmail(signUpRequest.getEmail()) ||
 			errors.hasErrors();
 
 		if (hasError) {
@@ -87,9 +87,6 @@ public class AuthController {
 				returnString += "Username is already taken.\n";
 			}
 	
-			if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-				returnString += "Email is already in use.\n";
-			}
 
 			if (errors.hasErrors()) {
 				for (ObjectError er : errors.getAllErrors()) {
@@ -102,10 +99,9 @@ public class AuthController {
 					.body(new MessageResponse( returnString ));
 		}
 
-
 		// Create new user's account
 		User user = new User(signUpRequest.getUsername(), 
-							 signUpRequest.getEmail(),
+					
 							 encoder.encode(signUpRequest.getPassword()), signUpRequest.getFName(), signUpRequest.getLName(),Provider.LOCAL);
 
 		

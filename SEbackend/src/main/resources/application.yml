@@ -3,7 +3,7 @@ spring:
          url: "jdbc:postgresql://localhost/hodophiliadb"
          driverClassName: org.postgresql.Driver
          username: postgres
-         password: IdRatherUseMariaDB
+         password: postgres
  jpa:      
            database: POSTGRESQL
            show-sql: false
@@ -23,7 +23,6 @@ spring:
           google:
             client-id: 253434983541-pcoqhs7d8l05r176fod88imfljmsrlhk.apps.googleusercontent.com
             client-secret: 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
-            #redirectUri: "http://localhost:3000/login"
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
                 - email

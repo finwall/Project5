@@ -107,12 +107,12 @@ public class WebSecurityConfig {
                 public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                         Authentication authentication) throws IOException, ServletException {
                     
-                	System.out.println("here");
+              
                     CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
                     System.out.println(oauthUser.getEmail());
                     userDetailsService.processOAuthPostLogin(oauthUser.getEmail(),oauthUser.getName());
-                    System.out.println("here2");
-                    response.sendRedirect("api/users/login");
+                   
+                    response.sendRedirect("/login");
                     
                     
                 }
