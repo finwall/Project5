@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { SearchOutlined, RightSquareOutlined, RightSquareFilled } from '@ant-design/icons';
 import SearchService from '../services/search';
@@ -9,8 +9,7 @@ export default function SearchForm(props) {
 
     const defaultShowCount = 3;
     const showCount = props.showCount || defaultShowCount;
-
-    const defaultText = props.children || "";
+    const preloadResultsNumber = props.preload || showCount;
     
     const linkPath = '/search';
     const searchParam = 'search';
@@ -26,11 +25,12 @@ export default function SearchForm(props) {
     }
 
     // Hooks
-    const [input, setInput] = useState(defaultText);
+    const [input, setInput] = useState(props.children || "");
     const [placeholderText, setPlaceholderText] = useState(generateNewPlaceholder());
     const [goElementReady, setGoElementReady] = useState(false);
     const [searchResultsArray, setSearchResults] = useState([]);
-
+    const [displayIndex, setDisplayIndex] = useState(0);
+    
     // Event handlers
 
     function handleChange(e) {
@@ -41,14 +41,16 @@ export default function SearchForm(props) {
 
         // TODO: include autofill functionality here
         !!newInput? // remove after testing
-        SearchService.query(currentFormInput, showCount)
-            .then(results => {
-                console.log("Result: " + results[0].getName());
-                setSearchResults(results);
-            })
+        SearchService.query(currentFormInput, preloadResultsNumber)
+            .then(handleQueryResults)
             : // remove after testing
             setSearchResults([])
 
+    }
+
+    function handleQueryResults(res) {
+        console.log("Result: " + res[0].getName());
+        setSearchResults(res);
     }
 
     function handleSubmit(e) {
@@ -60,30 +62,24 @@ export default function SearchForm(props) {
         } 
     }
 
-    // JSX logic
-    // let activateButton = function(predicate) {
-    //     if (predicate) return (
-    //         <button onClick={handleSubmit}>
-    //             <RightSquareFilled style={{ fontSize: '30px' }} />
-    //         </button>
-    //     )
-    //     else return (
-    //         <RightSquareOutlined style={{ fontSize: '30px' }} />
-    //     )
-    // }
-    let activateButton = <RightSquareOutlined style={{ fontSize: '30px' }} />
-    if (goElementReady) activateButton = (
-            <button onClick={handleSubmit}>
-                <RightSquareFilled style={{ fontSize: '30px' }} />
-            </button>
-    )
+    let activateButton = null;
+    if (useLocation().pathname !== '/search') {
+        activateButton = <RightSquareOutlined style={{ fontSize: '30px' }} />
+        if (goElementReady) activateButton = (
+                <button onClick={handleSubmit}>
+                    <RightSquareFilled style={{ fontSize: '30px' }} />
+                </button>
+        )    
+    }
 
     let resultsJSX = null;
     if (searchResultsArray.length > 0) {
         resultsJSX = (
             <ul className='searchResults'>
                 {
-                    searchResultsArray.map((searchResult, index) => {
+                    searchResultsArray
+                        .slice(displayIndex, showCount) // for pagination
+                        .map((searchResult, index) => {
                         return (
                             <li key={searchResult.getImageURL().slice(-10) + index}>
                                 <a href="">
@@ -108,7 +104,7 @@ export default function SearchForm(props) {
             <form className='homepage-search-bar' onSubmit={handleSubmit}>
                 <div className='homepage-search-bar-flex'>
                     <SearchOutlined style={{fontSize: '24px'}} />
-                    <input type="text" name="search" onInput={handleChange} placeholder={placeholderText} autoComplete='off'></input>
+                    <input type="text" name="search" value={input} onInput={handleChange} placeholder={placeholderText} autoComplete='off'></input>
                     {activateButton}
                 </div>
             </form>
