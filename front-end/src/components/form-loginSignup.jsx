@@ -41,6 +41,15 @@ export default function LoginSignupForm({ isSignup }) {
         setErrorMessages([...messages]);
     }
 
+    function forgotPassword(e) {
+        e.preventDefault();
+        navigate('/account-recovery', {
+            state: {
+                emailInput
+            }
+        });
+    }
+
     function handleSubmit(e) {
         e.preventDefault();
         setSuccessMsg("");
@@ -84,11 +93,15 @@ export default function LoginSignupForm({ isSignup }) {
     let newAccountField = null;
     let nameFields = null;
     let securityQuestions = null;
+    let forgotPasswordButton = null;
 
     // generates the additional JSX
     if (!isSignup) {
         newAccountField = (
             <p>Don't have an account? Click <Link to="../signup">Here</Link> to create a new account.</p>
+        );
+        forgotPasswordButton = (
+            <button onClick={forgotPassword}>Forgot password</button>
         )
     }
     else { // if this is the signup page
@@ -144,6 +157,7 @@ export default function LoginSignupForm({ isSignup }) {
                     <input type="password" name="Password" value={passwordInput} onChange={handlePasswordChange} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
                 {securityQuestions}
+                {forgotPasswordButton}
                 <input type="submit" value="Submit" />
             </form>
             {newAccountField}

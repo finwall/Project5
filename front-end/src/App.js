@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from './components/screens/index.jsx';
 import Login from './components/screens/login.jsx';
 import Signup from './components/screens/signup.jsx';
+import AccountRecovery from './components/screens/account-recovery';
 import Search from './components/screens/search.jsx';
 import Error from './components/screens/error.jsx';
 
@@ -20,6 +21,7 @@ function App() {
             <Route index element={<Index />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
+            <Route path="account-recovery" element={<AccountRecovery />} />
             <Route path="search" element={<Search />} />
             <Route path="*" element={<Error />} />
           </Route>
