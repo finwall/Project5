@@ -1,0 +1,155 @@
+.homepage-search {
+    position: relative;
+    --shrinkWidth: 10vw;
+}
+
+.homepage-search-bar {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 2rem var(--shrinkWidth);
+    padding-bottom: 0;
+}
+
+.homepage-search-bar .homepage-search-bar-flex {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 1rem .5rem;
+    border: var(--mainColor2) solid 4px;
+    border-radius: 1rem;
+    background-color: var(--mainColor3);
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    /* gap: 2em; */
+}
+
+.homepage-search-bar .homepage-search-bar-flex > * {
+    flex-grow: 1;
+}
+
+.homepage-search-bar .homepage-search-bar-flex input {
+    color: var(--mainColor2);
+    flex-grow: 4;
+    font-size: 2em;
+    background-color: #0000;
+    border: none;
+}
+
+.homepage-search-bar .homepage-search-bar-flex input:focus {
+    outline: none;
+}
+
+.homepage-search-bar-flex > *:nth-child(1) {
+    flex: 1;
+}
+
+.homepage-search-bar-flex > input:nth-child(2) {
+    width: 100%;
+    flex: 8;
+}
+
+.homepage-search-bar .homepage-search-bar-flex a, .homepage-search-bar .homepage-search-bar-flex button {
+    text-decoration: none;
+    color: var(--mainColor2);
+    background-color: inherit;
+    border: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.searchResults {
+
+    --sR-Border: var(--mainColor2) solid 3px;
+
+    list-style: none;
+    background-color: var(--mainColor1);
+    margin: 0 calc(var(--shrinkWidth) + 2vw);
+    padding: 0 1.25em;
+    overflow: hidden;
+    border: var(--sR-Border);
+    border-top: none;
+    border-bottom: none;
+    max-height: 100%;
+}
+
+.searchResults:last-child {
+    border-bottom: var(--sR-Border);
+    border-radius: 0 0 1em 1em;
+}
+
+.searchResults li a {
+    margin: .2em 0;
+    padding: .4em 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    text-decoration: none;
+}
+
+.searchResults li a:first-child {
+    margin-top: 0;
+}
+
+.searchResults li, .searchResults li a {
+    width: 100%;
+    /* color: var(--mainColor2) */
+    color: white;
+}
+
+.searchResults li > a > * {
+    display: inline-block;
+}
+
+.searchResults .imgContainer {
+
+    --size: 70px;
+
+    height: var(--size);
+    width: var(--size);
+    flex-shrink: 0;
+    border: var(--mainColor3) solid 4px;
+    border-radius: 100%;
+    overflow: hidden;
+    position: relative;
+    /* margin: 0 1em .5em 0; */
+}
+
+.searchResults .imgContainer > img {
+    /* TODO: make the image positioning more consistent for different sizes */
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: -50%;
+}
+
+.searchResults .textContainer {
+    padding: 1em 0;
+    margin: 0 1em;
+    width: 100%;
+    border-bottom: var(--mainColor3) solid 2px;
+}
+
+.searchResults li:last-child .textContainer {
+    border-bottom: none;
+}
+
+.searchResults .textContainer > * {
+    display: block;
+    padding-bottom: .4em;
+    line-break: anywhere;
+}
+
+.searchResults .textContainer > *:last-child {
+    padding-bottom: 0;
+}
+
+.searchResults .textContainer .textContainer-location {
+    color: var(--mainColor3);
+    font-size: .9em;
+    font-style: italic;
+}
+
