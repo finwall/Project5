@@ -5,9 +5,7 @@ import AuthService from '../services/auth.service';
 
 export default function LoginSignupForm({ isSignup }) {
 
-    const [unameInput, setUnameInput] = useState("");
-    const [fnameInput, setFnameInput] = useState("");
-    const [lnameInput, setLnameInput] = useState("");
+    const [nameInput, setNameInput] = useState("");
     const [emailInput, setEmailInput] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
     const [errorMessages, setErrorMessages] = useState([]);
@@ -15,16 +13,8 @@ export default function LoginSignupForm({ isSignup }) {
 
     let navigate = useNavigate();
 
-    function handleUnameChange(e) {
-        setUnameInput(e.target.value);
-    }
-
-    function handleFnameChange(e) {
-        setFnameInput(e.target.value);
-    }
-
-    function handleLnameChange(e) {
-        setLnameInput(e.target.value);
+    function handleNameChange(e) {
+        setNameInput(e.target.value);
     }
 
     function handleEmailChange(e) {
@@ -48,10 +38,9 @@ export default function LoginSignupForm({ isSignup }) {
 
         if (isSignup) {
 
-            let signupPromise = AuthService.register(fnameInput, lnameInput, unameInput, emailInput, passwordInput)
+            let signupPromise = AuthService.register(nameInput, emailInput, passwordInput)
                 .then(() => {
-                    console.log(`${fnameInput} has successfully signed up with username: ${unameInput}.`)
-                    setSuccessMsg(`${fnameInput}, you have successfully signed up with username: ${unameInput}!`)
+                    setSuccessMsg(`${nameInput}, you have successfully signed up with email: ${emailInput}!`)
                 })
             signupPromise.catch(e => handleSubmitError(e))
             signupPromise.then(() => {
@@ -64,11 +53,11 @@ export default function LoginSignupForm({ isSignup }) {
 
             // AuthService.logout();
 
-            let loginPromise = AuthService.login(unameInput, emailInput, passwordInput)
+            let loginPromise = AuthService.login(emailInput, passwordInput)
                 .then(
                     () => {
                         console.log("Successfully logged in!");
-                        setSuccessMsg(`You have successfully logged in, ${unameInput}!`);
+                        setSuccessMsg(`You have successfully logged in, ${emailInput}!`);
                     })
             loginPromise.catch(e => handleSubmitError(e))
             loginPromise.then (() => {
@@ -79,7 +68,6 @@ export default function LoginSignupForm({ isSignup }) {
 
         }
 
-        console.log(`Recieved: \nUsername: ${unameInput}\nFirst name: ${fnameInput}\nLast name: ${lnameInput}\nEmail: ${emailInput}\nPassword: ${passwordInput}`);
     }
 
     // these fields are JSX expressions generated based on 
@@ -100,12 +88,8 @@ export default function LoginSignupForm({ isSignup }) {
         nameFields = (
             <div className="item">
                 <label>
-                    First Name
-                    <input type="text" name="fname" value={fnameInput} onChange={handleFnameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
-                </label>
-                <label>
-                    Last Name
-                    <input type="text" name="lname" value={lnameInput} onChange={handleLnameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
+                    Name
+                    <input type="text" name="name" value={nameInput} onChange={handleNameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
             </div>
         );
@@ -131,10 +115,6 @@ export default function LoginSignupForm({ isSignup }) {
                 <label>
                     Email
                     <input type="email" pattern=".+@globex\.com" size="50" name="Email" value={emailInput} onChange={handleEmailChange} autoComplete={(isSignup) ? "new-password" : "off"} required />
-                </label>
-                <label>
-                    Username
-                    <input type="text" name="Username" value={unameInput} onChange={handleUnameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
                 <label>
                     Password
