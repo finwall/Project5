@@ -5,6 +5,7 @@ import Index from './components/screens/index.jsx';
 import Login from './components/screens/login.jsx';
 import Signup from './components/screens/signup.jsx';
 import Search from './components/screens/search.jsx';
+import SearchedCity from './components/screens/searchedcity.jsx';
 import Error from './components/screens/error.jsx';
 
 // components
@@ -21,6 +22,7 @@ function App() {
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
             <Route path="search" element={<Search />} />
+            <Route path="city" element={<SearchedCity />} />
             <Route path="*" element={<Error />} />
           </Route>
         </Routes>
