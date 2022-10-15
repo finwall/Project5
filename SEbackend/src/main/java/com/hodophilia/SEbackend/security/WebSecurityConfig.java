@@ -27,11 +27,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.hodophilia.SEbackend.payload.response.MessageResponse;
 import com.hodophilia.SEbackend.security.jwt.AuthEntryPointJwt;
-import com.hodophilia.SEbackend.security.jwt.AuthTokenFilter;
+//import com.hodophilia.SEbackend.security.jwt.AuthTokenFilter;
+import com.hodophilia.SEbackend.security.oauth2.OAuth2AuthenticationFailureHandler;
+import com.hodophilia.SEbackend.security.oauth2.OAuth2AuthenticationSuccessHandler;
 import com.hodophilia.SEbackend.security.services.CustomOAuth2User;
 import com.hodophilia.SEbackend.security.services.CustomOAuth2UserService;
+import com.hodophilia.SEbackend.security.services.CustomUserDetailsService;
 import com.hodophilia.SEbackend.security.services.HttpCookieOAuth2AuthorizationRequestRepository;
-import com.hodophilia.SEbackend.security.services.UserDetailsServiceImpl;
+//import com.hodophilia.SEbackend.security.services.UserDetailsServiceImpl;
 
 @Configuration
 @EnableGlobalMethodSecurity(
@@ -40,26 +43,57 @@ import com.hodophilia.SEbackend.security.services.UserDetailsServiceImpl;
         prePostEnabled = true)
 public class WebSecurityConfig {
 	@Autowired
-	UserDetailsServiceImpl userDetailsService;
+    private CustomUserDetailsService customUserDetailsService;
+
+    
 	
 	@Autowired
     private CustomOAuth2UserService oAuthUserService;
 
 	@Autowired
 	private AuthEntryPointJwt unauthorizedHandler;
+	
+	@Autowired
+    private OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
 
+    @Autowired
+    private OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+
+//	@Bean
+//	public AuthTokenFilter authenticationJwtTokenFilter() {
+//		return new AuthTokenFilter();
+//	}
+//	
 	@Bean
-	public AuthTokenFilter authenticationJwtTokenFilter() {
-		return new AuthTokenFilter();
-	}
+    public TokenAuthenticationFilter tokenAuthenticationFilter() {
+        return new TokenAuthenticationFilter();
+    }
+
 	
+	@Bean
+    public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
+        return new HttpCookieOAuth2AuthorizationRequestRepository();
+    }
 	
+//	@Override
+//    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+//        authenticationManagerBuilder
+//                .userDetailsService(customUserDetailsService)
+//                .passwordEncoder(passwordEncoder());
+//    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 	
+    
+
 	@Bean
 	  public DaoAuthenticationProvider authenticationProvider() {
 	      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 	       
-	      authProvider.setUserDetailsService(userDetailsService);
+	      authProvider.setUserDetailsService(customUserDetailsService);
 	      authProvider.setPasswordEncoder(passwordEncoder());
 	   
 	      return authProvider;
@@ -72,15 +106,8 @@ public class WebSecurityConfig {
 	    return authConfig.getAuthenticationManager();
 	  }
 
-		@Bean
-		public PasswordEncoder passwordEncoder() {
-			return new BCryptPasswordEncoder();
-		}
 		
-		@Bean
-	    public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
-	        return new HttpCookieOAuth2AuthorizationRequestRepository();
-	    }
+	
 
 
 		@Bean
@@ -90,7 +117,7 @@ public class WebSecurityConfig {
 	        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 	        .authorizeRequests().antMatchers("/api/users/**","/oauth/**").permitAll()
 	        .antMatchers("/api/users/test/**").permitAll()
-	        .antMatchers("api/users/**","/auth/**", "/oauth2/**","api/users/oauth2").permitAll()
+	        .antMatchers("api/users/**","/auth/**", "/oauth2/**","api/users/oauth2","/**").permitAll()
 	        .anyRequest().authenticated().and().formLogin().permitAll().and().oauth2Login()
 	        .authorizationEndpoint()
 	        .baseUri("/oauth2/authorize")
@@ -100,33 +127,35 @@ public class WebSecurityConfig {
          	.baseUri("/oauth2/callback/*")
             .and()
 	        .userInfoEndpoint().userService(oAuthUserService).and()
-	        .successHandler(new AuthenticationSuccessHandler() {
-	            
-
-                @Override
-                public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                        Authentication authentication) throws IOException, ServletException {
-                    
-              
-                    CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
-                    System.out.println(oauthUser.getEmail());
-                    userDetailsService.processOAuthPostLogin(oauthUser.getEmail(),oauthUser.getName());
-                   
-                    response.sendRedirect("/login");
-                    
-                    
-                }
-	        })
-	        .failureHandler(new SimpleUrlAuthenticationFailureHandler() {
-        		@Override
-        		public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) 
-        				throws IOException, ServletException {
-        		}
-        });
+	        .successHandler(oAuth2AuthenticationSuccessHandler)
+	        .failureHandler(oAuth2AuthenticationFailureHandler);
+//	        .successHandler(new AuthenticationSuccessHandler() {
+//	            
+//
+//                @Override
+//                public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+//                        Authentication authentication) throws IOException, ServletException {
+//                    
+//              
+//                    CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
+//                    System.out.println(oauthUser.getEmail());
+//                    userDetailsService.processOAuthPostLogin(oauthUser.getEmail(),oauthUser.getName());
+//                   
+//                    response.sendRedirect("/login");
+//                    
+//                    
+//                }
+//	        })
+//	        .failureHandler(new SimpleUrlAuthenticationFailureHandler() {
+//        		@Override
+//        		public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) 
+//        				throws IOException, ServletException {
+//        		}
+//        });
     
 	    http.authenticationProvider(authenticationProvider());
 
-	    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+	    http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	    
 	    return http.build();
 	  }

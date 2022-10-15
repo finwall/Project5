@@ -2,6 +2,7 @@ package com.hodophilia.SEbackend.models;
 
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,57 +18,103 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(	name = "users", 
 		uniqueConstraints = { 
-			@UniqueConstraint(columnNames = "username") 
+			@UniqueConstraint(columnNames = "email") 
 		})
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	public User(User user) {
+        
+        this.email = user.email;
+        this.password = user.password;	
+        
+    }
+	
+	public User(String email, String password) {
+  
+        this.password = password;
+        this.email = email;
+        
+    }
 
-	@NotBlank
-	@Size(max = 50)
+	
+	private boolean mfa;
+	
+    public boolean isMfa() {
+		return mfa;
+	}
+
+	public void setMfa(boolean mfa) {
+		this.mfa = mfa;
+	}
+
+	public String getSecret() {
+		return secret;
+	}
+
+	public void setSecret(String secret) {
+		this.secret = secret;
+	}
+
+	private String secret;
+	
 	@Email
-	private String username;
-	
-	@NotBlank
+    @Column(nullable = false)
 	@Size(max = 50)
-	private String FName;
-	
 	@NotBlank
-	@Size(max = 50)
-	private String LName;
+    private String email;
+	
+
+	@Column(nullable = false)
+    private String name;
 
 	
 	@NotBlank
 	@Size(max = 120)
 	private String password;
+	
+	@Column(nullable = false)
+    private Boolean emailVerified = false;
+	
+
+	
+	private String imageUrl;
+	
+	private String providerId;
+	
+	@Column(name = "reset_password_token")
+    private String resetPasswordToken;
+	
+	@NotBlank
+	@Size(max = 20)
+	private String securityQuestion1;
+	
+	@NotBlank
+	@Size(max = 20)
+	private String securityQuestion2;
+
+	public String getResetPasswordToken() {
+		return resetPasswordToken;
+	}
+
+	public void setResetPasswordToken(String resetPasswordToken) {
+		this.resetPasswordToken = resetPasswordToken;
+	}
 
 	public User() {
 	}
 
-	public User(String username, String password,String FName,String LName, Provider provider) {
-		this.username = username;
-		this.password = password;
-		this.FName = FName;
-		this.LName = LName;
-		this.provider = provider;
-	}
 
-	public String getFName() {
-		return FName;
-	}
+	
+	public String getName() {
+        return name;
+    }
 
-	public void setFName(String fName) {
-		this.FName = fName;
-	}
-
-	public String getLName() {
-		return LName;
-	}
-
-	public void setLName(String lName) {
-		LName = lName;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
 	public Long getId() {
 		return id;
@@ -77,13 +124,15 @@ public class User {
 		this.id = id;
 	}
 
-    public String getUsername() {
- 		return username;
+	
+	public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
- 		this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
+
 
 
 	public String getPassword() {
@@ -104,4 +153,45 @@ public class User {
     public void setProvider(Provider provider) {
         this.provider = provider;
     }
+    
+    public Boolean getEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(Boolean emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+    
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+    
+    
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
+    }
+
+	public String getSecurityQuestion1() {
+		return securityQuestion1;
+	}
+
+	public void setSecurityQuestion1(String securityQuestion1) {
+		this.securityQuestion1 = securityQuestion1;
+	}
+
+	public String getSecurityQuestion2() {
+		return securityQuestion2;
+	}
+
+	public void setSecurityQuestion2(String securityQuestion2) {
+		this.securityQuestion2 = securityQuestion2;
+	}
 }
