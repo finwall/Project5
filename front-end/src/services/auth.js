@@ -11,16 +11,8 @@ class AuthService {
                 password
             })
             .then(response => {
-                if (response.data.accessToken) {
-                    localStorage.setItem("user", JSON.stringify(response.data));
-                }
-
                 return response.data;
             });
-    }
-
-    logout() {
-        localStorage.removeItem("user");
     }
 
     register(fname, lname, username, email, password, role = ["ROLE_USER"]) {
@@ -32,10 +24,6 @@ class AuthService {
             role,
             password
         });
-    }
-
-    getCurrentUser() {
-        return JSON.parse(localStorage.getItem('user'));;
     }
 }
 
