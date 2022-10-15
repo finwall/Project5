@@ -55,25 +55,9 @@ export default function LoginSignupForm({ isSignup }) {
                 })
             signupPromise.catch(e => handleSubmitError(e))
             signupPromise.then(() => {
-
-                // logs in the user with the data they submitted
-                AuthService.login(unameInput, emailInput, passwordInput)
-                    .then(
-                        () => {
-                            console.log("Successfully logged in!");
-                            setSuccessMsg(`${unameInput} has successfully logged in!`);
-                        })
-                    .catch(
-                        e => {
-                            console.log(`${unameInput} failed to log in. Error: ${e}`)
-                        })
-                    .then(
-                        () => {
-                            setTimeout(() => {
-                                navigate('/');
-                            }, 2000)
-                        }
-                    )
+                setTimeout(() => {
+                    navigate('/');
+                }, 2000)
             })
         }
         else {
@@ -129,7 +113,7 @@ export default function LoginSignupForm({ isSignup }) {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+            <form className="login-signup" onSubmit={handleSubmit}>
                 {(successMsg) && (
                     <p className="successMsg">{successMsg}</p>
                 )}
@@ -146,7 +130,7 @@ export default function LoginSignupForm({ isSignup }) {
                 {nameFields}
                 <label>
                     Email
-                    <input type="text" name="Email" value={emailInput} onChange={handleEmailChange} autoComplete={(isSignup) ? "new-password" : "off"} />
+                    <input type="email" pattern=".+@globex\.com" size="50" name="Email" value={emailInput} onChange={handleEmailChange} autoComplete={(isSignup) ? "new-password" : "off"} required />
                 </label>
                 <label>
                     Username
