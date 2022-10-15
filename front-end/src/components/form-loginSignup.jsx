@@ -1,9 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import AuthService from '../services/auth';
+import { LoginContext } from "../contexts/loginContext";
+
 import './form-loginSignup.css';
-import AuthService from '../services/auth.service';
 
 export default function LoginSignupForm({ isSignup }) {
+
+    const context = useContext(LoginContext);
 
     const [nameInput, setNameInput] = useState("");
     const [emailInput, setEmailInput] = useState("");
@@ -70,13 +74,15 @@ export default function LoginSignupForm({ isSignup }) {
         }
         else {
 
-            // AuthService.logout();
-
             let loginPromise = AuthService.login(emailInput, passwordInput)
-                .then(
-                    () => {
-                        setSuccessMsg(`You have successfully logged in, ${emailInput}!`);
-                    })
+                .then((response) => {
+                        if (response.data?.accessToken) {
+                            context.login(null, emailInput, [], response.data.accessToken); // TODO: fill first field or remove it
+                            console.log("Successfully logged in!");
+                            setSuccessMsg(`You have successfully logged in, ${emailInput}!`);
+                        }
+                        else throw new Error("accessToken field not included in AuthService response.")
+                    });
             loginPromise.catch(e => handleSubmitError(e))
             loginPromise.then (() => {
                     setTimeout(() => {
