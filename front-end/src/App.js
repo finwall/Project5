@@ -1,32 +1,51 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+
+
 // screens
+
 import Index from './components/screens/index.jsx';
+
+import SearchedCity from './components/screens/searchedcity.jsx';
+
 import Login from './components/screens/login.jsx';
+
 import Signup from './components/screens/signup.jsx';
-import Search from './components/screens/search.jsx';
+
 import Error from './components/screens/error.jsx';
 
-// components
-import Navbar from './components/navbar'
+
 
 function App() {
+
   return (
-    <>
-      <Navbar />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/">
-            <Route index element={<Index />} />
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<Signup />} />
-            <Route path="search" element={<Search />} />
-            <Route path="*" element={<Error />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </>
+
+    <BrowserRouter>
+
+      <Routes>
+
+        <Route path="/">
+
+          <Route index element={<Index />} />
+
+          <Route path="city" element={<SearchedCity />} />
+
+          <Route path="login" element={<Login />} />
+
+          <Route path="signup" element={<Signup />} />
+
+          <Route path="*" element={<Error />} />
+
+        </Route>
+
+      </Routes>
+
+    </BrowserRouter>
+
   );
+
 }
+
+
 
 export default App;
