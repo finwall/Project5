@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import AuthService from '../services/auth';
 import { LoginContext } from "../contexts/loginContext";
+import * as SecurityQuestions from '../constants/securityQuestions';
 
 import './form-loginSignup.css';
 
@@ -126,11 +127,11 @@ export default function LoginSignupForm({ isSignup }) {
             <>
                 <h2>Security Questions</h2>
                 <label>
-                    What was your mother's maiden name?
+                    {SecurityQuestions.SECURITY_QUESTION_1}
                     <input type="text" name="sq1" value={secQuestion1} onChange={handleSQ1Change} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
                 <label>
-                    What was the name of your first pet?
+                    {SecurityQuestions.SECURITY_QUESTION_2}
                     <input type="text" name="sq2" value={secQuestion2} onChange={handleSQ2Change} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
             </>
