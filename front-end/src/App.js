@@ -9,6 +9,7 @@ import Login from './components/screens/login.jsx';
 import Signup from './components/screens/signup.jsx';
 import AccountRecovery from './components/screens/account-recovery';
 import Search from './components/screens/search.jsx';
+import SearchedCity from './components/screens/searchedcity.jsx';
 import Error from './components/screens/error.jsx';
 
 // components
@@ -16,7 +17,6 @@ import Navbar from './components/navbar'
 
 function App() {
   return (
-    <>
     <LoginContextProvider>
         <Navbar />
         <BrowserRouter>
@@ -27,12 +27,12 @@ function App() {
               <Route path="signup" element={<Signup />} />
               <Route path="account-recovery" element={<AccountRecovery />} />
               <Route path="search" element={<Search />} />
+              <Route path="city" element={<SearchedCity />} />
               <Route path="*" element={<Error />} />
             </Route>
           </Routes>
         </BrowserRouter>
     </LoginContextProvider>
-    </>
   );
 }
 

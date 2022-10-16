@@ -80,9 +80,11 @@ export default function SearchForm(props) {
                     searchResultsArray
                         .slice(displayIndex, showCount) // for pagination
                         .map((searchResult, index) => {
+                        let urlSafeName = encodeURIComponent(searchResult.getName());
+                        let urlSafeLocation = encodeURIComponent(searchResult.getLocation());
                         return (
                             <li key={searchResult.getImageURL().slice(-10) + index}>
-                                <a href="">
+                                <a href={`/city?city=${urlSafeName}&location=${urlSafeLocation}`}>
                                     <div className='imgContainer'>
                                         <img src={searchResult.getImageURL()} alt={"Image for " + searchResult.getName()} />
                                     </div>
