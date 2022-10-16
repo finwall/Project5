@@ -10,11 +10,12 @@ export default function SearchedCity () {
         let name = searchParams.getAll("city")
         let location = searchParams.getAll("location")
         CityService.verifyCity(name,location)
-            .then(() => {
-            setCityIsCorrect(true);
+            .then((response) => {
+                console.log(response)
+                setCityIsCorrect(true);
             })
             .catch(() => {
-            setCityIsCorrect(false);
+                setCityIsCorrect(false);
             });
     }
     verifyCity()
