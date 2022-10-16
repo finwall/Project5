@@ -19,6 +19,7 @@ public class SearchController {
     @Autowired
     SearchService searchService;
 
+    @CrossOrigin(origins = "*", allowedHeaders = {"Origin", "X-Requested-With", "Content-Type", "Accept"})
     @GetMapping("")
     public ResponseEntity<?> getAllPlaces(HttpServletRequest request) {
         List<String> placesList = searchService.fetchAllPlaces();
@@ -27,6 +28,7 @@ public class SearchController {
         return new ResponseEntity<>(jsonObj, HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = {"Origin", "X-Requested-With", "Content-Type", "Accept"})
     @GetMapping("/{place}")
     public ResponseEntity<Search> getCategoryById(HttpServletRequest request,
                                                     @PathVariable("place") String place) {
