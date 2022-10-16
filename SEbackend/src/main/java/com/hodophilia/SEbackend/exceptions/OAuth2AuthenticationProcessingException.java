@@ -1,4 +1,4 @@
-package com.hodophilia.SEbackend.exception;
+package com.hodophilia.SEbackend.exceptions;
 
 import org.springframework.security.core.AuthenticationException;
 

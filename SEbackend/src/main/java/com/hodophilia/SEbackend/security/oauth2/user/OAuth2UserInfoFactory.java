@@ -2,7 +2,7 @@ package com.hodophilia.SEbackend.security.oauth2.user;
 
 import java.util.Map;
 
-import com.hodophilia.SEbackend.exception.OAuth2AuthenticationProcessingException;
+import com.hodophilia.SEbackend.exceptions.OAuth2AuthenticationProcessingException;
 import com.hodophilia.SEbackend.models.Provider;
 
 public class OAuth2UserInfoFactory {
