@@ -12,7 +12,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.hodophilia.SEbackend.exception.OAuth2AuthenticationProcessingException;
+import com.hodophilia.SEbackend.exceptions.OAuth2AuthenticationProcessingException;
 import com.hodophilia.SEbackend.models.Provider;
 import com.hodophilia.SEbackend.models.User;
 import com.hodophilia.SEbackend.repository.UserRepository;

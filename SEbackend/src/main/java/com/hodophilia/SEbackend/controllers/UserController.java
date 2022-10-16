@@ -5,7 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hodophilia.SEbackend.exception.ResourceNotFoundException;
+import com.hodophilia.SEbackend.exceptions.ResourceNotFoundException;
 import com.hodophilia.SEbackend.models.User;
 import com.hodophilia.SEbackend.repository.UserRepository;
 import com.hodophilia.SEbackend.security.CurrentUser;

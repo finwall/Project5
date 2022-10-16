@@ -12,9 +12,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hodophilia.SEbackend.exception.BadRequestException;
-import com.hodophilia.SEbackend.exception.InternalServerException;
-import com.hodophilia.SEbackend.exception.ResourceNotFoundException;
+import com.hodophilia.SEbackend.exceptions.BadRequestException;
+import com.hodophilia.SEbackend.exceptions.InternalServerException;
+import com.hodophilia.SEbackend.exceptions.ResourceNotFoundException;
 import com.hodophilia.SEbackend.models.User;
 import com.hodophilia.SEbackend.repository.UserRepository;
 import com.hodophilia.SEbackend.security.TokenProvider;

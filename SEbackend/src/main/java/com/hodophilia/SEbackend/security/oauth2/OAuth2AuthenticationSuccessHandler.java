@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.hodophilia.SEbackend.config.AppProperties;
-import com.hodophilia.SEbackend.exception.BadRequestException;
+import com.hodophilia.SEbackend.exceptions.BadRequestException;
 import com.hodophilia.SEbackend.security.TokenProvider;
 import com.hodophilia.SEbackend.security.services.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.hodophilia.SEbackend.util.CookieUtils;
