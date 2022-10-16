@@ -1,30 +1,27 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import AuthService from '../services/auth';
+import { LoginContext } from "../contexts/loginContext";
+import * as SecurityQuestions from '../constants/securityQuestions';
+
 import './form-loginSignup.css';
-import AuthService from '../services/auth.service';
 
 export default function LoginSignupForm({ isSignup }) {
 
-    const [unameInput, setUnameInput] = useState("");
-    const [fnameInput, setFnameInput] = useState("");
-    const [lnameInput, setLnameInput] = useState("");
+    const context = useContext(LoginContext);
+
+    const [nameInput, setNameInput] = useState("");
     const [emailInput, setEmailInput] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
+    const [secQuestion1, setSecQuestion1] = useState("");
+    const [secQuestion2, setSecQuestion2] = useState("");
     const [errorMessages, setErrorMessages] = useState([]);
     const [successMsg, setSuccessMsg] = useState("");
 
     let navigate = useNavigate();
 
-    function handleUnameChange(e) {
-        setUnameInput(e.target.value);
-    }
-
-    function handleFnameChange(e) {
-        setFnameInput(e.target.value);
-    }
-
-    function handleLnameChange(e) {
-        setLnameInput(e.target.value);
+    function handleNameChange(e) {
+        setNameInput(e.target.value);
     }
 
     function handleEmailChange(e) {
@@ -34,11 +31,28 @@ export default function LoginSignupForm({ isSignup }) {
     function handlePasswordChange(e) {
         setPasswordInput(e.target.value);
     }
+    
+    function handleSQ1Change(e) {
+        setSecQuestion1(e.target.value);
+    }
+    
+    function handleSQ2Change(e) {
+        setSecQuestion2(e.target.value);
+    }
 
     function handleSubmitError(e) {
         let message = e.response.data?.message || "Unknown error.";
         let messages = message.split('\n');
         setErrorMessages([...messages]);
+    }
+
+    function forgotPassword(e) {
+        e.preventDefault();
+        navigate('/account-recovery', {
+            state: {
+                emailInput
+            }
+        });
     }
 
     function handleSubmit(e) {
@@ -48,10 +62,9 @@ export default function LoginSignupForm({ isSignup }) {
 
         if (isSignup) {
 
-            let signupPromise = AuthService.register(fnameInput, lnameInput, unameInput, emailInput, passwordInput)
+            let signupPromise = AuthService.register(nameInput, emailInput, passwordInput)
                 .then(() => {
-                    console.log(`${fnameInput} has successfully signed up with username: ${unameInput}.`)
-                    setSuccessMsg(`${fnameInput}, you have successfully signed up with username: ${unameInput}!`)
+                    setSuccessMsg(`${nameInput}, you have successfully signed up with email: ${emailInput}!`)
                 })
             signupPromise.catch(e => handleSubmitError(e))
             signupPromise.then(() => {
@@ -62,14 +75,15 @@ export default function LoginSignupForm({ isSignup }) {
         }
         else {
 
-            // AuthService.logout();
-
-            let loginPromise = AuthService.login(unameInput, emailInput, passwordInput)
-                .then(
-                    () => {
-                        console.log("Successfully logged in!");
-                        setSuccessMsg(`You have successfully logged in, ${unameInput}!`);
-                    })
+            let loginPromise = AuthService.login(emailInput, passwordInput)
+                .then((response) => {
+                        if (response.data?.accessToken) {
+                            context.login(null, emailInput, [], response.data.accessToken); // TODO: fill first field or remove it
+                            console.log("Successfully logged in!");
+                            setSuccessMsg(`You have successfully logged in, ${emailInput}!`);
+                        }
+                        else throw new Error("accessToken field not included in AuthService response.")
+                    });
             loginPromise.catch(e => handleSubmitError(e))
             loginPromise.then (() => {
                     setTimeout(() => {
@@ -79,18 +93,22 @@ export default function LoginSignupForm({ isSignup }) {
 
         }
 
-        console.log(`Recieved: \nUsername: ${unameInput}\nFirst name: ${fnameInput}\nLast name: ${lnameInput}\nEmail: ${emailInput}\nPassword: ${passwordInput}`);
     }
 
     // these fields are JSX expressions generated based on 
     // whether the user is accessing this form from the signup page
     let newAccountField = null;
     let nameFields = null;
+    let securityQuestions = null;
+    let forgotPasswordButton = null;
 
     // generates the additional JSX
     if (!isSignup) {
         newAccountField = (
             <p>Don't have an account? Click <Link to="../signup">Here</Link> to create a new account.</p>
+        );
+        forgotPasswordButton = (
+            <button onClick={forgotPassword}>Forgot password</button>
         )
     }
     else { // if this is the signup page
@@ -100,14 +118,23 @@ export default function LoginSignupForm({ isSignup }) {
         nameFields = (
             <div className="item">
                 <label>
-                    First Name
-                    <input type="text" name="fname" value={fnameInput} onChange={handleFnameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
-                </label>
-                <label>
-                    Last Name
-                    <input type="text" name="lname" value={lnameInput} onChange={handleLnameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
+                    Name
+                    <input type="text" name="name" value={nameInput} onChange={handleNameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
             </div>
+        );
+        securityQuestions = (
+            <>
+                <h2>Security Questions</h2>
+                <label>
+                    {SecurityQuestions.SECURITY_QUESTION_1}
+                    <input type="text" name="sq1" value={secQuestion1} onChange={handleSQ1Change} autoComplete={(isSignup) ? "new-password" : "off"} />
+                </label>
+                <label>
+                    {SecurityQuestions.SECURITY_QUESTION_2}
+                    <input type="text" name="sq2" value={secQuestion2} onChange={handleSQ2Change} autoComplete={(isSignup) ? "new-password" : "off"} />
+                </label>
+            </>
         );
     }
 
@@ -133,13 +160,11 @@ export default function LoginSignupForm({ isSignup }) {
                     <input type="email" pattern=".+@globex\.com" size="50" name="Email" value={emailInput} onChange={handleEmailChange} autoComplete={(isSignup) ? "new-password" : "off"} required />
                 </label>
                 <label>
-                    Username
-                    <input type="text" name="Username" value={unameInput} onChange={handleUnameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
-                </label>
-                <label>
                     Password
                     <input type="password" name="Password" value={passwordInput} onChange={handlePasswordChange} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
+                {securityQuestions}
+                {forgotPasswordButton}
                 <input type="submit" value="Submit" />
             </form>
             {newAccountField}

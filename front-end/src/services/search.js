@@ -34,7 +34,7 @@ class SearchService {
                 returnArray.push(new SearchResult(string, TEST_LOCATION, DefaultImage))
             }
             resolve(returnArray);
-        }) 
+        })
     }
 
 }
