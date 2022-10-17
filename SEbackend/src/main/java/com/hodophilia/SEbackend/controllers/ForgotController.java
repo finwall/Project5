@@ -13,9 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hodophilia.SEbackend.models.User;
@@ -30,6 +32,7 @@ import com.hodophilia.SEbackend.security.services.CustomUserDetailsService;
 import net.bytebuddy.utility.RandomString;
 
 @RestController
+@RequestMapping("/auth")
 public class ForgotController {
 	
 	@Autowired
@@ -41,6 +44,7 @@ public class ForgotController {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@CrossOrigin(origins = "*", allowedHeaders = { "Origin", "X-Requested-With", "Content-Type", "Accept" })
 	@PostMapping("/forgot_password")
     public ResponseEntity<?> processForgotPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) {
 		
@@ -50,7 +54,7 @@ public class ForgotController {
 		try {
 		customUserDetailsService.updateResetPasswordToken(token, email);
 		
-		String resetPasswordLink  = "http://localhost:3000/app/auth/reset_password?token=" +token;
+		String resetPasswordLink  = "http://localhost:3000/auth/reset_password?token=" +token;
 		sendEmail(email, resetPasswordLink);
 		} catch(UsernameNotFoundException ex) {
 			

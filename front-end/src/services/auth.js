@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/users/";
+const API_URL = "http://localhost:8080/auth/";
 
 class AuthService {
     login(email, password) {
@@ -8,17 +8,44 @@ class AuthService {
             .post(API_URL + "login", {
                 email,
                 password
-            })
-            .then(response => {
-                return response.data;
             });
     }
 
-    register(name, email, password, role = ["ROLE_USER"]) {
+    register(name, email, password, securityQuestion1, securityQuestion2, mfa) {
         return axios.post(API_URL + "signup", {
             name,
             email,
-            role,
+            password,
+            securityQuestion1,
+            securityQuestion2,
+            mfa
+        });
+    }
+    
+    verify(email, code) {
+        return axios.post(API_URL + "verify", {
+            email,
+            code
+        });
+    }
+    
+    forgotPasswordEmail(email) {
+        return axios.post(API_URL + "forgot_password", {
+            email
+        });
+    }
+
+    forgotPasswordSQs(email, securityQuestion1, securityQuestion2) {
+        return axios.post(API_URL + "reset_password", {
+            email,
+            securityQuestion1,
+            securityQuestion2
+        });
+    }
+    
+    resetPassword(token, password) {
+        return axios.post(API_URL + "reset_password", {
+            token,
             password
         });
     }

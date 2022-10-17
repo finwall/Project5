@@ -15,6 +15,7 @@ export default function LoginSignupForm({ isSignup }) {
     const [passwordInput, setPasswordInput] = useState("");
     const [secQuestion1, setSecQuestion1] = useState("");
     const [secQuestion2, setSecQuestion2] = useState("");
+    const [mfa, setMFA] = useState(false);
     const [errorMessages, setErrorMessages] = useState([]);
     const [successMsg, setSuccessMsg] = useState("");
 
@@ -39,6 +40,11 @@ export default function LoginSignupForm({ isSignup }) {
     function handleSQ2Change(e) {
         setSecQuestion2(e.target.value);
     }
+    
+    function handleMFAChange(e) {
+        console.log(e.target.checked);
+        setMFA(e.target.checked);
+    }
 
     function handleSubmitError(e) {
         let message = e.response.data?.message || "Unknown error.";
@@ -59,35 +65,59 @@ export default function LoginSignupForm({ isSignup }) {
         e.preventDefault();
         setSuccessMsg("");
         setErrorMessages([]);
+        
+        let redirectURL = '/';
+        let redirectOptions = {};
 
         if (isSignup) {
 
-            let signupPromise = AuthService.register(nameInput, emailInput, passwordInput)
-                .then(() => {
-                    setSuccessMsg(`${nameInput}, you have successfully signed up with email: ${emailInput}!`)
+            let signupPromise = AuthService.register(nameInput, emailInput, passwordInput, secQuestion1, secQuestion2, mfa)
+                .then((response) => {
+                    if (response.data?.mfa === true) {
+                        redirectURL = '/qrcode';
+                        redirectOptions = {
+                            state: {
+                                qrCode: response.data.secretImageUri
+                            }
+                        }
+                        setSuccessMsg(`${nameInput}, you are being redirected to 2FA sign up with email: ${emailInput}`)
+                    }
+                    else {
+                        setSuccessMsg(`${nameInput}, you have successfully signed up with email: ${emailInput}!`)
+                    }
+                    console.log(response)
                 })
             signupPromise.catch(e => handleSubmitError(e))
             signupPromise.then(() => {
                 setTimeout(() => {
-                    navigate('/');
+                    navigate(redirectURL, redirectOptions);
                 }, 2000)
             })
         }
-        else {
+        else { // if user is logging in
 
             let loginPromise = AuthService.login(emailInput, passwordInput)
                 .then((response) => {
-                        if (response.data?.accessToken) {
-                            context.login(null, emailInput, [], response.data.accessToken); // TODO: fill first field or remove it
-                            console.log("Successfully logged in!");
-                            setSuccessMsg(`You have successfully logged in, ${emailInput}!`);
+                    console.log(response);
+                    if (response.data?.message === "") { // the user has opted for 2fa
+                        redirectURL = '/verifylogin';
+                        redirectOptions = {
+                            state: {
+                                email: emailInput
+                            }
                         }
-                        else throw new Error("accessToken field not included in AuthService response.")
-                    });
+                    }
+                    else if (response.data?.accessToken) {
+                        context.login(null, emailInput, [], response.data.accessToken); // TODO: fill first field or remove it
+                        console.log("Successfully logged in!");
+                        setSuccessMsg(`You have successfully logged in, ${emailInput}!`);
+                    }
+                    else throw new Error("accessToken field not included in AuthService response.")
+                });
             loginPromise.catch(e => handleSubmitError(e))
             loginPromise.then (() => {
                     setTimeout(() => {
-                        navigate('/');
+                        navigate(redirectURL, redirectOptions);
                     }, 2000)
                 })
 
@@ -96,7 +126,7 @@ export default function LoginSignupForm({ isSignup }) {
     }
 
     // these fields are JSX expressions generated based on 
-    // whether the user is accessing this form from the signup page
+    // whether user is accessing this form from the signup page
     let newAccountField = null;
     let nameFields = null;
     let securityQuestions = null;
@@ -134,6 +164,10 @@ export default function LoginSignupForm({ isSignup }) {
                     {SecurityQuestions.SECURITY_QUESTION_2}
                     <input type="text" name="sq2" value={secQuestion2} onChange={handleSQ2Change} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
+                <label>
+                    Multifactor authentication
+                    <input type="checkbox" name="enableMFA" onChange={handleMFAChange} autoComplete="new-password" />
+                </label>
             </>
         );
     }
@@ -157,7 +191,7 @@ export default function LoginSignupForm({ isSignup }) {
                 {nameFields}
                 <label>
                     Email
-                    <input type="email" pattern=".+@globex\.com" size="50" name="Email" value={emailInput} onChange={handleEmailChange} autoComplete={(isSignup) ? "new-password" : "off"} required />
+                    <input type="email" size="50" name="Email" value={emailInput} onChange={handleEmailChange} autoComplete={(isSignup) ? "new-password" : "off"} required />
                 </label>
                 <label>
                     Password
