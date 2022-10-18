@@ -18,7 +18,7 @@ export default function VerifyLogin() {
     const [errorMsg, setErrorMsg] = useState(null);
     const [successMsg, setSuccessMsg] = useState(null);
     
-    const providedToken = searchParams.getAll('token');
+    const providedToken = searchParams.get('token');
     
     function handlePasswordInput(e) {
         setPassword(e.target.value);
@@ -31,6 +31,7 @@ export default function VerifyLogin() {
     function handleSubmit(e) {
         e.preventDefault();
         if (password === password2) {
+            // console.log("Sending: \ntoken: " + providedToken + "\npassword: " + password);
             auth.resetPassword(providedToken, password)
                 .then(response => {
                     console.log(response);
@@ -40,6 +41,7 @@ export default function VerifyLogin() {
                     }, REDIRECT_TIMEOUT)
                 })
                 .catch(e => {
+                    console.error(e);
                     setErrorMsg("Code is incorrect.");
                 })
                 

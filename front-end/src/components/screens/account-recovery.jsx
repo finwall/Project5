@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { React, useState } from 'react';
 
 import REDIRECT_TIMEOUT from '../../constants/redirect';
@@ -11,6 +11,9 @@ import './login.css';
 export default function AccountRecovery(props) {
     
     const location = useLocation(); // use this to pull email variable from previous route
+    const navigate = useNavigate();
+
+    const navigateTo = '/auth/reset_password';
 
     const [useSecurityQuestions, setSQUse] = useState(props.useSQ || false);
     const [emailValue, setEmailValue] = useState(location.state?.emailInput || "");
@@ -35,14 +38,14 @@ export default function AccountRecovery(props) {
             auth.forgotPasswordSQs(emailValue, sq1Value, sq2Value)
                 .then((response) => {
                     console.log(response);
-                    setSuccessResponse(response.message);
+                    setSuccessResponse("Security questions correct! Redirecting...");
                     setTimeout(() => {
-
+                        navigate(`${navigateTo}?token=${response.data.message}`);
                     }, REDIRECT_TIMEOUT);
                 })
                 .catch((e) => {
                     console.error(e);
-                    setErrorResponses([...errorResponses, e.message]);
+                    setErrorResponses([...errorResponses, e.response?.data?.message || e.message]);
                 })
         }
 
@@ -53,7 +56,7 @@ export default function AccountRecovery(props) {
                 })
                 .catch((e) => {
                     console.error(e);
-                    setErrorResponses([...errorResponses, e.message]);
+                    setErrorResponses([...errorResponses, e.response?.data?.message || e.message]);
                 })
         }
     }
