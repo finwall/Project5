@@ -1,19 +1,16 @@
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 
+import REDIRECT_TIMEOUT from '../../constants/redirect';
 import auth from '../../services/auth';
 
 import './index.css';
 
 export default function VerifyLogin() {
 
-    const redirectTime = 2000; // 2 seconds before redirect
     const redirectTo = '/login';
 
-    const location = useLocation();
     const navigate = useNavigate();
-
-    // const context = useContext(LoginContext);
     
     const [searchParams, setSearchParams] = useSearchParams();
     const [password, setPassword] = useState("");
@@ -40,7 +37,7 @@ export default function VerifyLogin() {
                     setSuccessMsg(`You have successfully changed passwords!`);
                     setTimeout(() => {
                         navigate(redirectTo);
-                    }, redirectTime)
+                    }, REDIRECT_TIMEOUT)
                 })
                 .catch(e => {
                     setErrorMsg("Code is incorrect.");
@@ -52,35 +49,42 @@ export default function VerifyLogin() {
         }
     }
 
+    function createFormTemplate(children) {
+        return (
+            <div id="loginWrapper">
+                <h1>Reset Password</h1>
+                <form className='login-signup' onSubmit={handleSubmit}>
+                    {children}
+                </form>
+            </div>
+        )
+    }
+
     return (
-        <div className='container'>
-            <h1>Reset password</h1>
-            <form className='login-signup' onSubmit={handleSubmit}>
-                {
-                    errorMsg && (
-                        <p className='errorMsg'>{errorMsg}</p>
-                    )
-                }
-                {
-                    successMsg && (
-                        <p>{successMsg}</p>
-                    )
-                }
-                {
-                    errorMsg && (
-                        <p>{errorMsg}</p>
-                    )
-                }
-                <label>
-                    Enter new password
-                    <input type="password" name="newPassword" value={password} onChange={handlePasswordInput}></input>
-                </label>
-                <label>
-                    Re-enter new password
-                    <input type="password" name="newPassword" value={password2} onChange={handlePasswordConfirmInput}></input>
-                </label>
-                <input type="submit" value="Submit"></input>
-            </form>
-        </div>
+        createFormTemplate(
+            (
+                <>
+                    {
+                        errorMsg && (
+                            <p className='errorMsg'>{errorMsg}</p>
+                        )
+                    }
+                    {
+                        successMsg && (
+                            <p>{successMsg}</p>
+                        )
+                    }
+                    <label>
+                        Enter new password
+                        <input type="password" name="newPassword" value={password} onChange={handlePasswordInput}></input>
+                    </label>
+                    <label>
+                        Re-enter new password
+                        <input type="password" name="newPassword" value={password2} onChange={handlePasswordConfirmInput}></input>
+                    </label>
+                    <input type="submit" value="Submit"></input>
+                </>
+            )
+        )
     )
 }

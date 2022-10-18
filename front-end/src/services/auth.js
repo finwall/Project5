@@ -36,7 +36,7 @@ class AuthService {
     }
 
     forgotPasswordSQs(email, securityQuestion1, securityQuestion2) {
-        return axios.post(API_URL + "reset_password", {
+        return axios.post(API_URL + "forgot_password_questions", {
             email,
             securityQuestion1,
             securityQuestion2

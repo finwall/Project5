@@ -2,13 +2,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useContext } from 'react';
 import { LoginContext } from '../../contexts/loginContext';
 
+import REDIRECT_TIMEOUT from '../../constants/redirect';
 import auth from '../../services/auth';
 
 import './index.css';
 
 export default function VerifyLogin() {
 
-    const redirectTime = 2000; // 2 seconds before redirect
     const redirectTo = '/'; // 2 seconds before redirect
 
     const location = useLocation();
@@ -33,7 +33,7 @@ export default function VerifyLogin() {
                 setSuccessMsg(`User ${providedEmail} has successfully logged in!`);
                 setTimeout(() => {
                     navigate(redirectTo);
-                }, redirectTime)
+                }, REDIRECT_TIMEOUT)
             })
             .catch(e => {
                 setErrorMsg("Code is incorrect.");

@@ -9,9 +9,9 @@ export default function Search(props) {
     const [searchParams, setSearchParams] = useSearchParams();
 
     return (
-        <>
+        <div className='container'>
             <h1>This is the search page.</h1>
             <SearchForm>{searchParams.getAll('search')}</SearchForm>
-        </>
+        </div>
     )
 }

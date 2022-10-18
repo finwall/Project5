@@ -1,5 +1,8 @@
 .container {
     margin: 0 3vw;
+    /* flex-direction: column; */
+    /* justify-content: center; */
+    /* text-align: center; */
 }
 
 .homepage-search {

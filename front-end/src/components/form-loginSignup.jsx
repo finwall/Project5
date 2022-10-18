@@ -1,8 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
+
 import AuthService from '../services/auth';
 import { LoginContext } from "../contexts/loginContext";
 import * as SecurityQuestions from '../constants/securityQuestions';
+import REDIRECT_TIMEOUT from "../constants/redirect";
 
 import './form-loginSignup.css';
 
@@ -91,7 +93,7 @@ export default function LoginSignupForm({ isSignup }) {
             signupPromise.then(() => {
                 setTimeout(() => {
                     navigate(redirectURL, redirectOptions);
-                }, 2000)
+                }, REDIRECT_TIMEOUT)
             })
         }
         else { // if user is logging in
@@ -118,7 +120,7 @@ export default function LoginSignupForm({ isSignup }) {
             loginPromise.then (() => {
                     setTimeout(() => {
                         navigate(redirectURL, redirectOptions);
-                    }, 2000)
+                    }, REDIRECT_TIMEOUT)
                 })
 
         }
