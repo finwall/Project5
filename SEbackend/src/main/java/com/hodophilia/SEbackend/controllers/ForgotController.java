@@ -98,6 +98,7 @@ public class ForgotController {
 		return "";
     }
 	
+	@CrossOrigin(origins = "*", allowedHeaders = { "Origin", "X-Requested-With", "Content-Type", "Accept" })
 	@PostMapping("/reset_password")
     public ResponseEntity<?> processResetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest) {
 		
@@ -120,7 +121,7 @@ public class ForgotController {
 				.body(new MessageResponse("Password updated successfully"));
     }
 	
-	
+	@CrossOrigin(origins = "*", allowedHeaders = { "Origin", "X-Requested-With", "Content-Type", "Accept" })
 	@PostMapping("/forgot_password_questions")
     public ResponseEntity<?> processForgotPasswordWithSecurityQuestions(@Valid @RequestBody PasswordSecurityQuestionsRequest passwordSecurityQuestionRequest) {
 		
@@ -160,6 +161,7 @@ public class ForgotController {
 	
 	}
 	
+	@CrossOrigin(origins = "*", allowedHeaders = { "Origin", "X-Requested-With", "Content-Type", "Accept" })
 	@PostMapping("/reset_password_questions")
     public ResponseEntity<?> processResetPasswordWithSecurityQuestions(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest) {
 		
