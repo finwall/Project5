@@ -14,7 +14,7 @@ export default function LoginSignupForm({ isSignup }) {
     const context = useContext(LoginContext);
     
     const ref = useRef(null);
-    const executeScroll = () => ref.current?.scrollIntoView();
+    const executeScroll = () => ref.current?.scrollIntoView({behavior: 'smooth'});
     useEffect(() => { 
         if (!isSignup) executeScroll()
     }, []);
