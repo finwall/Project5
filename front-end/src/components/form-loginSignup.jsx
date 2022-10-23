@@ -18,7 +18,7 @@ export default function LoginSignupForm({ isSignup }) {
     const executeScroll = () => ref.current?.scrollIntoView({behavior: 'smooth'});
     useEffect(() => { 
         if (!isSignup) executeScroll()
-    }, []);
+    }, [isSignup]);
     
     const [nameInput, setNameInput] = useState("");
     const [emailInput, setEmailInput] = useState("");

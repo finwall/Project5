@@ -14,7 +14,7 @@ export default function VerifyLogin() {
 
     const navigate = useNavigate();
     
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
     const [errorMsg, setErrorMsg] = useState(null);

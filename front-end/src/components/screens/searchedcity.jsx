@@ -1,11 +1,11 @@
 import {useState} from "react"
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import CityService from "../../services/city"
 
 import PageWrapper from "./wrappers/wrapper-regularPage";
 
 export default function SearchedCity () {
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams ] = useSearchParams();
     const [cityIsCorrect, setCityIsCorrect] = useState(undefined);
     function verifyCity(){
         let name = searchParams.getAll("city")

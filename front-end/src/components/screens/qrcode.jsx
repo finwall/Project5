@@ -10,7 +10,7 @@ export default function QRCode() {
     let navigateLocation = '/login';
 
     const location = useLocation();
-    const [image, setImage] = useState(location.state?.qrCode || "");
+    const [image] = useState(location.state?.qrCode || "");
 
     function handleReturn(e) {
         e.preventDefault();
