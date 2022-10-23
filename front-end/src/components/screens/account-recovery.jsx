@@ -5,7 +5,8 @@ import REDIRECT_TIMEOUT from '../../constants/redirect';
 import * as SecurityQuestions from '../../constants/securityQuestions'
 import auth from '../../services/auth';
 
-import './login.css';
+import LoginCSS from './css/login.module.css';
+import LoginFormCSS from '../css/form-loginSignup.module.css';
 
 
 export default function AccountRecovery(props) {
@@ -63,9 +64,9 @@ export default function AccountRecovery(props) {
 
     function createFormTemplate(children) {
         return (
-            <div id="loginWrapper">
+            <div id={LoginCSS["loginWrapper"]}>
                 <h1>Account Recovery</h1>
-                <form className='login-signup' onSubmit={handleSubmit}>
+                <form className={LoginFormCSS['login-signup']} onSubmit={handleSubmit}>
                     {children}
                 </form>
             </div>
@@ -86,7 +87,7 @@ export default function AccountRecovery(props) {
                 {
                     errorResponses.map((error, index) => {
                         return (
-                            <p key={index} className='errorMsg'>
+                            <p key={index} className={LoginFormCSS['errorMsg']}>
                                 {error}
                             </p>
                         )

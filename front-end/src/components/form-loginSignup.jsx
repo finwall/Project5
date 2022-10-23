@@ -6,7 +6,7 @@ import { LoginContext } from "../contexts/loginContext";
 import * as SecurityQuestions from '../constants/securityQuestions';
 import REDIRECT_TIMEOUT from "../constants/redirect";
 
-import './form-loginSignup.css';
+import Styles from './css/form-loginSignup.module.css';
 
 export default function LoginSignupForm({ isSignup }) {
 
@@ -148,7 +148,7 @@ export default function LoginSignupForm({ isSignup }) {
             <p>Already have an account? Click <Link to="../login">Here</Link> to sign in.</p>
         );
         nameFields = (
-            <div className="item">
+            <div className={Styles["item"]}>
                 <label>
                     Name
                     <input type="text" name="name" value={nameInput} onChange={handleNameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
@@ -176,15 +176,15 @@ export default function LoginSignupForm({ isSignup }) {
 
     return (
         <>
-            <form className="login-signup" onSubmit={handleSubmit}>
+            <form className={Styles["login-signup"]} onSubmit={handleSubmit}>
                 {(successMsg) && (
-                    <p className="successMsg">{successMsg}</p>
+                    <p className={Styles["successMsg"]}>{successMsg}</p>
                 )}
                 {errorMessages.map((msg, index) => {
                     return (
                         <p
                             key={`ErrorNo-${index.toString()}`}
-                            className="errorMsg"
+                            className={Styles["errorMsg"]}
                         >
                             {msg}
                         </p>

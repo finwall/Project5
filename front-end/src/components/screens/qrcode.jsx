@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-import './index.css';
+import IndexCSS from './css/index.module.css';
 
 export default function QRCode() {
 
@@ -17,7 +17,7 @@ export default function QRCode() {
     }
 
     return (
-        <div className='container'>
+        <div className={IndexCSS.container}>
             <h1>QR Code</h1>
             <img src={image} alt="QR Code"></img>
             <br></br>

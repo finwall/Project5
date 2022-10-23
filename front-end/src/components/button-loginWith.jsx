@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import './button-loginWith.css';
+import Styles from './css/button-loginWith.module.css';
 
 // testing a branch
 // <a th:href="/@{/oauth2/authorization/google}">Login with Google</a>
@@ -24,7 +24,7 @@ function LoginWith(props) {
     const buttonRef = useRef();
 
     return (
-        <div className="loginButtonWrapper">
+        <div className={Styles.loginButtonWrapper}>
             <button ref={buttonRef} onClick={onClick}>
                 <a href={props.href}>
                     <table>

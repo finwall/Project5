@@ -4,7 +4,9 @@ import { useState } from 'react';
 import REDIRECT_TIMEOUT from '../../constants/redirect';
 import auth from '../../services/auth';
 
-import './index.css';
+import IndexCSS from './css/index.module.css';
+import LoginCSS from './css/login.module.css';
+import LoginFormCSS from '../css/form-loginSignup.module.css';
 
 export default function VerifyLogin() {
 
@@ -53,9 +55,9 @@ export default function VerifyLogin() {
 
     function createFormTemplate(children) {
         return (
-            <div id="loginWrapper">
+            <div id={LoginCSS["loginWrapper"]}>
                 <h1>Reset Password</h1>
-                <form className='login-signup' onSubmit={handleSubmit}>
+                <form className={LoginFormCSS['login-signup']} onSubmit={handleSubmit}>
                     {children}
                 </form>
             </div>
@@ -68,7 +70,7 @@ export default function VerifyLogin() {
                 <>
                     {
                         errorMsg && (
-                            <p className='errorMsg'>{errorMsg}</p>
+                            <p className={LoginFormCSS['errorMsg']}>{errorMsg}</p>
                         )
                     }
                     {
