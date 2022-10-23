@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 
 import AuthService from '../services/auth';
 import { LoginContext } from "../contexts/loginContext";
@@ -7,11 +7,18 @@ import * as SecurityQuestions from '../constants/securityQuestions';
 import REDIRECT_TIMEOUT from "../constants/redirect";
 
 import Styles from './css/form-loginSignup.module.css';
+import { useEffect } from "react";
 
 export default function LoginSignupForm({ isSignup }) {
 
     const context = useContext(LoginContext);
-
+    
+    const ref = useRef(null);
+    const executeScroll = () => ref.current?.scrollIntoView();
+    useEffect(() => { 
+        if (!isSignup) executeScroll()
+    }, []);
+    
     const [nameInput, setNameInput] = useState("");
     const [emailInput, setEmailInput] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
@@ -148,12 +155,10 @@ export default function LoginSignupForm({ isSignup }) {
             <p>Already have an account? Click <Link to="../login">Here</Link> to sign in.</p>
         );
         nameFields = (
-            <div className={Styles["item"]}>
-                <label>
-                    Name
-                    <input type="text" name="name" value={nameInput} onChange={handleNameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
-                </label>
-            </div>
+            <label>
+                Name
+                <input type="text" name="name" value={nameInput} onChange={handleNameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
+            </label>
         );
         securityQuestions = (
             <>
@@ -176,6 +181,7 @@ export default function LoginSignupForm({ isSignup }) {
 
     return (
         <>
+            <div ref={ref} style={{width: 0, height: 0, padding: 0, margin: 0}}></div>
             <form className={Styles["login-signup"]} onSubmit={handleSubmit}>
                 {(successMsg) && (
                     <p className={Styles["successMsg"]}>{successMsg}</p>
