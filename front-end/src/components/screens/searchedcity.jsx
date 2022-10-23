@@ -1,7 +1,8 @@
+import {useState} from "react"
 import { useLocation, useSearchParams } from "react-router-dom";
 import CityService from "../../services/city"
-import {useState} from "react"
 
+import PageWrapper from "./wrappers/wrapper-regularPage";
 
 export default function SearchedCity () {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -20,12 +21,12 @@ export default function SearchedCity () {
     }
     verifyCity()
     if (cityIsCorrect === undefined) return (
-            <div>
+            <PageWrapper>
                 <h1>Searching... </h1>
-            </div>
+            </PageWrapper>
         )
     else if (cityIsCorrect === true) return (
-            <div>
+            <PageWrapper>
                 <h1>Explore {searchParams.getAll("city")}</h1>
                 <div className="flex-container" style={{flexDirection: "row", alignItems: 'center', justifyContent: 'space-evenly', display: 'flex'}}>
                     <div className="flex-item" style={{backgroundColor: 'white', borderRadius: '10%', padding: '1%'}}>Travel Advice</div>
@@ -36,13 +37,13 @@ export default function SearchedCity () {
                     <div className="flex-item" style={{backgroundColor: 'white', borderRadius: '10%', padding: '1%'}}>Travel Forum</div>
                     <div className="flex-item" style={{backgroundColor: 'white', borderRadius: '10%', padding: '1%'}}>More</div>
                 </div>
-            </div>
+            </PageWrapper>
 
         )
     else return (
-             <div>
+             <PageWrapper>
                 <h1>City not found </h1>
-             </div>
+             </PageWrapper>
 
         )
 }

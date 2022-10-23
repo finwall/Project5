@@ -1,9 +1,8 @@
 import { useState } from 'react';
+
+import PageWrapper from './wrappers/wrapper-formPage.jsx';
 import LoginWith from '../button-loginWith.jsx';
 import InputForm from '../form-loginSignup.jsx';
-import LoginCSS from './css/login.module.css'
-
-// Adding a comment to continue test
 
 export default function Login() {
 
@@ -25,13 +24,13 @@ export default function Login() {
     }
 
     return (
-        <div id={LoginCSS['loginWrapper']}>
+        <PageWrapper>
             <h1>Login</h1>
             <a href="http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect"><LoginWith>Google</LoginWith></a>
             <LoginWith>Facebook</LoginWith>
             <LoginWith onClick={displayEmailLogin}>Email</LoginWith>
             {emailLoginForm}
-        </div>
+        </PageWrapper>
     );
 }
 

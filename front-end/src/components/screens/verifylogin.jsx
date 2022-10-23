@@ -5,7 +5,8 @@ import { LoginContext } from '../../contexts/loginContext';
 import REDIRECT_TIMEOUT from '../../constants/redirect';
 import auth from '../../services/auth';
 
-import IndexCSS from './css/index.module.css';
+import PageWrapper from './wrappers/wrapper-formPage';
+
 import FormCSS from '../css/form-loginSignup.module.css';
 
 export default function VerifyLogin() {
@@ -42,7 +43,7 @@ export default function VerifyLogin() {
     }
 
     return (
-        <div className={IndexCSS.container}>
+        <PageWrapper>
             <h1>Verify Login</h1>
             <form className={FormCSS['login-signup']} onSubmit={handleSubmit}>
                 {
@@ -61,6 +62,6 @@ export default function VerifyLogin() {
                 </label>
                 <input type="submit" value="Submit"></input>
             </form>
-        </div>
+        </PageWrapper>
     )
 }

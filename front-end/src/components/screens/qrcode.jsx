@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-import IndexCSS from './css/index.module.css';
+import PageWrapper from './wrappers/wrapper-formPage';
 
 export default function QRCode() {
 
@@ -17,11 +17,11 @@ export default function QRCode() {
     }
 
     return (
-        <div className={IndexCSS.container}>
+        <PageWrapper>
             <h1>QR Code</h1>
             <img src={image} alt="QR Code"></img>
             <br></br>
             <button onClick={handleReturn}>Return to {navigateLocation.substring(1)}</button>
-        </div>
+        </PageWrapper>
     )
 }

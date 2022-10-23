@@ -1,11 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { React, useState } from 'react';
 
+import PageWrapper from './wrappers/wrapper-formPage';
 import REDIRECT_TIMEOUT from '../../constants/redirect';
 import * as SecurityQuestions from '../../constants/securityQuestions'
 import auth from '../../services/auth';
 
-import LoginCSS from './css/login.module.css';
 import LoginFormCSS from '../css/form-loginSignup.module.css';
 
 
@@ -64,12 +64,12 @@ export default function AccountRecovery(props) {
 
     function createFormTemplate(children) {
         return (
-            <div id={LoginCSS["loginWrapper"]}>
+            <PageWrapper>
                 <h1>Account Recovery</h1>
                 <form className={LoginFormCSS['login-signup']} onSubmit={handleSubmit}>
                     {children}
                 </form>
-            </div>
+            </PageWrapper>
         )
     }
 
