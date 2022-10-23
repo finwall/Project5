@@ -5,6 +5,7 @@ import AuthService from '../services/auth';
 import { LoginContext } from "../contexts/loginContext";
 import * as SecurityQuestions from '../constants/securityQuestions';
 import REDIRECT_TIMEOUT from "../constants/redirect";
+import placeholderText from "../constants/formPlaceholder";
 
 import Styles from './css/form-loginSignup.module.css';
 import { useEffect } from "react";
@@ -157,7 +158,7 @@ export default function LoginSignupForm({ isSignup }) {
         nameFields = (
             <label>
                 Name
-                <input type="text" name="name" value={nameInput} onChange={handleNameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
+                <input type="text" name="name" placeholder={placeholderText("name")} value={nameInput} onChange={handleNameChange} autoComplete={(isSignup) ? "new-password" : "off"} />
             </label>
         );
         securityQuestions = (
@@ -165,11 +166,11 @@ export default function LoginSignupForm({ isSignup }) {
                 <h2>Security Questions</h2>
                 <label>
                     {SecurityQuestions.SECURITY_QUESTION_1}
-                    <input type="text" name="sq1" value={secQuestion1} onChange={handleSQ1Change} autoComplete={(isSignup) ? "new-password" : "off"} />
+                    <input type="text" name="sq1" placeholder={placeholderText("security question 1")} value={secQuestion1} onChange={handleSQ1Change} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
                 <label>
                     {SecurityQuestions.SECURITY_QUESTION_2}
-                    <input type="text" name="sq2" value={secQuestion2} onChange={handleSQ2Change} autoComplete={(isSignup) ? "new-password" : "off"} />
+                    <input type="text" name="sq2" placeholder={placeholderText("security question 2")} value={secQuestion2} onChange={handleSQ2Change} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
                 <label>
                     Multifactor authentication
@@ -196,14 +197,18 @@ export default function LoginSignupForm({ isSignup }) {
                         </p>
                     )
                 })}
+                {(
+                    isSignup &&
+                    <h2>General</h2>
+                )}
                 {nameFields}
                 <label>
                     Email
-                    <input type="email" size="50" name="Email" value={emailInput} onChange={handleEmailChange} autoComplete={(isSignup) ? "new-password" : "off"} required />
+                    <input type="email" size="50" name="Email" placeholder={placeholderText("email")} value={emailInput} onChange={handleEmailChange} autoComplete={(isSignup) ? "new-password" : "off"} required />
                 </label>
                 <label>
                     Password
-                    <input type="password" name="Password" value={passwordInput} onChange={handlePasswordChange} autoComplete={(isSignup) ? "new-password" : "off"} />
+                    <input type="password" name="Password" placeholder={placeholderText("password")} value={passwordInput} onChange={handlePasswordChange} autoComplete={(isSignup) ? "new-password" : "off"} />
                 </label>
                 {securityQuestions}
                 {forgotPasswordButton}

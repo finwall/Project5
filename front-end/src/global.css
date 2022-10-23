@@ -27,17 +27,17 @@ sans-serif;
 :root {
     /* Feel free to change these, but please don't stray too far */
     /* Please use CSS filter() if you need to deviate from the palette */
-    --mainColor1: #6883CC;
-    --mainColor2: #204199;
-    --mainColor3: #9CECFF;
-    --mainColor4: #FFE7DB;
-    --mainColor5: #CC7B68;
+    --mainColor1: 224, 50%, 60%; /* hsl(224, 50%, 60%); */
+    --mainColor2: 224, 65%, 36%; /* hsl(224, 65%, 36%); */
+    --mainColor3: 192, 100%, 81%; /* hsl(192, 100%, 81%); */
+    --mainColor4: 20, 100%, 93%; /* hsl(20, 100%, 93%); */
+    --mainColor5: 11, 50%, 60%; /* hsl(11, 50%, 60%); */
 }
 
 body,
 html {
-    background-color: var(--mainColor4);
-    color: var(--mainColor2);
+    background-color: hsla(var(--mainColor4), 1);
+    color: hsla(var(--mainColor2), 1);
     font-family: 'Rubik', 'Nunito', Verdana, Geneva, Tahoma, sans-serif;
     font-weight: 600;
     /* We'll set non-header text first */

@@ -2,6 +2,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 
 import REDIRECT_TIMEOUT from '../../constants/redirect';
+import placeholderText from '../../constants/formPlaceholder';
 import auth from '../../services/auth';
 import PageWrapper from './wrappers/wrapper-formPage';
 
@@ -79,11 +80,11 @@ export default function VerifyLogin() {
                     }
                     <label>
                         Enter new password
-                        <input type="password" name="newPassword" value={password} onChange={handlePasswordInput}></input>
+                        <input type="password" name="newPassword" placeholder={placeholderText("password")} value={password} onChange={handlePasswordInput}></input>
                     </label>
                     <label>
                         Re-enter new password
-                        <input type="password" name="newPassword" value={password2} onChange={handlePasswordConfirmInput}></input>
+                        <input type="password" name="newPassword" placeholder={placeholderText("password again")} value={password2} onChange={handlePasswordConfirmInput}></input>
                     </label>
                     <input type="submit" value="Submit"></input>
                 </>

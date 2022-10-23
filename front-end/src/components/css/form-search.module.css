@@ -14,9 +14,9 @@
     box-sizing: border-box;
     width: 100%;
     padding: 1rem .5rem;
-    border: var(--mainColor2) solid 4px;
+    border: hsla(var(--mainColor2), 1) solid 4px;
     border-radius: 1rem;
-    background-color: var(--mainColor3);
+    background-color: hsla(var(--mainColor1), .5);
     display: flex;
     justify-content: space-evenly;
     flex-direction: row;
@@ -30,7 +30,7 @@
 }
 
 .homepage-search-bar .homepage-search-bar-flex input {
-    color: var(--mainColor2);
+    color: hsla(var(--mainColor2), 1);
     flex-grow: 4;
     font-size: 2em;
     background-color: #0000;
@@ -52,8 +52,8 @@
 
 .homepage-search-bar .homepage-search-bar-flex a, .homepage-search-bar .homepage-search-bar-flex button {
     text-decoration: none;
-    color: var(--mainColor2);
-    background-color: inherit;
+    color: hsla(var(--mainColor2), 1);
+    background-color: transparent;
     border: none;
     margin: 0;
     padding: 0;
@@ -62,10 +62,10 @@
 
 .searchResults {
 
-    --sR-Border: var(--mainColor2) solid 3px;
+    --sR-Border: hsla(var(--mainColor2), 1) solid 3px;
 
     list-style: none;
-    background-color: var(--mainColor1);
+    background-color: hsla(var(--mainColor1), 1);
     margin: 0 calc(var(--shrinkWidth) + 2vw);
     padding: 0 1.25em;
     overflow: hidden;
@@ -96,7 +96,7 @@
 
 .searchResults li, .searchResults li a {
     width: 100%;
-    /* color: var(--mainColor2) */
+    /* color: hsla(var(--mainColor2), 1) */
     color: white;
 }
 
@@ -111,7 +111,7 @@
     height: var(--size);
     width: var(--size);
     flex-shrink: 0;
-    border: var(--mainColor3) solid 4px;
+    border: hsla(var(--mainColor3), 1) solid 4px;
     border-radius: 100%;
     overflow: hidden;
     position: relative;
@@ -130,7 +130,7 @@
     padding: 1em 0;
     margin: 0 1em;
     width: 100%;
-    border-bottom: var(--mainColor3) solid 2px;
+    border-bottom: hsla(var(--mainColor3), .6) solid 2px;
 }
 
 .searchResults li:last-child .textContainer {
@@ -148,7 +148,7 @@
 }
 
 .searchResults .textContainer .textContainer-location {
-    color: var(--mainColor3);
+    color: hsla(var(--mainColor3), 1);
     font-size: .9em;
     font-style: italic;
 }

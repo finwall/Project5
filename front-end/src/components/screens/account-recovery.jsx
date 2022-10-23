@@ -3,6 +3,7 @@ import { React, useState } from 'react';
 
 import PageWrapper from './wrappers/wrapper-formPage';
 import REDIRECT_TIMEOUT from '../../constants/redirect';
+import placeholderText from '../../constants/formPlaceholder';
 import * as SecurityQuestions from '../../constants/securityQuestions'
 import auth from '../../services/auth';
 
@@ -105,26 +106,26 @@ export default function AccountRecovery(props) {
                     <>
                         <label>
                             Email
-                                <input type="email" name="email" onChange={(e) => setEmailValue(e.target.value)} value={emailValue}></input>
+                                <input type="email" name="email" placeholder={placeholderText("email")} onChange={(e) => setEmailValue(e.target.value)} value={emailValue}></input>
                         </label>
                         <label>
                             {SecurityQuestions.SECURITY_QUESTION_1}
-                            <input type="text" name="sq1" value={sq1Value} onChange={(e) => setSQ1Value(e.target.value)}></input>
+                            <input type="text" name="sq1" placeholder={placeholderText("security question 1")} value={sq1Value} onChange={(e) => setSQ1Value(e.target.value)}></input>
                         </label>
                         <label>
                             {SecurityQuestions.SECURITY_QUESTION_2}
-                            <input type="text" name="sq2" value={sq2Value} onChange={(e) => setSQ2Value(e.target.value)}></input>
+                            <input type="text" name="sq2" placeholder={placeholderText("security question 2")} value={sq2Value} onChange={(e) => setSQ2Value(e.target.value)}></input>
                         </label>
                     </>
                 ) : (
                     <label>
                         Email
-                            <input type="email" name="email" onChange={(e) => setEmailValue(e.target.value)} value={emailValue}></input>
+                            <input type="email" name="email" placeholder={placeholderText("email")} onChange={(e) => setEmailValue(e.target.value)} value={emailValue}></input>
                     </label>
                 )
             }
             <button onClick={handleInputSwitch}>Use {messages[+(!useSecurityQuestions)]}</button>
-            <input type="submit" value={useSecurityQuestions ? "verify and reset" : "send email"}></input>
+            <input type="submit" value={useSecurityQuestions ? "Verify and reset" : "Send email"}></input>
         </>
     )
 

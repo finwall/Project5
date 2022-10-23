@@ -1,6 +1,6 @@
 .nav {
-    background-color: var(--mainColor2);
-    color: var(--mainColor4);
+    background-color: hsla(var(--mainColor2), 1);
+    color: hsla(var(--mainColor4), 1);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -13,7 +13,7 @@
 }
 
 .nav * {
-    color: var(--mainColor4);
+    color: hsla(var(--mainColor4), 1);
     margin: 0;
 }
 
@@ -33,5 +33,5 @@
 }
 
 .nav ul li a:hover {
-    background-color: var(--mainColor5);
+    background-color: hsla(var(--mainColor5), 1);
 }

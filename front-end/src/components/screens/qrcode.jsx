@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 import PageWrapper from './wrappers/wrapper-formPage';
+import FormStyles from '../css/form-loginSignup.module.css';
 
 export default function QRCode() {
 
@@ -21,7 +22,7 @@ export default function QRCode() {
             <h1>QR Code</h1>
             <img src={image} alt="QR Code"></img>
             <br></br>
-            <button onClick={handleReturn}>Return to {navigateLocation.substring(1)}</button>
+            <button className={FormStyles['formButton']} onClick={handleReturn}>Return to {navigateLocation.substring(1)}</button>
         </PageWrapper>
     )
 }
