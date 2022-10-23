@@ -55,4 +55,9 @@
 
 .loginButtonWrapper button table tr td.image {
     height: 100%;
+    width: 8%;
+}
+
+.loginButtonWrapper button table tr td.image img {
+    width: 100%;
 }

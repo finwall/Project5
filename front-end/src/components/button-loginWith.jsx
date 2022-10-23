@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import Styles from './css/button-loginWith.module.css';
 
@@ -16,30 +17,31 @@ function LoginWith(props) {
     // handles props
     const innerHTML = props.children ? "Continue with " + props.children : "";
 
-    // const href = props.href;
-    const onClick = props.onClick;
-    // const icon = props.icon || '../assets/icons/notfound.svg';
+    const href = props.href || null;
+    const onClick = props.onClick || function() {};
     const icon = props.icon;
 
-    const buttonRef = useRef();
+    function buttonClick(e) {
+        e.preventDefault();
+        onClick();
+        if (href !== null) window.location.href = href;
+    }
 
     return (
         <div className={Styles.loginButtonWrapper}>
-            <button ref={buttonRef} onClick={onClick}>
-                <a href={props.href}>
-                    <table>
-                        <tr>
-                            <td className='image'> { /* Icon image */}
-                                {
-                                    icon ? <img src={icon} alt='Not found' /> : <QuestionCircleOutlined />
-                                }
-                            </td>
-                            <td> { /* Authentication system name */}
-                                {innerHTML}
-                            </td>
-                        </tr>
-                    </table>
-                </a>
+            <button onClick={buttonClick}>
+                <table>
+                    <tr>
+                        <td className={Styles['image']}> { /* Icon image */}
+                            {
+                                icon ? <img src={icon} alt='Not found' /> : <QuestionCircleOutlined />
+                            }
+                        </td>
+                        <td> { /* Authentication system name */}
+                            {innerHTML}
+                        </td>
+                    </tr>
+                </table>
             </button>
         </div>
     )
