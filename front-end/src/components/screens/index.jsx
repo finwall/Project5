@@ -1,14 +1,11 @@
-import { Link } from 'react-router-dom';
-
-import HodophiliaLogo from '../hodophiliaLogo';
+import PageWrapper from './wrappers/wrapper-regularPage';
 import Search from '../form-search.jsx';
-import './index.css';
 
 export default function Index() {
 
     return (
-        <div className='container'>
+        <PageWrapper>
             <Search />
-        </div>
+        </PageWrapper>
     )
 }

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { SearchOutlined, RightSquareOutlined, RightSquareFilled } from '@ant-design/icons';
 import SearchService from '../services/search';
 
-import './form-search.css'
+import Styles from './css/form-search.module.css'
 
 export default function SearchForm(props) {
 
@@ -75,20 +75,22 @@ export default function SearchForm(props) {
     let resultsJSX = null;
     if (searchResultsArray.length > 0) {
         resultsJSX = (
-            <ul className='searchResults'>
+            <ul className={Styles['searchResults']}>
                 {
                     searchResultsArray
                         .slice(displayIndex, showCount) // for pagination
                         .map((searchResult, index) => {
+                        let urlSafeName = encodeURIComponent(searchResult.getName());
+                        let urlSafeLocation = encodeURIComponent(searchResult.getLocation());
                         return (
                             <li key={searchResult.getImageURL().slice(-10) + index}>
-                                <a href="">
-                                    <div className='imgContainer'>
+                                <a href={`/city?city=${urlSafeName}&location=${urlSafeLocation}`}>
+                                    <div className={Styles['imgContainer']}>
                                         <img src={searchResult.getImageURL()} alt={"Image for " + searchResult.getName()} />
                                     </div>
-                                    <div className='textContainer'>
-                                        <span className='textContainer-name'>{searchResult.getName()}</span>
-                                        <span className='textContainer-location'>{searchResult.getLocation()}</span>
+                                    <div className={Styles['textContainer']}>
+                                        <span className={Styles['textContainer-name']}>{searchResult.getName()}</span>
+                                        <span className={Styles['textContainer-location']}>{searchResult.getLocation()}</span>
                                     </div>
                                 </a>
                             </li>
@@ -100,9 +102,9 @@ export default function SearchForm(props) {
     }
 
     return (
-        <div className='homepage-search'>
-            <form className='homepage-search-bar' onSubmit={handleSubmit}>
-                <div className='homepage-search-bar-flex'>
+        <div className={Styles['homepage-search']}>
+            <form className={Styles['homepage-search-bar']} onSubmit={handleSubmit}>
+                <div className={Styles['homepage-search-bar-flex']}>
                     <SearchOutlined style={{fontSize: '24px'}} />
                     <input type="text" name="search" value={input} onInput={handleChange} placeholder={placeholderText} autoComplete='off'></input>
                     {activateButton}
