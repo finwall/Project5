@@ -13,13 +13,13 @@ import { useEffect } from "react";
 export default function LoginSignupForm({ isSignup }) {
 
     const context = useContext(LoginContext);
-    
+
     const ref = useRef(null);
     const executeScroll = () => ref.current?.scrollIntoView({behavior: 'smooth'});
-    useEffect(() => { 
+    useEffect(() => {
         if (!isSignup) executeScroll()
     }, [isSignup]);
-    
+
     const [nameInput, setNameInput] = useState("");
     const [emailInput, setEmailInput] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
@@ -42,15 +42,15 @@ export default function LoginSignupForm({ isSignup }) {
     function handlePasswordChange(e) {
         setPasswordInput(e.target.value);
     }
-    
+
     function handleSQ1Change(e) {
         setSecQuestion1(e.target.value);
     }
-    
+
     function handleSQ2Change(e) {
         setSecQuestion2(e.target.value);
     }
-    
+
     function handleMFAChange(e) {
         console.log(e.target.checked);
         setMFA(e.target.checked);
@@ -75,12 +75,11 @@ export default function LoginSignupForm({ isSignup }) {
         e.preventDefault();
         setSuccessMsg("");
         setErrorMessages([]);
-        
+
         let redirectURL = '/';
         let redirectOptions = {};
 
         if (isSignup) {
-
             let signupPromise = AuthService.register(nameInput, emailInput, passwordInput, secQuestion1, secQuestion2, mfa)
                 .then((response) => {
                     if (response.data?.mfa === true) {
@@ -97,7 +96,7 @@ export default function LoginSignupForm({ isSignup }) {
                     }
                     console.log(response)
                 })
-            signupPromise.catch(e => handleSubmitError(e))
+            signupPromise.catch(e => {console.log("signupPromiseCatch error:", e); handleSubmitError(e)})
             signupPromise.then(() => {
                 setTimeout(() => {
                     navigate(redirectURL, redirectOptions);
@@ -135,7 +134,7 @@ export default function LoginSignupForm({ isSignup }) {
 
     }
 
-    // these fields are JSX expressions generated based on 
+    // these fields are JSX expressions generated based on
     // whether user is accessing this form from the signup page
     let newAccountField = null;
     let nameFields = null;
