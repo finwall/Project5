@@ -80,7 +80,10 @@
     border-radius: 0 0 1em 1em;
 }
 
+.searchResults li button,
 .searchResults li a {
+    background-color: transparent;
+    border-style: none;
     margin: .2em 0;
     padding: .4em 0;
     display: flex;
@@ -88,18 +91,23 @@
     justify-content: left;
     align-items: center;
     text-decoration: none;
+    font-weight: inherit;
+    cursor: pointer;
 }
 
+.searchResults li button:first-child,
 .searchResults li a:first-child {
     margin-top: 0;
 }
 
+.searchResults li, .searchResults li button,
 .searchResults li, .searchResults li a {
     width: 100%;
     /* color: hsla(var(--mainColor2), 1) */
     color: white;
 }
 
+.searchResults li > button > *,
 .searchResults li > a > * {
     display: inline-block;
 }

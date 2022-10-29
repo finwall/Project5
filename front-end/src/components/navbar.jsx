@@ -10,25 +10,25 @@ export default function Navbar() {
     return (
         <nav className={Styles["nav"]}>
             <HodophiliaLogo />
-            {user.username ?
-                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'flex-end', columnGap: '5%'}}>
-                    <img src={require('../assets/icons/ironman.jpeg')} alt='pfp' style={{borderRadius: '35px',}} width={'11%'} onClick={() => navigate('/profile')} />
-                    <p className={Styles["nav-username"]}>{user.username}</p>
+            {(user.email !== "") ?
+                <button className={Styles['userPageLink']} onClick={() => navigate('/profile')}>
+                    <img src={require('../assets/icons/ironman.jpeg')} alt='pfp' style={{borderRadius: '35px',}} />
+                    <p className={Styles["nav-username"]}>{user.email}</p>
                     <button
                         style={{backgroundColor: 'black', padding: '10px', borderRadius: '20px'}}
-                        className={Styles["nav-logout"]}
-                        onClick={() => {user.logout(); console.log("Logged Out")}}
+                        // className={Styles["nav-logout"]}
+                        onClick={() => {user.logout()}}
                     >
                         Logout
                     </button>
-                </div>
+                </button>
             :
                 <ul>
                     <li>
-                        <a href='/login'>Login</a>
+                        <button onClick={() => navigate('/login')}>Login</button>
                     </li>
                     <li>
-                        <a className={Styles['signup']} href='/signup'>Signup</a>
+                        <button className={Styles['signup']} onClick={() => navigate('/signup')}>Signup</button>
                     </li>
                 </ul>
             }
