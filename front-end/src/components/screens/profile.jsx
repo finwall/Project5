@@ -13,7 +13,7 @@ export default function Profile(navpagestate) {
     }, [navigate, navpagestate]);
     return (
         <PageWrapper>
-            <h1>Welcome {currentuser.username}!</h1>
+            <h1>Welcome {currentuser.email}!</h1>
         </PageWrapper>
     )
 }
