@@ -84,7 +84,7 @@ export default function SearchForm(props) {
                         let urlSafeLocation = encodeURIComponent(searchResult.getLocation());
                         return (
                             <li key={searchResult.getImageURL().slice(-10) + index}>
-                                <a href={`/city?city=${urlSafeName}&location=${urlSafeLocation}`}>
+                                <button onClick={() => navigate(`/city?city=${urlSafeName}&location=${urlSafeLocation}`)}>
                                     <div className={Styles['imgContainer']}>
                                         <img src={searchResult.getImageURL()} alt={"Image for " + searchResult.getName()} />
                                     </div>
@@ -92,7 +92,7 @@ export default function SearchForm(props) {
                                         <span className={Styles['textContainer-name']}>{searchResult.getName()}</span>
                                         <span className={Styles['textContainer-location']}>{searchResult.getLocation()}</span>
                                     </div>
-                                </a>
+                                </button>
                             </li>
                         )
                     })
