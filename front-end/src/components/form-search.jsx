@@ -8,9 +8,11 @@ import Styles from './css/form-search.module.css'
 /* Valid props:
  *
  *  Not required:
- *      showCount   = the number of dropdown results to be displayed on this form
- *      preload     = the number of results to request from the backend
- *      children    = prefills the form to a specified string
+ *      showCount           = the number of dropdown results to be displayed on this form
+ *      preload             = the number of results to request from the backend
+ *      children            = prefills the form to a specified string
+ *      selectItemAction    = a function with optional object {locationID, locationName}
+ *      clearSearch         = a boolean value (used alongside selectItemAction) to clear the form and inputs 
  */
 export default function SearchForm(props) {
 
@@ -38,6 +40,25 @@ export default function SearchForm(props) {
     const [searchResultsArray, setSearchResults] = useState([]);
     const [displayIndex, setDisplayIndex] = useState(0);
     
+    // selectItemAction performs the following actions when an item from the search results dropdown is selected.
+    // expects an object with properties {locationName, locationLocation} as a single parameter
+    // that *can be* assigned to a variable in this component's parent component if need be
+    // TODO: add a locationID item that uniquely identifies it for later requests
+    const selectItemAction = ({ locationName, locationLocation }) => { 
+        if (props.selectItemAction) { // action when called from parent with prop 
+            if (props.clearSearch) {
+                setInput('');
+                setSearchResults([]);
+            }
+            props.selectItemAction({ locationName, locationLocation })
+        }
+        else { // default action
+            let urlSafeName = encodeURIComponent(locationName);
+            let urlSafeLocation = encodeURIComponent(locationLocation);
+            navigate(`/city?city=${urlSafeName}&location=${urlSafeLocation}`)
+        }
+    };
+
 
     function handleQueryResults(res) {
         console.log("Result: " + res[0].getName());
@@ -97,11 +118,14 @@ export default function SearchForm(props) {
                     searchResultsArray
                         .slice(displayIndex, showCount) // for pagination
                         .map((searchResult, index) => {
-                        let urlSafeName = encodeURIComponent(searchResult.getName());
-                        let urlSafeLocation = encodeURIComponent(searchResult.getLocation());
                         return (
                             <li key={searchResult.getImageURL().slice(-10) + index}>
-                                <button onClick={() => navigate(`/city?city=${urlSafeName}&location=${urlSafeLocation}`)}>
+                                <button onClick={
+                                    () => selectItemAction({
+                                            locationName: searchResult.getName(), 
+                                            locationLocation: searchResult.getLocation()
+                                        })
+                                }>
                                     <div className={Styles['imgContainer']}>
                                         <img src={searchResult.getImageURL()} alt={"Image for " + searchResult.getName()} />
                                     </div>

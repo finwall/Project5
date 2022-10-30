@@ -11,7 +11,7 @@ export default function Search(props) {
     return (
         <PageWrapper>
             <h1>This is the search page.</h1>
-            <SearchForm showCount={10}>{searchParams.getAll('search')}</SearchForm>
+            <SearchForm clearSearch={false} selectItemAction={({locationName, locationLocation}) => console.log(locationName, locationLocation)} showCount={10}>{searchParams.getAll('search')}</SearchForm>
         </PageWrapper>
     )
 }
