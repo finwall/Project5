@@ -27,11 +27,40 @@
     list-style: none;
 }
 
+.nav ul li button,
 .nav ul li a {
     text-decoration: none;
     padding: .75rem 1.1rem;
+    background-color: transparent;
+    border-style: none;
+    cursor: pointer;
+    font-weight: inherit;
 }
 
+.nav ul li button:hover,
 .nav ul li a:hover {
     background-color: hsla(var(--mainColor5), 1);
+}
+
+.userPageLink {
+    background-color: transparent;
+    border-style: none;
+    display: flex;
+    /* justify-content: end; */
+    justify-content: flex-end;
+    column-gap: 5%;
+    /* gap: 2em; */
+    align-items: center;
+    font-size: inherit;
+    font-weight: inherit;
+    /* width: fit-content; */
+    cursor: pointer;
+}
+
+/* .userPageLink p {
+    display: inline-block;
+} */
+
+.userPageLink img {
+    width: 11%;
 }
