@@ -1,0 +1,51 @@
+
+
+.addLocation {
+    margin: 2em 4em;
+    padding: 1em;
+    --background-color: hsla(var(--mainColor3), 80%);
+    background-color: #000;
+    background-image: linear-gradient( var(--background-color), var(--background-color));
+    border: hsl(var(--mainColor2)) solid 6px;
+    width: 69%;
+}
+
+.addLocation h2, 
+.addLocation h3, 
+.addLocation h4, 
+.addLocation h5, 
+.addLocation h6 {
+    margin: 0;
+    text-align: left;
+}
+
+.locationHeader {
+    display: flex;
+    justify-content: space-between;
+    padding: .5em .5em 1em;
+}
+
+.locationHeader > * {
+    display: inline-block;
+}
+
+.map {
+    background-color: white;
+    color: red;
+    margin: .2em auto;
+    width: 90%;
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flights {
+    margin-top: 1em;
+}
+
+.flightsSearch {
+    display: flex;
+    align-items: baseline;
+    gap: 2em;
+}
