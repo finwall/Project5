@@ -4,7 +4,9 @@ import Search from '../form-search.jsx';
 export default function Index() {
     return (
         <PageWrapper>
-            <Search />
+            <div style={{display: "flex", flexDirection: "column", alignItems: "center", padding: '1.5em'}}>
+                <Search />
+            </div>
         </PageWrapper>
     )
 }

@@ -11,7 +11,9 @@ export default function Search(props) {
     return (
         <PageWrapper>
             <h1>This is the search page.</h1>
-            <SearchForm showCount={10}>{searchParams.getAll('search')}</SearchForm>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <SearchForm showCount={10}>{searchParams.getAll('search')}</SearchForm>
+            </div>
         </PageWrapper>
     )
 }

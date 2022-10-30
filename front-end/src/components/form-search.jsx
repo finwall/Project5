@@ -5,14 +5,15 @@ import SearchService from '../services/search';
 
 import Styles from './css/form-search.module.css'
 
-/* Valid props:
- *
- *  Not required:
- *      showCount           = the number of dropdown results to be displayed on this form
- *      preload             = the number of results to request from the backend
- *      children            = prefills the form to a specified string
- *      selectItemAction    = a function with optional object {locationID, locationName}
- *      clearSearch         = a boolean value (used alongside selectItemAction) to clear the form and inputs 
+/**
+ * JSX component that provides a search bar to find, display, and select locations from backend
+ * @param {object} props
+ * @param {int} props.showCount The number of dropdown results to be displayed on this form
+ * @param {int} props.preload The number of results to request from the backend
+ * @param {object} props.children Prefills the form to a specified string or JSX element
+ * @param {string} props.placeholderSupplement Overrides default placeholder text
+ * @param {({locationName, locationLocation}) => void} props.selectItemAction callback performed when an item from the search results dropdown is selected
+ * @param {boolean} props.clearSearch A boolean value (used alongside selectItemAction) to clear the form and inputs 
  */
 export default function SearchForm(props) {
 
@@ -35,7 +36,7 @@ export default function SearchForm(props) {
 
     // Hooks
     const [input, setInput] = useState(props.children || "");
-    const [placeholderText, setPlaceholderText] = useState(generateNewPlaceholder());
+    const [placeholderText, setPlaceholderText] = useState(props.placeholderSupplement || generateNewPlaceholder());
     const [goElementReady, setGoElementReady] = useState(false);
     const [searchResultsArray, setSearchResults] = useState([]);
     const [displayIndex, setDisplayIndex] = useState(0);
@@ -93,21 +94,26 @@ export default function SearchForm(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        let inp = input.trim();
-        if (inp) {
-            let uriString = encodeURIComponent(inp);
-            navigate(`${linkPath}?${searchParam}=${uriString}`)
-        } 
     }
 
     let activateButton = null;
-    if (useLocation().pathname !== '/search') {
-        activateButton = <RightSquareOutlined style={{ fontSize: '30px' }} />
-        if (goElementReady) activateButton = (
-                <button onClick={handleSubmit}>
-                    <RightSquareFilled style={{ fontSize: '30px' }} />
-                </button>
-        )    
+    if (useLocation().pathname === '/') {
+        activateButton = <RightSquareOutlined style={{ fontSize: '1em' }} />
+        if (goElementReady) {
+            function handleSubmit(e) {
+                e.preventDefault();
+                let inp = input.trim();
+                if (inp) {
+                    let uriString = encodeURIComponent(inp);
+                    navigate(`${linkPath}?${searchParam}=${uriString}`)
+                } 
+            }
+            activateButton = (
+                    <button onClick={handleSubmit}>
+                        <RightSquareFilled style={{ fontSize: '1em' }} />
+                    </button>
+            )    
+        } 
     }
 
     let resultsJSX = null;
@@ -146,7 +152,7 @@ export default function SearchForm(props) {
         <div className={Styles['homepage-search']}>
             <form className={Styles['homepage-search-bar']} onSubmit={handleSubmit}>
                 <div className={Styles['homepage-search-bar-flex']}>
-                    <SearchOutlined style={{fontSize: '24px'}} />
+                    <SearchOutlined style={{fontSize: '1em'}} />
                     <input type="text" name="search" value={input} onInput={handleChange} placeholder={placeholderText} autoComplete='off'></input>
                     {activateButton}
                 </div>
