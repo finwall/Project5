@@ -1,8 +1,9 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useCallback, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import SearchForm from './form-search.jsx';
 
 import Styles from './css/form-addLocation.module.css'
-import { useCallback } from "react";
+import FormSearchStyles from './css/form-search.module.css'
 
 
 /**
@@ -66,12 +67,14 @@ function AddLocation({id, xClicked, fromLocationName, fromLocationID, toLocation
                         MAP WOULD GO HERE
                     </div>
                     <div className={Styles['flightsSearch']}>
-                        <h3>Flights</h3>
-                        <SearchForm
-                            placeholderSupplement="From..."
-                            selectItemAction={collectFromData}
-                            clearSearch={true}
-                        ></SearchForm>
+                        <div className={Styles['flightsSearchInterior']}>
+                            <h3>Flights</h3>
+                            <SearchForm
+                                placeholderSupplement="From..."
+                                selectItemAction={collectFromData}
+                                clearSearch={true}
+                            ></SearchForm>
+                        </div>
                     </div>
                 </div>
             </>
@@ -83,7 +86,27 @@ function AddLocation({id, xClicked, fromLocationName, fromLocationID, toLocation
             <>
                 <Stage02 />
                 <h2>From: <b>{fromName}</b></h2>
+                <div className={Styles['flightsSearch']}>
+                    <div className={Styles['flightsSearchInterior']}>
 
+                        <h3 style={{display: 'block', margin: '.8em 0'}}>Available flights</h3>
+                        <div className={Styles['flightsSearchRow']}>
+                            <h4>Narrow down results</h4>
+                            <div className={FormSearchStyles['homepage-search']}>
+                                <form className={FormSearchStyles['homepage-search-bar']}>
+                                    <div className={FormSearchStyles['homepage-search-bar-flex']}>
+                                        <input type="date" autoComplete='off'></input>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <ul className={Styles['results']}>
+                            <li>Hey <button>Select flight</button> </li>
+                            <li>There <button>Select flight</button> </li>
+                        </ul>
+
+                    </div>
+                </div>
             </>
         )
     }, [fromName]);

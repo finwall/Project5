@@ -1,5 +1,3 @@
-
-
 .addLocation {
     margin: 2em 4em;
     padding: 1em;
@@ -46,7 +44,32 @@
 
 .flightsSearch {
     margin: 1em 5%;
+    border: hsl(var(--mainColor3)) solid 2px;
+}
+
+.flightsSearch .flightsSearchInterior {
+    margin: .25em;
+    padding: 1em;
+    background-color: hsl(var(--mainColor4));
+}
+
+.flightsSearchRow {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 2em;
+}
+
+.results {
+    background-color: hsl(var(--mainColor3));
+    list-style:none;
+    border: hsl(var(--mainColor2)) solid 4px;
+    border-radius: 1em;
+    padding: 0 3em;
+}
+
+.results li {
+    padding: .75em .25em;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
 }
