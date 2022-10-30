@@ -1,10 +1,17 @@
 import { Link, Route, useNavigate, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { SearchOutlined, RightSquareOutlined, RightSquareFilled } from '@ant-design/icons';
 import SearchService from '../services/search';
 
 import Styles from './css/form-search.module.css'
 
+/* Valid props:
+ *
+ *  Not required:
+ *      showCount   = the number of dropdown results to be displayed on this form
+ *      preload     = the number of results to request from the backend
+ *      children    = prefills the form to a specified string
+ */
 export default function SearchForm(props) {
 
     const defaultShowCount = 3;
@@ -31,6 +38,25 @@ export default function SearchForm(props) {
     const [searchResultsArray, setSearchResults] = useState([]);
     const [displayIndex, setDisplayIndex] = useState(0);
     
+
+    function handleQueryResults(res) {
+        console.log("Result: " + res[0].getName());
+        setSearchResults(res);
+    }
+
+    const requestQueryResults = useCallback((newInput, currentFormInput) => {
+        !!newInput ? // remove after testing
+            SearchService.query(currentFormInput, preloadResultsNumber)
+                .then(handleQueryResults)
+            : // remove after testing
+            setSearchResults([])
+    }, [preloadResultsNumber])
+
+    useEffect(() => {
+        if (input && requestQueryResults) requestQueryResults(true, input);
+    }, [input, requestQueryResults])
+
+
     // Event handlers
 
     function handleChange(e) {
@@ -40,17 +66,8 @@ export default function SearchForm(props) {
         setInput(currentFormInput);
 
         // TODO: include autofill functionality here
-        !!newInput? // remove after testing
-        SearchService.query(currentFormInput, preloadResultsNumber)
-            .then(handleQueryResults)
-            : // remove after testing
-            setSearchResults([])
+        requestQueryResults(newInput, currentFormInput);
 
-    }
-
-    function handleQueryResults(res) {
-        console.log("Result: " + res[0].getName());
-        setSearchResults(res);
     }
 
     function handleSubmit(e) {
