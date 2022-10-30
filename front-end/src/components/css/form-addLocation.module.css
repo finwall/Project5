@@ -45,6 +45,7 @@
 }
 
 .flightsSearch {
+    margin: 1em 5%;
     display: flex;
     align-items: baseline;
     gap: 2em;

@@ -44,7 +44,7 @@ function AddLocation({id, xClicked, fromLocationName, fromLocationID, toLocation
         return i + "th";
     }
 
-    function Stage01(props) {
+    function Stage01(props) { // before selected to location
         return (
             <>
                 <SearchForm
@@ -56,19 +56,19 @@ function AddLocation({id, xClicked, fromLocationName, fromLocationID, toLocation
         )
     } 
 
-    const Stage02 = useCallback((props) => {
+    const Stage02 = useCallback((props) => { // after selected to location, before selected from
         return (
             <>
                 <Stage01 />
                 <div className={Styles['flights']}>
-                    <h2>{toName}</h2>
+                    <h2>To: <b>{toName}</b></h2>
                     <div className={Styles['map']}>
                         MAP WOULD GO HERE
                     </div>
                     <div className={Styles['flightsSearch']}>
                         <h3>Flights</h3>
                         <SearchForm
-                            placeholderSupplement={`From`}
+                            placeholderSupplement="From..."
                             selectItemAction={collectFromData}
                             clearSearch={true}
                         ></SearchForm>
@@ -76,22 +76,14 @@ function AddLocation({id, xClicked, fromLocationName, fromLocationID, toLocation
                 </div>
             </>
         )
-    }, [toName]);
+    }, [toName, fromName]);
 
-    const Stage03 = useCallback((props) => {
+    const Stage03 = useCallback((props) => { // after selected from
         return (
             <>
                 <Stage02 />
-                <h2>{fromName}</h2>
-                {/* <div className={Styles['flightsSearch']}>
-                    <h2>{fromName}</h2>
-                    <h3>Flights</h3>
-                    <SearchForm
-                        placeholderSupplement={`From`}
-                        selectItemAction={collectFromData}
-                        clearSearch={true}
-                    ></SearchForm>
-                </div> */}
+                <h2>From: <b>{fromName}</b></h2>
+
             </>
         )
     }, [fromName]);
