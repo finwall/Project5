@@ -1,0 +1,6 @@
+.itinerarySection {
+    background-color: hsl(var(--mainColor2));
+    border: hsl(var(--mainColor1)) solid 4px;
+    padding: 1em;
+    color: hsl(var(--mainColor4));
+}

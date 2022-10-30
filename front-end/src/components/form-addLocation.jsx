@@ -1,6 +1,7 @@
 import { React, useState, useEffect, useCallback, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchForm from './form-search.jsx';
+import { LoginContext } from "../contexts/loginContext";
 
 import Styles from './css/form-addLocation.module.css'
 import FormSearchStyles from './css/form-search.module.css'
@@ -19,6 +20,15 @@ import FormSearchStyles from './css/form-search.module.css'
  * @param {string} props.rootCollectToData Function allowing parent to collect "to location" data
  */
 function AddLocation({id, xClicked, fromLocationName, fromLocationID, toLocationName, toLocationID, rootCollectFromData, rootCollectToData}) {
+
+    const navigate = useNavigate();
+    const currentuser = useContext(LoginContext);
+
+    useEffect(() => {
+        if (currentuser.token === "") {
+            navigate('/login');
+        }
+    })
 
     // const [ fromName, setFromName ] = useState(fromLocationName || "")
     // const [ fromID, setFromID ] = useState(fromLocationID || "")
