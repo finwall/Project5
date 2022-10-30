@@ -16,15 +16,19 @@ import Search from './components/screens/search.jsx';
 import SearchedCity from './components/screens/searchedcity.jsx';
 import Error from './components/screens/error.jsx';
 import Profile from "./components/screens/profile.jsx";
+import CreateItinerary from "./components/screens/create-new-itinerary.jsx";
 
 // components
 import Navbar from './components/navbar'
 
 function App() {
+  
   const [navpagestate, setNavPageState] = useState(false);
+  
   useEffect(() => {
     console.log(navpagestate, "navpagestate");
   }, [navpagestate])
+
   return (
     <LoginContextProvider>
       <BrowserRouter>
@@ -40,8 +44,9 @@ function App() {
             <Route path="account-recovery" element={<AccountRecovery />} />
             <Route path="search" element={<Search />} />
             <Route path="city" element={<SearchedCity />} />
-            <Route path="*" element={<Error />} />
             <Route path="profile" element={<Profile navpagestate={navpagestate} />} />
+            <Route path="create-new-itinerary" element={<CreateItinerary />} />
+            <Route path="*" element={<Error />} />
           </Route>
         </Routes>
       </BrowserRouter>
