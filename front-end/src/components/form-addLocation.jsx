@@ -2,9 +2,12 @@ import { React, useState, useEffect, useCallback, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchForm from './form-search.jsx';
 import { LoginContext } from "../contexts/loginContext";
+import { ordinal_suffix_of } from "../constants/utilities.js";
 
 import Styles from './css/form-addLocation.module.css'
 import FormSearchStyles from './css/form-search.module.css'
+
+const FLIGHTS_DISPLAY_RESULTS = 3;
 
 
 /**
@@ -35,30 +38,31 @@ function AddLocation({id, xClicked, fromLocationName, fromLocationID, toLocation
     const [flightTimes, setFlightTimes] = useState(
         ['03/21', '03/25', '03/28', '04/10', '04/13', '04/17', '04/24', '06/21', '06/23', '07/11', '07/14', '07/17', '09/08', '09/12', '09/21', '11/04', '11/07']
     );
-    // const [ fromName, setFromName ] = useState(fromLocationName || "")
-    // const [ fromID, setFromID ] = useState(fromLocationID || "")
-    // const [ toName, setToName ] = useState("")
-    // const [ toID, setToID ] = useState("")
+    const [selectedFlight, setSelectedFlight] = useState(null);
+
+    function getIndexOfNearestDate() {
+        let ftM = flightTimes.map(item => {
+            let month = item.split('/')[0];
+            month = Number.parseInt(month);
+            return month;
+        })
+        let dM = new Date().getMonth();
+        for (let i = 0; i < ftM.length; i++) {
+            if (ftM[i] >= dM) return i;
+        }
+        return 0;
+    }
+
+    function selectFlight(index) {
+        setSelectedFlight(
+            <div className={Styles['selectedFlight']}>
+                You've selected flight <span>{flightTimes[index]}</span>
+            </div>
+        )
+    }
 
     let fromName = fromLocationName || "";
     let toName = toLocationName || "";
-
-    // solution from Salman A,
-    // https://stackoverflow.com/a/13627586/15818885
-    function ordinal_suffix_of(i) {
-        var j = i % 10,
-            k = i % 100;
-        if (j === 1 && k !== 11) {
-            return i + "st";
-        }
-        if (j === 2 && k !== 12) {
-            return i + "nd";
-        }
-        if (j === 3 && k !== 13) {
-            return i + "rd";
-        }
-        return i + "th";
-    }
 
     function Stage01(props) { // before selected to location
         return (
@@ -117,18 +121,19 @@ function AddLocation({id, xClicked, fromLocationName, fromLocationID, toLocation
                         </div>
                         <ul className={Styles['results']}>
                             {
-                                flightTimes.map((time, index) => {
+                                flightTimes
+                                    .slice(getIndexOfNearestDate()) // grab the sub-list starting at the nearest date
+                                    .concat(flightTimes.slice(0, getIndexOfNearestDate())) // combine the full list
+                                    .slice(0, FLIGHTS_DISPLAY_RESULTS)
+                                    .map((time, index) => {
                                     return (
-                                        <li>{time+"/2022"} <button onClick={() => {console.log("selected " + index)}}>Select flight</button></li>
+                                        <li key={index}>
+                                            {time+"/"+new Date().getFullYear()} 
+                                            <button onClick={() => {selectFlight(index)}}>Select flight</button>
+                                        </li>
                                     )
                                 })
                             }
-                            {/* <li>July 9 <button>Select flight</button> </li>
-                            <li>July 17 <button>Select flight</button> </li>
-                            <li>September 24 <button>Select flight</button> </li>
-                            <li>September 28 <button>Select flight</button> </li>
-                            <li>October 12 <button>Select flight</button> </li>
-                            <li>October 24 <button>Select flight</button> </li> */}
                         </ul>
 
                     </div>
