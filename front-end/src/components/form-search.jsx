@@ -2,6 +2,8 @@ import { Link, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
 import { SearchOutlined, RightSquareOutlined, RightSquareFilled } from '@ant-design/icons';
 import SearchService from '../services/search';
+import MountainsImage from '../assets/graphics/rough-horn-2146181_640.jpg';
+import ForestImage from '../assets/graphics/forest-gf13c9e753_640.jpg';
 
 import Styles from './css/form-search.module.css'
 
@@ -35,9 +37,10 @@ export default function SearchForm(props) {
     }
 
     // Hooks
-    const [input, setInput] = useState(props.children || "");
+    const [input, setInput] = useState(props.children?.toString() || "");
     const [placeholderText, setPlaceholderText] = useState(props.placeholderSupplement || generateNewPlaceholder());
     const [goElementReady, setGoElementReady] = useState(false);
+    const [queryResultsArray, setQueryResults] = useState([]);
     const [searchResultsArray, setSearchResults] = useState([]);
     const [displayIndex, setDisplayIndex] = useState(0);
     
@@ -56,39 +59,42 @@ export default function SearchForm(props) {
         else { // default action
             let urlSafeName = encodeURIComponent(locationName);
             let urlSafeLocation = encodeURIComponent(locationLocation);
-            navigate(`/city?city=${urlSafeName}&location=${urlSafeLocation}`)
+            navigate(`/city?city=${urlSafeName}`)
         }
     };
 
+    const collectLocations = useCallback(() => {
+        return SearchService.gatherLocations()
+            .then((result) => {
+                setQueryResults(result)
+            })
+            .catch((error) => {
+                setQueryResults([])
+            })
+    }, [])
 
-    function handleQueryResults(res) {
-        console.log("Result: " + res[0].getName());
-        setSearchResults(res);
+    function filterQueryResults(newInput) {
+        if (!newInput || newInput === "") setSearchResults([]);
+        else setSearchResults(queryResultsArray.filter(str => str.toLowerCase().includes(newInput.toLowerCase())))
     }
 
-    const requestQueryResults = useCallback((newInput, currentFormInput) => {
-        !!newInput ? // remove after testing
-            SearchService.query(currentFormInput, preloadResultsNumber)
-                .then(handleQueryResults)
-            : // remove after testing
-            setSearchResults([])
-    }, [preloadResultsNumber])
+    useEffect(() => {
+        collectLocations();
+    }, []);
 
     useEffect(() => {
-        if (input && requestQueryResults) requestQueryResults(true, input);
-    }, [input, requestQueryResults])
-
+        filterQueryResults(input)
+    }, [input, queryResultsArray]);
 
     // Event handlers
 
     function handleChange(e) {
         let currentFormInput = e.target.value;
-        let newInput = currentFormInput.trim();
-        setGoElementReady(!!newInput);
+        setGoElementReady(!!currentFormInput);
         setInput(currentFormInput);
 
         // TODO: include autofill functionality here
-        requestQueryResults(newInput, currentFormInput);
+        filterQueryResults(currentFormInput);
 
     }
 
@@ -125,19 +131,19 @@ export default function SearchForm(props) {
                         .slice(displayIndex, showCount) // for pagination
                         .map((searchResult, index) => {
                         return (
-                            <li key={searchResult.getImageURL().slice(-10) + index}>
+                            <li key={index}>
                                 <button onClick={
                                     () => selectItemAction({
-                                            locationName: searchResult.getName(), 
-                                            locationLocation: searchResult.getLocation()
+                                            locationName: searchResult, 
+                                            locationLocation: searchResult
                                         })
                                 }>
                                     <div className={Styles['imgContainer']}>
-                                        <img src={searchResult.getImageURL()} alt={"Image for " + searchResult.getName()} />
+                                        <img src={searchResult.toLowerCase().charCodeAt(0) > 105 ? MountainsImage : ForestImage} alt={"Image for " + searchResult} />
                                     </div>
                                     <div className={Styles['textContainer']}>
-                                        <span className={Styles['textContainer-name']}>{searchResult.getName()}</span>
-                                        <span className={Styles['textContainer-location']}>{searchResult.getLocation()}</span>
+                                        <span className={Styles['textContainer-name']}>{searchResult}</span>
+                                        <span className={Styles['textContainer-location']}>{searchResult}</span>
                                     </div>
                                 </button>
                             </li>

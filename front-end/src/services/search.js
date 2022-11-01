@@ -2,39 +2,28 @@ import axios from "axios";
 import DefaultImage from '../assets/graphics/rough-horn-2146181_640.jpg'
 
 const API_URL = "http://localhost:8080/api/search";
-const TEST_LOCATION = "Himalayan Mountains, Nepal";
 
 class SearchService {
 
-    query(string, maxResults) {
-
-        let returnArray = [];
-
-        /*
-        // enable code block when endpoint created
+    gatherLocations() {
+        
         return axios
-            .post(API_URL, {
-                string
-            })
+            .get(API_URL)
             .then(response => {
                 // loop through and convert all returned data to SearchResult objects;
                 // put objects into array, limit maxResults
-                for (let i = 0; i < maxResults; i++) {
-                    returnArray.push(new SearchResult(`Result${string.substring(0,3)}${i}`,`Location${i}`, null))
+                let returnArray = [];
+                for (let place of response.data?.places) {
+                    returnArray.push(place);
                 }
+                
                 return returnArray;
             })
             .catch(e => {
-                returnArray.push(new SearchResult(string, null, DefaultImage))
-                return returnArray;
+                // returnArray.push(new SearchResult("No locations found", null, DefaultImage))
+                console.warn("Connection to database failed: ", e);
+                return null;
             })
-            */
-        return new Promise((resolve) => {
-            for (let i = 0; i < maxResults; i++) {
-                returnArray.push(new SearchResult(string, TEST_LOCATION, DefaultImage))
-            }
-            resolve(returnArray);
-        })
     }
 
 }
