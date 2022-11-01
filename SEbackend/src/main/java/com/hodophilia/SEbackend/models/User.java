@@ -2,6 +2,10 @@ package com.hodophilia.SEbackend.models;
 
 
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,6 +13,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
@@ -20,7 +26,9 @@ import javax.validation.constraints.Size;
 		uniqueConstraints = { 
 			@UniqueConstraint(columnNames = "email") 
 		})
-public class User {
+public class User implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -94,6 +102,12 @@ public class User {
 	@NotBlank
 	@Size(max = 20)
 	private String securityQuestion2;
+	
+	@OneToMany(
+	        cascade = CascadeType.ALL
+	)
+	@JoinColumn(name = "email",referencedColumnName = "email")
+	private List<Ticket> flighttickets;
 
 	public String getResetPasswordToken() {
 		return resetPasswordToken;
