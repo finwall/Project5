@@ -30,6 +30,11 @@ function AddLocation({id, xClicked, fromLocationName, fromLocationID, toLocation
         }
     })
 
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    const [flightTimes, setFlightTimes] = useState(
+        ['03/21', '03/25', '03/28', '04/10', '04/13', '04/17', '04/24', '06/21', '06/23', '07/11', '07/14', '07/17', '09/08', '09/12', '09/21', '11/04', '11/07']
+    );
     // const [ fromName, setFromName ] = useState(fromLocationName || "")
     // const [ fromID, setFromID ] = useState(fromLocationID || "")
     // const [ toName, setToName ] = useState("")
@@ -111,8 +116,19 @@ function AddLocation({id, xClicked, fromLocationName, fromLocationID, toLocation
                             </div>
                         </div>
                         <ul className={Styles['results']}>
-                            <li>Hey <button>Select flight</button> </li>
-                            <li>There <button>Select flight</button> </li>
+                            {
+                                flightTimes.map((time, index) => {
+                                    return (
+                                        <li>{time+"/2022"} <button onClick={() => {console.log("selected " + index)}}>Select flight</button></li>
+                                    )
+                                })
+                            }
+                            {/* <li>July 9 <button>Select flight</button> </li>
+                            <li>July 17 <button>Select flight</button> </li>
+                            <li>September 24 <button>Select flight</button> </li>
+                            <li>September 28 <button>Select flight</button> </li>
+                            <li>October 12 <button>Select flight</button> </li>
+                            <li>October 24 <button>Select flight</button> </li> */}
                         </ul>
 
                     </div>
