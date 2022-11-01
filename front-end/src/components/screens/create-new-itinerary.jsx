@@ -5,17 +5,27 @@ import { useState } from "react";
 
 function CreateItinerary() {
 
-    const [locationData, setLocationData] = useState([
-        {fromLocationName: null, fromLocationID: null, toLocationName: null, toLocationID: null}
-    ]);
+    const [locationData, setLocationData] = useState(
+        [new ItineraryItem(0, null, null, null, null)]
+    );
 
+    /**
+     * 
+     * @param {ItineraryItem} itineraryItem a new itinerary item that gets appended to the list
+     */
+    function addItineraryItem(itineraryItem) {
+        setLocationData([...locationData, itineraryItem])
+    }
+
+    function removeItineraryItem(index) {
+        setLocationData( [...locationData.slice(0, index), ...locationData.slice(index+1)]);
+    }
 
     function collectToData({ locationName, locationLocation }, elementIndex) {
         let currentLocationData = locationData.map((item) => {return item});
         currentLocationData[elementIndex].fromLocationName = locationName;
         currentLocationData[elementIndex].fromLocationID = locationLocation;
         setLocationData(currentLocationData);
-        // console.log("updated ", locationData, "with ", currentLocationData)
     }
 
     function collectFromData({ locationName, locationLocation }, elementIndex) {
@@ -23,24 +33,21 @@ function CreateItinerary() {
         currentLocationData[elementIndex].toLocationName = locationName;
         currentLocationData[elementIndex].toLocationID = locationLocation;
         setLocationData(currentLocationData);   
-        // console.log("updated ", locationData, "with ", currentLocationData)
     }
 
 
     return ( 
         <PageWrapper>
             {
-                locationData.map((location, index) => {
+                locationData.map((itinItem, index) => {
                     return (
                         <div style={{ display: "flex", flexDirection: "row" }}>
                             <Location
-                                id={index+1}
-                                fromLocationName={location.fromLocationName}
-                                fromLocationID={location.fromLocationID}
-                                toLocationName={location.toLocationName}
-                                toLocationID={location.toLocationID}
-                                rootCollectToData={({locationName, locationLocation}) => {collectToData({locationName, locationLocation}, index)}}
-                                rootCollectFromData={({locationName, locationLocation}) => {collectFromData({locationName, locationLocation}, index)}}
+                                id={index}
+                                fromLocationName={itinItem.fromLocation}
+                                toLocationName={itinItem.toLocation}
+                                addItineraryItem={addItineraryItem}
+                                removeItineraryItem={removeItineraryItem}
                             ></Location>
                         </div>
                     )
@@ -48,6 +55,25 @@ function CreateItinerary() {
             }
         </PageWrapper>
     );
+}
+
+export class ItineraryItem {
+
+    /**
+     * An object containing all needed info from the user for an itinerary item
+     * @param {int} id The unique identifier for this item (must be in order)
+     * @param {string} toLocation The name of the destination (corresponds to a name in DB) 
+     * @param {string} fromLocation The name of the start point (corresponds to a name in DB)
+     * @param {string} chosenFlight A string of the format MM/DD to indicate the time the user has indicated they wish to travel
+     * @param {[string]} amenitiesList All the locations the user has selected to visit, in order 
+     */
+    constructor(id, toLocation, fromLocation, chosenFlight, amenitiesList) {
+        this.id = id;
+        this.toLocation = toLocation;
+        this.fromLocation = fromLocation;
+        this.chosenFlight = chosenFlight;
+        this.amenitiesList = amenitiesList;
+    }
 }
 
 export default CreateItinerary;

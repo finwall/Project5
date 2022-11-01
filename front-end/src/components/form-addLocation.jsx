@@ -3,6 +3,12 @@ import { useNavigate } from "react-router-dom";
 import SearchForm from './form-search.jsx';
 import { LoginContext } from "../contexts/loginContext";
 import { ordinal_suffix_of } from "../constants/utilities.js";
+import { CreateItinerary, ItineraryItem } from './screens/create-new-itinerary';
+
+import Stage01 from "./form-addLocation/stage01.jsx";
+import Stage02 from "./form-addLocation/stage02.jsx";
+import Stage03 from "./form-addLocation/stage03.jsx";
+import Stage04 from "./form-addLocation/stage04.jsx";
 
 import Styles from './css/form-addLocation.module.css'
 import FormSearchStyles from './css/form-search.module.css'
@@ -14,18 +20,16 @@ const FLIGHTS_DISPLAY_RESULTS = 3;
  * JSX component for providing a form for the user to add a travel location, hotel, and ammenities
  * @param {object} props
  * @param {int} props.id A simple number to show the order of this location in the travel list
- * @param {() => void} props.xClicked A function that is executed when the user clicks the X button in this component
  * @param {string} props.fromLocationName The name of a previous location (usually used for location chaining)
- * @param {string} props.fromLocationID The id of a previous location (usually used for location chaining)
  * @param {string} props.toLocationName The name of the new location
- * @param {string} props.toLocationID The id of the new location
- * @param {string} props.rootCollectFromData Function allowing parent to collect "from location" data
- * @param {string} props.rootCollectToData Function allowing parent to collect "to location" data
+ * @param {(ItineraryItem) => void} props.addItineraryItem A function that adds the assembled ItineraryItem to the list in parent
+ * @param {(int) => void} props.removeItineraryItem A function that should be executed when the user clicks the X button in this component
  */
-function AddLocation({id, xClicked, fromLocationName, fromLocationID, toLocationName, toLocationID, rootCollectFromData, rootCollectToData}) {
+function AddLocation({id, fromLocationName, toLocationName, addItineraryItem, removeItineraryItem}) {
 
     const navigate = useNavigate();
     const currentuser = useContext(LoginContext);
+    let displayID = id+1;
 
     useEffect(() => {
         if (currentuser.token === "") {
@@ -33,136 +37,67 @@ function AddLocation({id, xClicked, fromLocationName, fromLocationID, toLocation
         }
     })
 
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-    const [flightTimes, setFlightTimes] = useState(
-        ['03/21', '03/25', '03/28', '04/10', '04/13', '04/17', '04/24', '06/21', '06/23', '07/11', '07/14', '07/17', '09/08', '09/12', '09/21', '11/04', '11/07']
-    );
-    const [selectedFlight, setSelectedFlight] = useState(null);
-
-    function getIndexOfNearestDate() {
-        let ftM = flightTimes.map(item => {
-            let month = item.split('/')[0];
-            month = Number.parseInt(month);
-            return month;
-        })
-        let dM = new Date().getMonth();
-        for (let i = 0; i < ftM.length; i++) {
-            if (ftM[i] >= dM) return i;
-        }
-        return 0;
-    }
-
-    function selectFlight(index) {
-        setSelectedFlight(
-            <div className={Styles['selectedFlight']}>
-                You've selected flight <span>{flightTimes[index]}</span>
-            </div>
-        )
-    }
-
-    let fromName = fromLocationName || "";
-    let toName = toLocationName || "";
-
-    function Stage01(props) { // before selected to location
-        return (
-            <>
-                <SearchForm
-                    placeholderSupplement={`Select ${ordinal_suffix_of(id)} location`}
-                    selectItemAction={collectToData}
-                    clearSearch={true}
-                ></SearchForm>
-            </>
-        )
-    } 
-
-    const Stage02 = useCallback((props) => { // after selected to location, before selected from
-        return (
-            <>
-                <Stage01 />
-                <div className={Styles['flights']}>
-                    <h2>To: <b>{toName}</b></h2>
-                    <div className={Styles['map']}>
-                        MAP WOULD GO HERE
-                    </div>
-                    <div className={Styles['flightsSearch']}>
-                        <div className={Styles['flightsSearchInterior']}>
-                            <h3>Flights</h3>
-                            <SearchForm
-                                placeholderSupplement="From..."
-                                selectItemAction={collectFromData}
-                                clearSearch={true}
-                            ></SearchForm>
-                        </div>
-                    </div>
-                </div>
-            </>
-        )
-    }, [toName, fromName]);
-
-    const Stage03 = useCallback((props) => { // after selected from
-        return (
-            <>
-                <Stage02 />
-                <h2>From: <b>{fromName}</b></h2>
-                <div className={Styles['flightsSearch']}>
-                    <div className={Styles['flightsSearchInterior']}>
-
-                        <h3 style={{display: 'block', margin: '.8em 0'}}>Available flights</h3>
-                        <div className={Styles['flightsSearchRow']}>
-                            <h4>Narrow down results</h4>
-                            <div className={FormSearchStyles['homepage-search']}>
-                                <form className={FormSearchStyles['homepage-search-bar']}>
-                                    <div className={FormSearchStyles['homepage-search-bar-flex']}>
-                                        <input type="date" autoComplete='off'></input>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <ul className={Styles['results']}>
-                            {
-                                flightTimes
-                                    .slice(getIndexOfNearestDate()) // grab the sub-list starting at the nearest date
-                                    .concat(flightTimes.slice(0, getIndexOfNearestDate())) // combine the full list
-                                    .slice(0, FLIGHTS_DISPLAY_RESULTS)
-                                    .map((time, index) => {
-                                    return (
-                                        <li key={index}>
-                                            {time+"/"+new Date().getFullYear()} 
-                                            <button onClick={() => {selectFlight(index)}}>Select flight</button>
-                                        </li>
-                                    )
-                                })
-                            }
-                        </ul>
-
-                    </div>
-                </div>
-            </>
-        )
-    }, [fromName]);
-
-    const [stage, setStage] = useState(<Stage01 />);
-
-    useEffect(() => {console.log(stage)}, [stage])
-
-    function collectToData({ locationName, locationLocation }) { // executed when the user searches for the next location
-        rootCollectToData({locationName, locationLocation});
-        toName = locationName;
-        setStage(<Stage02 />);
-    }
+    const [ itineraryItem ] = useState(new ItineraryItem(id, toLocationName || null, fromLocationName || null, null, [null]))
     
-    function collectFromData({ locationName, locationLocation }) { // executed when the user searches for a previous location
-        fromName = locationName;
-        rootCollectFromData({locationName, locationLocation}); // should set this element's props
-        setStage(<Stage03 />);
+    const [stage, setStage] = useState(
+        <Stage01 
+            id={displayID} 
+            getToLocation={addTo} 
+            />
+        );
+
+    function addTo(locationName) {
+        itineraryItem.toLocation = locationName;
+        setStage(
+            <Stage02 
+                id={displayID} 
+                toName={locationName} 
+                getToLocation={addTo} 
+                getFromLocation={addFrom} 
+                />
+            );
+    }
+
+    function addFrom(locationName) {
+        itineraryItem.fromLocation = locationName;
+        setStage(
+            <Stage03 
+                id={displayID} 
+                toName={itineraryItem.toLocation} 
+                fromName={locationName} 
+                getToLocation={addTo} 
+                getFromLocation={addFrom} 
+                getFlight={addFlight}
+                />
+            );
+    }
+
+    function addFlight(flightName) {
+        console.log("Adding flight", flightName);
+        itineraryItem.chosenFlight = flightName;
+        setStage(
+            <Stage04
+                id={displayID}
+                toName={itineraryItem.toLocation}
+                fromName={itineraryItem.fromLocation}
+                flight={flightName}
+                getToLocation={addTo}
+                getFromLocation={addFrom}
+                getFlight={addFlight}
+                addAmenities={addAmenities}
+            />
+        )
+    }
+
+    function addAmenities(amenitiesList) {
+        itineraryItem.amenitiesList = amenitiesList;
     }
 
     return ( 
         <div className={Styles['addLocation']}>
             <div className={Styles['locationHeader']}>
-                <h2>Location {id}</h2>
-                <button className={Styles['x']} onClick={xClicked}>X</button>
+                <h2>Location {displayID}</h2>
+                <button className={Styles['x']} onClick={() => removeItineraryItem(id)}>X</button>
             </div>
             {stage}
         </div>

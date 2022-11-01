@@ -14,7 +14,7 @@ import Styles from './css/form-search.module.css'
  * @param {int} props.preload The number of results to request from the backend
  * @param {object} props.children Prefills the form to a specified string or JSX element
  * @param {string} props.placeholderSupplement Overrides default placeholder text
- * @param {({locationName, locationLocation}) => void} props.selectItemAction callback performed when an item from the search results dropdown is selected
+ * @param {(string) => void} props.selectItemAction callback performed when an item from the search results dropdown is selected
  * @param {boolean} props.clearSearch A boolean value (used alongside selectItemAction) to clear the form and inputs 
  */
 export default function SearchForm(props) {
@@ -54,7 +54,7 @@ export default function SearchForm(props) {
                 setInput('');
                 setSearchResults([]);
             }
-            props.selectItemAction({ locationName, locationLocation })
+            props.selectItemAction(locationName)
         }
         else { // default action
             let urlSafeName = encodeURIComponent(locationName);
