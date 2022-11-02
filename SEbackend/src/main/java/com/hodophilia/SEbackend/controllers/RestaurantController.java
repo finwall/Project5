@@ -30,7 +30,7 @@ public class RestaurantController {
 	@Autowired
 	private RestaurantRepository restaurantRepository;
 	
-	@GetMapping("findHotels")
+	@GetMapping("findRestaurants")
 	public ResponseEntity<?> findHotels(@RequestParam("location") String location) {
 		
 
