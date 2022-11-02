@@ -85,6 +85,7 @@ function AddLocation({id, fromLocationName, toLocationName, addItineraryItem, re
                 getFromLocation={addFrom}
                 getFlight={addFlight}
                 addAmenities={addAmenities}
+                addItineraryItem={addItineraryItem}
             />
         )
     }
@@ -97,7 +98,10 @@ function AddLocation({id, fromLocationName, toLocationName, addItineraryItem, re
         <div className={Styles['addLocation']}>
             <div className={Styles['locationHeader']}>
                 <h2>Location {displayID}</h2>
-                <button className={Styles['x']} onClick={() => removeItineraryItem(id)}>X</button>
+                {
+                    (id > 0) &&
+                    <button className={Styles['x']} onClick={() => removeItineraryItem(id)}>X</button>
+                }
             </div>
             {stage}
         </div>

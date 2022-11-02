@@ -4,6 +4,9 @@ import CityService from '../../services/city';
 
 import Styles from '../css/form-addLocation.module.css';
 import FormSearchStyles from '../css/form-search.module.css'
+import { ItineraryItem } from "../screens/create-new-itinerary";
+import { useCallback } from "react";
+import { useEffect } from "react";
 
 
 const FLIGHTS_DISPLAY_RESULTS = 3;
@@ -12,6 +15,7 @@ function Stage04(props) { // after selected flight
 
     const [listResults, setListResults] = useState(null);
 
+    let getCityInfo = useCallback(() => {
     CityService.getCityInfo(props.toName)
         .then((response) => {
             setListResults(
@@ -37,6 +41,19 @@ function Stage04(props) { // after selected flight
                 <div>No amenities found</div>
             )
         })
+    }, []);
+    
+    useEffect(() => {
+        getCityInfo();
+    }, [])
+
+    const[ addLocationButton, setLocationButton ] = useState(
+        <button onClick={addNewItin}>Add location</button>
+    )
+    function addNewItin() {
+        setLocationButton(null);
+        props.addItineraryItem(new ItineraryItem(props.id + 1, null, props.fromName, null, [null]))
+    }
 
     function selectAmenities(index) {
         props.addAmenities(/*something*/);
@@ -70,6 +87,7 @@ function Stage04(props) { // after selected flight
 
                 </div>
             </div>
+            {addLocationButton}
         </>
     )
 }

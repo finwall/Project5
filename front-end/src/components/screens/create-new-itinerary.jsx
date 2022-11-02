@@ -21,21 +21,6 @@ function CreateItinerary() {
         setLocationData( [...locationData.slice(0, index), ...locationData.slice(index+1)]);
     }
 
-    function collectToData({ locationName, locationLocation }, elementIndex) {
-        let currentLocationData = locationData.map((item) => {return item});
-        currentLocationData[elementIndex].fromLocationName = locationName;
-        currentLocationData[elementIndex].fromLocationID = locationLocation;
-        setLocationData(currentLocationData);
-    }
-
-    function collectFromData({ locationName, locationLocation }, elementIndex) {
-        let currentLocationData = locationData.map((item) => { return item });
-        currentLocationData[elementIndex].toLocationName = locationName;
-        currentLocationData[elementIndex].toLocationID = locationLocation;
-        setLocationData(currentLocationData);   
-    }
-
-
     return ( 
         <PageWrapper>
             {
