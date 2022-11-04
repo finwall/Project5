@@ -25,9 +25,9 @@ public class SearchRepositoryImpl implements SearchRepository {
             "FROM SEARCH " +
             "WHERE PLACE = ? ";
 
-    private static final String SQL_CREATE = "INSERT INTO SEARCH (PLACE_ID, PLACE, DESCRIPTION, " +
+    private static final String SQL_CREATE = "INSERT INTO SEARCH (SEARCH_ID, PLACE_ID, PLACE, DESCRIPTION, " +
             "TRAVEL_ADVICE, HOTELS, THINGS_TO_DO, RESTAURANTS, TRAVEL_FORUM) " +
-            "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+            "VALUES(nextval('search_seq'), ?, ?, ?, ?, ?, ?, ?, ?)";
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -68,6 +68,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                 ps.setString(6, thingsToDo);
                 ps.setString(7, restaurants);
                 ps.setString(8, travelForum);
+                System.out.println("PS:"+ps);
                 return ps;
             }, keyHolder);
             return (String) keyHolder.getKeys().get("PLACE");
