@@ -1,19 +1,20 @@
 .homepage-search {
     position: relative;
-    --shrinkWidth: 10vw;
+    width: 100%;
+    --shrinkWidth: 2%;
 }
 
 .homepage-search-bar {
     width: 100%;
     box-sizing: border-box;
-    padding: 2rem var(--shrinkWidth);
+    /* padding: 2rem var(--shrinkWidth); */
     padding-bottom: 0;
 }
 
 .homepage-search-bar .homepage-search-bar-flex {
     box-sizing: border-box;
     width: 100%;
-    padding: 1rem .5rem;
+    padding: 1em .5em;
     border: hsla(var(--mainColor2), 1) solid 4px;
     border-radius: 1rem;
     background-color: hsla(var(--mainColor1), .5);
@@ -32,7 +33,7 @@
 .homepage-search-bar .homepage-search-bar-flex input {
     color: hsla(var(--mainColor2), 1);
     flex-grow: 4;
-    font-size: 2em;
+    /* font-size: 2em; */
     background-color: #0000;
     border: none;
 }
@@ -80,7 +81,10 @@
     border-radius: 0 0 1em 1em;
 }
 
+.searchResults li button,
 .searchResults li a {
+    background-color: transparent;
+    border-style: none;
     margin: .2em 0;
     padding: .4em 0;
     display: flex;
@@ -88,25 +92,31 @@
     justify-content: left;
     align-items: center;
     text-decoration: none;
+    font-weight: inherit;
+    cursor: pointer;
+    overflow: auto;
 }
 
+.searchResults li button:first-child,
 .searchResults li a:first-child {
     margin-top: 0;
 }
 
+.searchResults li, .searchResults li button,
 .searchResults li, .searchResults li a {
     width: 100%;
     /* color: hsla(var(--mainColor2), 1) */
     color: white;
 }
 
+.searchResults li > button > *,
 .searchResults li > a > * {
     display: inline-block;
 }
 
 .searchResults .imgContainer {
 
-    --size: 70px;
+    --size: 4em;
 
     height: var(--size);
     width: var(--size);
@@ -127,7 +137,7 @@
 }
 
 .searchResults .textContainer {
-    padding: 1em 0;
+    padding: .5em 0;
     margin: 0 1em;
     width: 100%;
     border-bottom: hsla(var(--mainColor3), .6) solid 2px;
@@ -140,7 +150,7 @@
 .searchResults .textContainer > * {
     display: block;
     padding-bottom: .4em;
-    line-break: anywhere;
+    /* line-break: anywhere; */
 }
 
 .searchResults .textContainer > *:last-child {

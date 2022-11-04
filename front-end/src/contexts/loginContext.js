@@ -3,16 +3,15 @@ import { createContext, useState } from "react";
 export const LoginContext = createContext();
 
 export const LoginContextProvider = (props) => {
-
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [roles, setRoles] = useState([]);
     const [token, setToken] = useState("");
     // TODO: may consider putting a JSX element hook here to store PFP image link
 
-    /** 
+    /**
      * Logs in the user on the frontend - stores login credentials in the LoginContext
-     * 
+     *
      * @param {string} u Username
      * @param {string} e Email
      * @param {string[]} r An array of roles
@@ -25,8 +24,16 @@ export const LoginContextProvider = (props) => {
         setToken(t);
     }
 
+    const logout = () => {
+        setUsername("");
+        setEmail("");
+        setRoles([]);
+        setToken("");
+        console.log("User logged out");
+    }
+
     return (
-        <LoginContext.Provider value={{username, email, roles, token, login}}>
+        <LoginContext.Provider value={{username, email, roles, token, login, logout}}>
             {props.children}
         </LoginContext.Provider>
     )

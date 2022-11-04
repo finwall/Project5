@@ -1,4 +1,7 @@
 .home-anchor, .home-anchor:hover, .home-anchor:active, .home-anchor:visited {
+    background-color: transparent;
+    border-style: none;
+    cursor: pointer;
     text-decoration: none;
     color: hsla(var(--mainColor2), 1);
 }
