@@ -116,7 +116,7 @@ public class WebSecurityConfig {
 	        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 	        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 	        .authorizeRequests().antMatchers("/api/**","/api/users/**","/oauth/**").permitAll()
-	        .antMatchers("/api/users/test/**","/api/test/**").permitAll()
+	        .antMatchers("/api/users/test/**","/api/test/**","/api/**").permitAll()
 	        .antMatchers("api/**","api/users/**","/auth/**", "/oauth2/**","api/users/oauth2","/**","api/oauth2").permitAll()
 	        .anyRequest().authenticated().and().formLogin().permitAll().and().oauth2Login()
 	        .authorizationEndpoint()

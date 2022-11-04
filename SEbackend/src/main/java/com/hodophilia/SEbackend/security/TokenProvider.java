@@ -1,7 +1,9 @@
 package com.hodophilia.SEbackend.security;
 
 import java.nio.charset.Charset;
+
 import java.nio.charset.StandardCharsets;
+
 import java.util.Base64;
 import java.util.Date;
 
@@ -45,6 +47,9 @@ public class TokenProvider {
         Date expiryDate = new Date(now.getTime() + appProperties.getAuth().getTokenExpirationMsec());
 
         String encodedString = Base64.getEncoder().encodeToString(appProperties.getAuth().getTokenSecret().getBytes());
+
+        
+
         return Jwts.builder()
                 .setSubject(userPrincipal.getEmail())
                 .setIssuedAt(new Date())
@@ -62,6 +67,16 @@ public class TokenProvider {
         return userId;
     }
 
+    public String getUserEmailFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(appProperties.getAuth().getTokenSecret().getBytes(Charset.forName("UTF-8")))
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.getSubject();
+    }
+
+    
     public boolean validateToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret().getBytes(Charset.forName("UTF-8"))).parseClaimsJws(authToken);
