@@ -12,8 +12,8 @@ import javax.validation.constraints.Size;
 
 public class Search {
     @Id
-    @SequenceGenerator(name = "searchSeqGen", sequenceName = "search_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "searchSeqGen")
+    @SequenceGenerator(name = "searchSeqGen", sequenceName = "search_seq", initialValue= 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "searchSeqGen")
     @Column(name = "searchId", updatable = false)
     private Integer searchId;
 
